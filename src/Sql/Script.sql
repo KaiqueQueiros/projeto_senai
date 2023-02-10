@@ -2,22 +2,27 @@ drop database data_trevo_agro;
 create database data_trevo_agro
 drop table Tb_ITEM_ORDER,Tb_order,Tb_Client,Tb_image_product,Tb_PRODUCT,Tb_IMAGE
 CREATE TABLE public.Tb_IMAGE (
-                id_img serial,
+                id serial,
                 name VARCHAR(20) NOT NULL,
                 img text NOT NULL,
-                CONSTRAINT tb_image_pk PRIMARY KEY (id_img)
+                CONSTRAINT tb_image_pk PRIMARY KEY (id)
 );
 
 CREATE TABLE public.Tb_PRODUCT (
                 id serial,
-                id_img VARCHAR(10) NOT NULL,
-                status BOOLEAN NOT NULL,
+				name VARCHAR(40) not null,
                 area_size VARCHAR NOT NULL,
                 description VARCHAR(500) NOT NULL,
-                date DATE NOT NULL,
+                date DATE DEFAULT CURRENT_DATE,
                 culture VARCHAR(70) NOT NULL,
+	 			img text,
                 CONSTRAINT tb_product_pk PRIMARY KEY (id)
 );
+create table tb_culture (
+       id serial not null,
+        description varchar(255),
+        primary key (id)
+    );
 
 CREATE TABLE public.Tb_image_product(
 	id serial,
@@ -25,7 +30,7 @@ CREATE TABLE public.Tb_image_product(
 	id_img integer not null,
 	constraint pk_tb_image_product_id primary key(id),
 	constraint fk_tb_image_product_product_cod_product foreign key (id_product) references Tb_product(id),
-	constraint fk_tb_image_image_id_img foreign key(id_img) references Tb_image(id_img)
+	constraint fk_tb_image_image_id_img foreign key(id_img) references Tb_image(id)
 	);
 
 CREATE TABLE public.Tb_Client (
@@ -54,3 +59,7 @@ CREATE TABLE public.Tb_ITEM_ORDER (
 				CONSTRAINT tb_product_tb_item_order_fk FOREIGN KEY (cod_product) REFERENCES public.Tb_PRODUCT (id),
 				CONSTRAINT tb_item_order_order_fk FOREIGN KEY (cod_order) REFERENCES public.Tb_order(id)
 );
+select * from tb_culture
+drop table tb_culture
+
+
