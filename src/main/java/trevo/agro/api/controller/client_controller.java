@@ -5,22 +5,29 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
-import trevo.agro.api.client.Client;
-import trevo.agro.api.client.client_repository;
-import trevo.agro.api.client.client_date;
-import trevo.agro.api.client.updateClient;
+import org.springframework.web.util.UriBuilder;
+import org.springframework.web.util.UriComponentsBuilder;
+import trevo.agro.api.client.*;
 
 @RestController
 @RequestMapping ("/client")
 public class client_controller {
     @Autowired
-    private client_repository repository;
+    private clientController repository;
     @PostMapping
     @Transactional
-    public void register(@RequestBody @Valid client_date dados) {
-        repository.save(new Client(dados));
+    public ResponseEntity register(@RequestBody @Valid client_date dados, UriComponentsBuilder uriBuilder) {
+        var client = new Client(dados);
+
+        repository.save(client);
+
+        var uri = uriBuilder.path("/client/{id}").buildAndExpand(client.getId()).toUri();
+
+        return ResponseEntity.created(uri).body(new detailsClient(client));
+
     }
     @GetMapping
     public Page<Client> listClient(@PageableDefault (sort = {"name"}) Pageable pagination) {
@@ -28,14 +35,22 @@ public class client_controller {
     }
     @PutMapping
     @Transactional
-    public void update(@RequestBody @Valid updateClient dados) {
+    public ResponseEntity update(@RequestBody @Valid updateClient dados) {
         var client = repository.getReferenceById(dados.id());
         client.updateDate(dados);
+
+        return ResponseEntity.ok(new detailsClient(client));
     }
     @DeleteMapping("/{id}")
     @Transactional
-    public void delete(@PathVariable Long id){
+    public ResponseEntity delete(@PathVariable Long id){
         repository.deleteById(id);
+        return ResponseEntity.noContent().build();
+    }
+    @GetMapping("/{id}")
+    public ResponseEntity detailsClient(@PathVariable Long id){
+        var client = repository.getReferenceById(id);
+        return ResponseEntity.ok(new detailsClient(client));
     }
 
 

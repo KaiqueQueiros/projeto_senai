@@ -1,27 +1,26 @@
-package trevo.agro.api.culture;
+package trevo.agro.api.category;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import trevo.agro.api.controller.categoryController;
 
-
-@Entity
-@Table(name = "tb_culture")
+@Table(name = "tb_category")
+@Entity(name = "Category")
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(of = "id")
 
-public class Culture {
+
+public class Category{
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     public Long getId() {
         return id;
     }
-
     public void setId(Long id) {
         this.id = id;
     }
@@ -36,7 +35,13 @@ public class Culture {
 
     private String name;
 
-public Culture (cultureDate dados) {
-    this.name = dados.name();
+
+    public Category (categoryDate dados){
+        this.id = getId();
+        this.name = dados.name();
     }
+
 }
+
+
+

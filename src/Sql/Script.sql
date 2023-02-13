@@ -1,13 +1,12 @@
 drop database data_trevo_agro;
 create database data_trevo_agro
-drop table Tb_ITEM_ORDER,Tb_order,Tb_Client,Tb_image_product,Tb_PRODUCT,Tb_IMAGE
-CREATE TABLE public.Tb_IMAGE (
-                id serial,
-                name VARCHAR(20) NOT NULL,
-                img text NOT NULL,
-                CONSTRAINT tb_image_pk PRIMARY KEY (id)
-);
+drop table Tb_order,Tb_Client,tb_category,Tb_PRODUCT,Tb_IMAGE,tb_culture
 
+CREATE TABLE public.tb_category(
+		id serial ,
+		name varchar (255),
+		primary key (id)			
+); 
 CREATE TABLE public.Tb_PRODUCT (
                 id serial,
 				name VARCHAR(40) not null,
@@ -16,22 +15,16 @@ CREATE TABLE public.Tb_PRODUCT (
                 date DATE DEFAULT CURRENT_DATE,
                 culture VARCHAR(70) NOT NULL,
 	 			img text,
-                CONSTRAINT tb_product_pk PRIMARY KEY (id)
+				category_id serial,
+                CONSTRAINT tb_product_pk PRIMARY KEY (id),
+				CONSTRAINT tb_product_tb_product_category FOREIGN KEY (category_id) references public.tb_category(id)
 );
-create table tb_culture (
+CREATE TABLE public.tb_culture (
        id serial not null,
-        description varchar(255),
-        primary key (id)
-    );
+       name varchar(255),
+       primary key (id)
+   );
 
-CREATE TABLE public.Tb_image_product(
-	id serial,
-	id_product integer not null,
-	id_img integer not null,
-	constraint pk_tb_image_product_id primary key(id),
-	constraint fk_tb_image_product_product_cod_product foreign key (id_product) references Tb_product(id),
-	constraint fk_tb_image_image_id_img foreign key(id_img) references Tb_image(id)
-	);
 
 CREATE TABLE public.Tb_Client (
                 id serial,
@@ -46,11 +39,14 @@ CREATE TABLE public.Tb_Client (
 CREATE TABLE public.Tb_order (
                 id serial,
                 id_client INTEGER NOT NULL,
-                date DATE NOT NULL,
+                date DATE,
                 CONSTRAINT tb_order_pk PRIMARY KEY (id),
 				CONSTRAINT tb_client_tb_order_fk FOREIGN KEY (id_client) REFERENCES public.Tb_Client (id)
 );
+select * from public.tb_product
 
+drop table public tb_culture
+/*
 CREATE TABLE public.Tb_ITEM_ORDER (
                 id_item_order serial,
                 cod_product INTEGER NOT NULL,
@@ -59,7 +55,31 @@ CREATE TABLE public.Tb_ITEM_ORDER (
 				CONSTRAINT tb_product_tb_item_order_fk FOREIGN KEY (cod_product) REFERENCES public.Tb_PRODUCT (id),
 				CONSTRAINT tb_item_order_order_fk FOREIGN KEY (cod_order) REFERENCES public.Tb_order(id)
 );
-select * from tb_culture
-drop table tb_culture
 
+CREATE TABLE public.Tb_image_product(
+	id serial,
+	id_product integer not null,
+	id_img integer not null,
+	constraint pk_tb_image_product_id primary key(id),
+	constraint fk_tb_image_product_product_cod_product foreign key (id_product) references Tb_product(id),
+	constraint fk_tb_image_image_id_img foreign key(id_img) references Tb_image(id)
+	);
+	*/
+	
+	/*CREATE TABLE public.Tb_IMAGE (
+                id serial,
+                name VARCHAR(20) NOT NULL,
+                img text NOT NULL,
+                CONSTRAINT tb_image_pk PRIMARY KEY (id)
+);*/
+	
+select * from tb_product
+select * from public.tb_category
+
+select * from public.tb_client
+
+
+drop table tb_category
+
+insert into 
 

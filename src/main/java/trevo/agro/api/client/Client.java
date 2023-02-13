@@ -58,6 +58,7 @@ public class Client {
         this.email = dados.email();
         this.country = dados.country();
         this.phone = dados.phone();
+
     }
 
     public void updateDate(updateClient dados) {
