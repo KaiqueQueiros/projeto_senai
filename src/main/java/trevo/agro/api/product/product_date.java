@@ -15,7 +15,7 @@ public record product_date(
         LocalDateTime date,
         @NotBlank String culture,
         @NotNull URL img,
-        @OneToMany Category category
+       @OneToMany Category category
 )
 {
 

@@ -6,6 +6,9 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import trevo.agro.api.controller.categoryController;
+import trevo.agro.api.product.Product;
+
+import java.util.List;
 
 @Table(name = "tb_category")
 @Entity(name = "Category")
@@ -18,6 +21,11 @@ import trevo.agro.api.controller.categoryController;
 public class Category{
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    private String name;
+    @OneToMany
+    private List<Product> products;
+
+
     public Long getId() {
         return id;
     }
@@ -33,11 +41,7 @@ public class Category{
         this.name = name;
     }
 
-    private String name;
-
-
     public Category (categoryDate dados){
-        this.id = getId();
         this.name = dados.name();
     }
 
