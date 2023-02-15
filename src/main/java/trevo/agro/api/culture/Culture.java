@@ -15,7 +15,8 @@ import lombok.NoArgsConstructor;
 @EqualsAndHashCode(of = "id")
 
 public class Culture {
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     public Long getId() {
@@ -36,7 +37,7 @@ public class Culture {
 
     private String name;
 
-public Culture (cultureDate dados) {
-    this.name = dados.name();
+    public Culture(CultureDate dados) {
+        this.name = dados.name();
     }
 }

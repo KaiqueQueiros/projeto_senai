@@ -1,6 +1,6 @@
 drop database data_trevo_agro;
 create database data_trevo_agro
-drop table Tb_order,Tb_Client,tb_category,Tb_PRODUCT,Tb_IMAGE,tb_culture
+drop table Tb_order,Tb_Client,tb_category,Tb_PRODUCT,tb_culture
 
 CREATE TABLE public.tb_category(
 		id serial ,
@@ -15,10 +15,11 @@ CREATE TABLE public.Tb_PRODUCT (
                 date DATE DEFAULT CURRENT_DATE,
                 culture VARCHAR(70) NOT NULL,
 	 			img text,
-				category_id serial,
+				category_id integer,
                 CONSTRAINT tb_product_pk PRIMARY KEY (id),
 				CONSTRAINT tb_product_tb_product_category FOREIGN KEY (category_id) references public.tb_category(id)
 );
+---insert into tb_product (name,area_size,description,date,culture,img,category_id) values ('Condorito','500','alow','2020-05-21','cereais','slfmks nfpasfjasfa',1);
 CREATE TABLE public.tb_culture (
        id serial not null,
        name varchar(255),

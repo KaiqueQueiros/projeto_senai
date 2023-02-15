@@ -3,16 +3,16 @@ package trevo.agro.api.order;
 import jakarta.persistence.*;
 import lombok.NoArgsConstructor;
 
-
 import java.time.LocalDateTime;
-import java.util.List;
+
 @Table(name = "tb_order")
 @Entity(name = "Order")
 @NoArgsConstructor
-public class Order{
+public class Order {
 
 
-    @Id @GeneratedValue (strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
 
@@ -28,9 +28,8 @@ public class Order{
     public void setDate(LocalDateTime date) {
         this.date = date;
     }
+
     private LocalDateTime date;
-
-
 
 
 }
