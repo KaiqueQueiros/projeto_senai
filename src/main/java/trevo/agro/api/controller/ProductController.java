@@ -1,18 +1,18 @@
 package trevo.agro.api.controller;
 
 import jakarta.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 import trevo.agro.api.category.CategoryRepository;
-import trevo.agro.api.product.DetailsProductDTO;
-import trevo.agro.api.product.Product;
-import trevo.agro.api.product.ProductDTO;
-import trevo.agro.api.product.ProductRepository;
+import trevo.agro.api.culture.CultureRepository;
+import trevo.agro.api.product.*;
 
 @RestController
 @RequestMapping("/product")
@@ -21,29 +21,47 @@ public class ProductController {
     private ProductRepository repository;
     @Autowired
     private CategoryRepository categoryRepository;
+    @Autowired
+    private CultureRepository cultureRepository;
 
-    @PostMapping
-    public ResponseEntity register(@RequestBody @Valid ProductDTO dados, UriComponentsBuilder uriBuilder) {
-        /*Pegar lista de id do DTO
-         * Pegar o reposity de categoria
-         * Buscar um lista de categoria usando a repository */
-        var categoryIds = dados.categoryIds();
+    @PostMapping(name = "/register")
+    @Transactional ////
+    public ResponseEntity<?> register(@RequestBody @Valid ProductDTO dto, UriComponentsBuilder uriBuilder) {
+        /*No momento de criação do produto esta incluso incluir pelo menos uma categoria, e
+        tambem pelo menos um tipo de cultura */
+        var categoryIds = dto.categoryIds();
+        var cultureIds = dto.cultureIds();
         try {
             categoryRepository.findByIdIn(categoryIds);
+            cultureRepository.findByIdIn(cultureIds);
+            var cultures = cultureRepository.findByIdIn(cultureIds);
+            var categories = categoryRepository.findByIdIn(categoryIds);
+            var product = new Product(dto, categories, cultures);
+            repository.save(product);
+            var uri = uriBuilder.path("/product/{id}").buildAndExpand(product.getId()).toUri();
+            return ResponseEntity.created(uri).body(new DetailsProductDTO(product));
 
         } catch (Exception error) {
             error.printStackTrace();
         }
-        var categories = categoryRepository.findByIdIn(categoryIds);
-        var product = new Product(dados, categories);
-        repository.save(product);
-        var uri = uriBuilder.path("/product/{id}").buildAndExpand(product.getId()).toUri();
-        return ResponseEntity.created(uri).body(new DetailsProductDTO(product));
+        return ResponseEntity.internalServerError().build();
 
     }
 
-    @GetMapping
+    @GetMapping("list")
     public Page<Product> listProduct(@PageableDefault(sort = {"name"}) Pageable pagination) {
         return repository.findAll(pagination);
     }
+
+    @GetMapping("/{id}")//Get para fazer uma busca mais detalhada de um produto.
+    public ResponseEntity<DetailsProductDTO> detailProduct(@PathVariable Long id) {
+        var product = repository.getReferenceById(id);
+        return ResponseEntity.ok(new DetailsProductDTO(product));
+    }
+    @DeleteMapping("delete/{id}")//Delete para deletar um produto.
+    ResponseEntity<?> deleteProduct(@PathVariable Long id) {
+        repository.deleteById(id);
+        return ResponseEntity.noContent().build();
+    }
+
 }

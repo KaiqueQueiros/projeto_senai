@@ -16,7 +16,7 @@ public class CategoryController {
 
     @PostMapping
     @Transactional
-    public Category register(@RequestBody Category category) {
+    public Category registerCategory(@RequestBody Category category) {
         return repository.save(category);
     }
 

@@ -1,10 +1,18 @@
 package trevo.agro.api.product;
 
-import java.net.URL;
-import java.time.LocalDateTime;
+import trevo.agro.api.category.Category;
 
-public record DetailsProductDTO(Long id, String name, String area_size, LocalDateTime date, String culture, URL img) {
+import java.net.URL;
+import java.time.LocalDate;
+
+public record DetailsProductDTO(Long id, String name, String area_size, String description, LocalDate date, URL img) {
     public DetailsProductDTO(Product product) {
-        this((Long) product.getId(), product.getName(), product.getArea_size(), product.getDate(), product.getCulture(), product.getImg());
+        this ((Long) product.getId(),
+                product.getName(),
+                product.getArea_size(),
+                product.getDescription(),
+                product.getDate(),
+                product.getImg());
+
     }
 }

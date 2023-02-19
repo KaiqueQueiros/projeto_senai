@@ -4,10 +4,12 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Table(name = "tb_client")
 @Entity(name = "Client")
 @Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class Client {
@@ -17,45 +19,6 @@ public class Client {
     private int id;
     private String name;
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getCountry() {
-        return country;
-    }
-
-    public void setCountry(String country) {
-        this.country = country;
-    }
-
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
 
     private String email;
     private String country;
@@ -71,17 +34,17 @@ public class Client {
     }
 
     public void updateDate(UpdateClient dados) {
-        if (dados.name() != null) {
+        if(dados.name() != null) {
             this.name = dados.name();
         }
-        if (dados.email() != null) {
+        if(dados.email() != null) {
             this.email = dados.email();
         }
 
-        if (dados.country() != null) {
+        if(dados.country() != null) {
             this.country = dados.country();
         }
-        if (dados.phone() != null) {
+        if(dados.phone() != null) {
             this.phone = dados.phone();
         }
 

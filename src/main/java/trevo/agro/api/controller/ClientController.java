@@ -19,15 +19,14 @@ public class ClientController {
 
     @PostMapping
     @Transactional
-    public ResponseEntity register(@RequestBody @Valid ClientDate dados, UriComponentsBuilder uriBuilder) {
-        var client = new Client(dados);
+    public ResponseEntity<?> register(@RequestBody @Valid ClientDate dto, UriComponentsBuilder uriBuilder) {
+        var client = new Client(dto);
 
         repository.save(client);
 
         var uri = uriBuilder.path("/client/{id}").buildAndExpand(client.getId()).toUri();
 
         return ResponseEntity.created(uri).body(new DetailsClient(client));
-
     }
 
     @GetMapping
@@ -37,22 +36,22 @@ public class ClientController {
 
     @PutMapping
     @Transactional
-    public ResponseEntity update(@RequestBody @Valid UpdateClient dados) {
-        var client = repository.getReferenceById(dados.id());
-        client.updateDate(dados);
+    public ResponseEntity<?> update(@RequestBody @Valid UpdateClient dto) {
+        var client = repository.getReferenceById(dto.id());
+        client.updateDate(dto);
 
         return ResponseEntity.ok(new DetailsClient(client));
     }
 
     @DeleteMapping("/{id}")
     @Transactional
-    public ResponseEntity delete(@PathVariable Long id) {
+    public ResponseEntity<?> delete(@PathVariable Long id) {
         repository.deleteById(id);
         return ResponseEntity.noContent().build();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity detailsClient(@PathVariable Long id) {
+    public ResponseEntity<?> detailsClient(@PathVariable Long id) {
         var client = repository.getReferenceById(id);
         return ResponseEntity.ok(new DetailsClient(client));
     }
