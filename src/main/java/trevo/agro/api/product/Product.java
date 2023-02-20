@@ -59,33 +59,5 @@ public class Product {
         this.cultures = cultures;
 
     }
-
-    public String getName() {
-        return name;
-    }
-
-    public void updateProduct(UpdateProductDTO dto, List<Culture> cultures, List<Category> categories) {
-
-        if(dto.name() != null){
-            this.name = dto.name();
-        }
-        if(dto.area_size() != null){
-            this.area_size = dto.area_size();
-        }
-        if(dto.description() != null){
-            this.description = dto.description();
-        }
-        if(dto.img() != null){
-            this.img = dto.img();
-        }
-        if(this.categories != null){
-            this.categories = dto.categories();
-        }
-        if(this.cultures != null){
-            this.cultures = dto.cultures();
-        }
-
-    }
-
 }
 
