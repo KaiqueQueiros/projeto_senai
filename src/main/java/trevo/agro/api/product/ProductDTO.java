@@ -9,20 +9,18 @@ import java.time.LocalDate;
 import java.util.List;
 
 public record ProductDTO(
-        @NotBlank
+        @NotBlank(message = "Insira o nome do produto")
         String name,
         @JsonFormat(pattern = "YYYY/MM/DD")
         LocalDate date,
-        @NotBlank
+        @NotBlank(message = "Insira a descrição do produto")
         String description,
         @NotBlank(message = "É necessario informar neste campo o tamanho da area suportada pelo produto!")
         String area_size,
-        @NotNull
+        @NotNull(message = "Insira uma ou mais imagens do produto")
         URL img,
-        @NotNull
         @JsonProperty("categories")
         List<Long> categoryIds,
-        @NotNull
         @JsonProperty("cultures")
         List<Long> cultureIds
 ) {

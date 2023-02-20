@@ -1,9 +1,8 @@
-package trevo.agro.api.client;
+package trevo.agro.api.budget;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-
-public interface ClientRepository extends JpaRepository<Client, Long> {
+public interface BudgetRepository extends JpaRepository<Budget, Long> {
 }

@@ -1,6 +1,6 @@
 drop database data_trevo_agro;
 create database data_trevo_agro
-drop table Tb_order,Tb_Client,tb_category,Tb_PRODUCT,tb_culture
+drop table tb_budget_product,tb_product_category,tb_product_culture,Tb_order,Tb_Client,tb_category,Tb_PRODUCT,tb_culture
 
 CREATE TABLE public.tb_category(
 		id serial ,

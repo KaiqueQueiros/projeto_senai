@@ -14,12 +14,9 @@ import java.util.List;
 @AllArgsConstructor
 @Table(name = "tb_product")
 @Entity
-/*@SequenceGenerator(name = "Product_seq",
-                    sequenceName = "Product_seq",
-                    initialValue = 1,allocationSize = 1)*/
 public class Product {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY /*generator = "Product_seq"*/)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
     @Column(name = "name")
