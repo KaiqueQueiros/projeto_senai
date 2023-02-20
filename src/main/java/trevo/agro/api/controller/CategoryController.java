@@ -20,7 +20,7 @@ public class CategoryController {
         return repository.save(category);
     }
 
-    @GetMapping
+    @GetMapping("list")
     public List<Category> getCategory() {
         return repository.findAll();
     }

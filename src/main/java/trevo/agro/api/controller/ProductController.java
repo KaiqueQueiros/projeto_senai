@@ -17,7 +17,7 @@ import trevo.agro.api.product.ProductDTO;
 import trevo.agro.api.product.ProductRepository;
 
 @RestController
-@RequestMapping("/product")
+@RequestMapping("product")
 public class ProductController {
     @Autowired
     private ProductRepository repository;
@@ -26,7 +26,7 @@ public class ProductController {
     @Autowired
     private CultureRepository cultureRepository;
 
-    @PostMapping(name = "/product")
+    @PostMapping("/register")
     @Transactional
     public ResponseEntity<?> register(@RequestBody @Valid ProductDTO dto, UriComponentsBuilder uriBuilder) {
         /*No momento de criação do produto
