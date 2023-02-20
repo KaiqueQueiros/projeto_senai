@@ -32,7 +32,7 @@ public class Product {
     LocalDate date;
     @Column(name = "img")
     private URL img;
-    @OneToMany
+    @ManyToMany
     @JoinTable
             (
                     name = "TB_PRODUCT_CATEGORY",
@@ -40,7 +40,7 @@ public class Product {
                     inverseJoinColumns = {@JoinColumn(name = "category_id", referencedColumnName = "id")}
             )
     private List<Category> categories;
-    @OneToMany
+    @ManyToMany
     @JoinTable(
                     name = "TB_PRODUCT_CULTURE",
                     joinColumns = {@JoinColumn(name = "product_id", referencedColumnName = "id")},
