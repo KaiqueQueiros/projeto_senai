@@ -33,7 +33,7 @@ public class Budget {
     private LocalDate date;
     @Column(name = "company")
     private String company;
-    @ManyToMany
+    @ManyToMany(cascade =  CascadeType.MERGE, fetch = FetchType.EAGER)
     @JoinTable
             (
                     name = "TB_BUDGET_PRODUCT",

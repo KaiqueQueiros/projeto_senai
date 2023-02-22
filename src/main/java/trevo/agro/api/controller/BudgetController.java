@@ -24,7 +24,6 @@ public class BudgetController {
     private ProductRepository productRepository;
 
     @PostMapping(name = "/budget")
-    @Transactional
     public ResponseEntity<?> register(@RequestBody @Valid BudgetDTO dto, UriComponentsBuilder uriBuilder) {
         var productIds = dto.productIds();
         try {
@@ -48,7 +47,6 @@ public class BudgetController {
 
 
     @DeleteMapping("delete/{id}")//Deletar pedidos.
-    @Transactional
     public ResponseEntity<?> delete(@PathVariable Long id) {
         repository.deleteById(id);
         return ResponseEntity.noContent().build();
@@ -59,6 +57,11 @@ public class BudgetController {
         var budget = repository.getReferenceById(id);
         return ResponseEntity.ok(new DetailsBudget(budget));
     }
+//    @GetMapping("find/{name}")//Busca detalhada de pedidos por ID.
+//    public ResponseEntity<?> detailsClientName(@PathVariable String name) {
+//        var budget = repository.fin(name);
+//        return ResponseEntity.ok(new DetailsBudget(budget));
+//    }
 
 
 }

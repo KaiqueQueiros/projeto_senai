@@ -18,7 +18,7 @@ public class Category {
     @Column(name = "id")
     private Long id;
     @NotNull(message = "Erro! Por favor insira no nome da categoria.")
-    @Column(name = "name")
+    @Column(name = "name",unique = true)
     private String name;
 
 

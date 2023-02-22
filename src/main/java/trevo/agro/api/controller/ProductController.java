@@ -5,20 +5,21 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 import trevo.agro.api.category.CategoryRepository;
 import trevo.agro.api.culture.CultureRepository;
-import trevo.agro.api.product.DetailsProductDTO;
-import trevo.agro.api.product.Product;
-import trevo.agro.api.product.ProductDTO;
-import trevo.agro.api.product.ProductRepository;
+import trevo.agro.api.product.*;
+import trevo.agro.api.utils.ResponseModel;
 
 @RestController
 @RequestMapping("product")
 public class ProductController {
+    @Autowired
+    private ProductService service;
     @Autowired
     private ProductRepository repository;
     @Autowired
@@ -26,28 +27,9 @@ public class ProductController {
     @Autowired
     private CultureRepository cultureRepository;
 
-    @PostMapping("/register")
-    @Transactional
-    public ResponseEntity<?> register(@RequestBody @Valid ProductDTO dto, UriComponentsBuilder uriBuilder) {
-        /*No momento de criação do produto
-        esta incluso incluir pelo menos uma categoria, e
-        tambem pelo menos um tipo de cultura */
-        var categoryIds = dto.categoryIds();
-        var cultureIds = dto.cultureIds();
-        try {
-            categoryRepository.findByIdIn(categoryIds);
-            cultureRepository.findByIdIn(cultureIds);
-            var cultures = cultureRepository.findByIdIn(cultureIds);
-            var categories = categoryRepository.findByIdIn(categoryIds);
-            var product = new Product(dto, categories, cultures);
-            repository.save(product);
-            var uri = uriBuilder.path("/product/{id}").buildAndExpand(product.getId()).toUri();
-            return ResponseEntity.created(uri).body(new DetailsProductDTO(product));
-
-        } catch (Exception error) {
-            error.printStackTrace();
-        }
-        return ResponseEntity.internalServerError().build();
+    @PostMapping(value = "/register", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<ResponseModel> register(@RequestBody @Valid ProductDTO dto) {
+        return service.register(dto);
     }
 
     @GetMapping("list")//Listar todos os produtos
@@ -61,10 +43,17 @@ public class ProductController {
         return ResponseEntity.ok(new DetailsProductDTO(product));
     }
 
-    @DeleteMapping("delete/{id}")//Só é possivel deletar o produto se o mesmo não estiver relacionado com nenhum pedido.
+    @DeleteMapping("delete/{id}")
+//Só é possivel deletar o produto se o mesmo não estiver relacionado com nenhum pedido.
     ResponseEntity<?> deleteProduct(@PathVariable Long id) {
         repository.deleteById(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("find/{name}")//Get para fazer uma busca mais detalhada de um produto.
+    public ResponseEntity<DetailsProductDTO> detailProduct(@PathVariable String name) {
+        var product = repository.findByName(name);
+        return ResponseEntity.ok(new DetailsProductDTO(product));
     }
 
 }

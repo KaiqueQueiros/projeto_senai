@@ -1,6 +1,7 @@
 package trevo.agro.api.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import trevo.agro.api.category.Category;
@@ -29,6 +30,13 @@ public class CategoryController {
     public Category getCategory(@PathVariable("id") Long id) {
         return repository.findById(id).orElse(null);
     }
+    @DeleteMapping("delete/{id}")
+    @Transactional
+    public ResponseEntity<?> deleteCategory(@PathVariable Long id) {
+        repository.deleteById(id);
+        return ResponseEntity.noContent().build();
+    }
+
 
 
 }
