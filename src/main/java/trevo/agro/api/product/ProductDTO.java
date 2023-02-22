@@ -1,12 +1,11 @@
 package trevo.agro.api.product;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import java.net.URL;
-import java.time.LocalDate;
 import java.util.List;
+
 
 public record ProductDTO(
         @NotBlank(message = "Insira o nome do produto")
@@ -22,6 +21,7 @@ public record ProductDTO(
         @JsonProperty("cultures")
         List<Long> cultureIds
 ) {
+
 }
 
 

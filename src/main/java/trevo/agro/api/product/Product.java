@@ -19,7 +19,7 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
-    @Column(name = "name")
+    @Column(name = "name",unique = true)
     private String name;
     @Column(name = "description")
     private String description;
@@ -55,6 +55,26 @@ public class Product {
         this.categories = categories;
         this.cultures = cultures;
 
+    }
+    public void update(ProductDTO dto,List<Category> categories,List<Culture> cultures) {
+        if(dto.name() != null) {
+            this.name = dto.name();
+        }
+        if(dto.area_size() != null) {
+            this.area_size = dto.area_size();
+        }
+        if(dto.description() != null) {
+            this.description = dto.description();
+        }
+        if (dto.img() != null){
+            this.img = dto.img();
+        }
+        if (categories != null){
+            this.categories = categories;
+        }
+        if (cultures != null){
+            this.cultures = cultures;
+        }
     }
 }
 

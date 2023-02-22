@@ -7,6 +7,6 @@ import java.util.List;
 @Repository
 public interface ProductRepository extends JpaRepository<Product, Long> {
     List<Product> findByIdIn(List<Long> products);
-    Product findByName (String name);
+    Boolean findByName (String name);
 
 }

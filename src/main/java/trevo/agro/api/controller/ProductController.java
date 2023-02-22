@@ -2,18 +2,19 @@ package trevo.agro.api.controller;
 
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.util.UriComponentsBuilder;
 import trevo.agro.api.category.CategoryRepository;
 import trevo.agro.api.culture.CultureRepository;
-import trevo.agro.api.product.*;
+import trevo.agro.api.product.ProductDTO;
+import trevo.agro.api.product.ProductRepository;
+import trevo.agro.api.product.ProductService;
 import trevo.agro.api.utils.ResponseModel;
+import trevo.agro.api.utils.ResponseModelEspec;
+import trevo.agro.api.utils.ResponseModelEspecNoObject;
 
 @RestController
 @RequestMapping("product")
@@ -28,32 +29,27 @@ public class ProductController {
     private CultureRepository cultureRepository;
 
     @PostMapping(value = "/register", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<ResponseModel> register(@RequestBody @Valid ProductDTO dto) {
+    public ResponseEntity<ResponseModel> registerProduct(@RequestBody @Valid ProductDTO dto) {
         return service.register(dto);
     }
 
-    @GetMapping("list")//Listar todos os produtos
-    public Page<Product> listProduct(@PageableDefault(sort = {"name"}) Pageable pagination) {
-        return repository.findAll(pagination);
+    @RequestMapping(value = "/list", method = RequestMethod.GET)
+    public ResponseEntity<ResponseModel> listProduct() {
+        return service.list();
     }
 
-    @GetMapping("find/{id}")//Get para fazer uma busca mais detalhada de um produto.
-    public ResponseEntity<DetailsProductDTO> detailProduct(@PathVariable Long id) {
-        var product = repository.getReferenceById(id);
-        return ResponseEntity.ok(new DetailsProductDTO(product));
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    public ResponseEntity<ResponseModel> detailsProduct(@PathVariable Long id) {
+        return service.details(id);
     }
 
-    @DeleteMapping("delete/{id}")
-//Só é possivel deletar o produto se o mesmo não estiver relacionado com nenhum pedido.
-    ResponseEntity<?> deleteProduct(@PathVariable Long id) {
-        repository.deleteById(id);
-        return ResponseEntity.noContent().build();
+    @RequestMapping(value = "delete/{id}", method = RequestMethod.DELETE)
+    ResponseEntity<ResponseModel> deleteProduct(@PathVariable Long id) {
+        return service.delete(id);
     }
-
-    @GetMapping("find/{name}")//Get para fazer uma busca mais detalhada de um produto.
-    public ResponseEntity<DetailsProductDTO> detailProduct(@PathVariable String name) {
-        var product = repository.findByName(name);
-        return ResponseEntity.ok(new DetailsProductDTO(product));
+    @PutMapping(value = "update/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    ResponseEntity<ResponseModel> update(@PathVariable Long id, @RequestBody ProductDTO dto){
+        return service.update(dto,id);
     }
 
 }
