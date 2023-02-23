@@ -7,5 +7,6 @@ import java.util.List;
 @Repository
 public interface CultureRepository extends JpaRepository<Culture, Long> {
     List<Culture> findByIdIn(List<Long> cultures);
+    Boolean existsByName(String name);
 
 }

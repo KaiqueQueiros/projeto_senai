@@ -1,34 +1,41 @@
 package trevo.agro.api.controller;
 
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
-import trevo.agro.api.culture.Culture;
+import trevo.agro.api.culture.CultureDTO;
 import trevo.agro.api.culture.CultureRepository;
-
-import java.util.List;
+import trevo.agro.api.culture.CultureService;
+import trevo.agro.api.utils.ResponseModel;
 
 @RequestMapping("/culture")
 @RestController
 public class CultureController {
     @Autowired
     private CultureRepository repository;
+    @Autowired
+    private CultureService service;
 
-    @PostMapping
-    @Transactional
-    public Culture registerCulture(@RequestBody Culture culture) {
-        return repository.save(culture);
+    @RequestMapping(value = "/register", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE,method = RequestMethod.POST)
+    public ResponseEntity<ResponseModel> register (@RequestBody @Valid CultureDTO dto) {
+        return service.register(dto);
+    }
 
+    @RequestMapping(value = "/list", method = RequestMethod.GET)
+    public ResponseEntity<ResponseModel> list(){
+        return service.list();
     }
-    @GetMapping
-    public List<Culture> getCulture() {
-        return repository.findAll();
+
+    @RequestMapping(value = "/delete/{id}",method = RequestMethod.DELETE)
+    public ResponseEntity<ResponseModel> delete (@PathVariable Long id){
+        return service.delete(id);
     }
-    @DeleteMapping("delete/{id}")//Só sera possivel fazer o delete da cultura se a mesma não estiver relacionada com nenhum produto
-    ResponseEntity<?>deleteBudget(@PathVariable Long id){
-        repository.deleteById(id);
-        return ResponseEntity.noContent().build();
+
+    @RequestMapping(value = "/update/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE,method = RequestMethod.PUT)
+    ResponseEntity<ResponseModel> update(@PathVariable Long id, @RequestBody CultureDTO dto) {
+        return service.update(dto, id);
     }
 
 

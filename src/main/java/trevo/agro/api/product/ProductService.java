@@ -13,7 +13,6 @@ import trevo.agro.api.culture.CultureRepository;
 import trevo.agro.api.utils.ResponseModel;
 import trevo.agro.api.utils.ResponseModelEspec;
 import trevo.agro.api.utils.ResponseModelEspecNoObject;
-
 import java.util.List;
 import java.util.Optional;
 
@@ -30,8 +29,11 @@ public class ProductService {
         try {
             List<Culture> cultures = cultureRepository.findByIdIn(dto.cultureIds());
             List<Category> categories = categoryRepository.findByIdIn(dto.categoryIds());
-            if (cultures.isEmpty() || categories.isEmpty()) {
-                return new ResponseEntity<>(new ResponseModelEspecNoObject("Categoria/Cultura não encontrada"), HttpStatus.NOT_FOUND);
+            if (cultures.isEmpty()) {
+                return new ResponseEntity<>(new ResponseModelEspecNoObject("Cultura não encontrada"), HttpStatus.NOT_FOUND);
+            }
+            if (categories.isEmpty()) {
+                return new ResponseEntity<>(new ResponseModelEspecNoObject("Categoria não encontrada"), HttpStatus.NOT_FOUND);
             }
             Product product = new Product(dto, categories, cultures);
             repository.save(product);
@@ -40,7 +42,6 @@ public class ProductService {
             error.printStackTrace();
         }
         return ResponseEntity.internalServerError().build();
-
     }
 
     public ResponseEntity<ResponseModel> list() {
@@ -48,19 +49,22 @@ public class ProductService {
         if (products.isEmpty()) {
             return new ResponseEntity<>(new ResponseModelEspecNoObject("Não existem produtos cadastrados"), HttpStatus.NOT_FOUND);
         }
-        return new ResponseEntity<>(new ResponseModelEspec("Aqui esta a lista de produtos", products), HttpStatus.OK);
+        return new ResponseEntity<>(new ResponseModelEspec("Lista de produtos", products), HttpStatus.OK);
     }
 
     public ResponseEntity<ResponseModel> details(@PathVariable Long id) {
         Optional<Product> products = repository.findById(id);
         if (products.isEmpty()) {
-            return new ResponseEntity<>(new ResponseModelEspecNoObject("Não existe produto com este id."), HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(new ResponseModelEspecNoObject("Produto não encontrado"), HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<>(new ResponseModelEspec("Aqui esta os detalhes deste produto", products), HttpStatus.OK);
     }
-
     public ResponseEntity<ResponseModel> delete(@PathVariable Long id) {
         try {
+            Optional<Product> product = repository.findById(id);
+            if (product.isEmpty()){
+                return new ResponseEntity<>(new ResponseModelEspecNoObject("Produto não encontrado!"),HttpStatus.NOT_FOUND);
+            }
             repository.deleteById(id);
             return new ResponseEntity<>(new ResponseModelEspecNoObject("Produto excluido"), HttpStatus.OK);
         } catch (Error error) {
@@ -69,19 +73,21 @@ public class ProductService {
         return ResponseEntity.internalServerError().build();
     }
 
-    public ResponseEntity<ResponseModel> update(@Valid ProductDTO dto,@PathVariable Long id) {
-
+    public ResponseEntity<ResponseModel> update(@Valid ProductDTO dto, @PathVariable Long id) {
         try {
-            var cultures = cultureRepository.findByIdIn(dto.cultureIds());
-            var categories = categoryRepository.findByIdIn(dto.categoryIds());
-            if (cultures.isEmpty() || categories.isEmpty()) {
-                return new ResponseEntity<>(new ResponseModelEspecNoObject("Categoria/Cultura não encontrada"), HttpStatus.NOT_FOUND);
+            List<Culture> cultures = cultureRepository.findByIdIn(dto.cultureIds());
+            List<Category> categories = categoryRepository.findByIdIn(dto.categoryIds());
+            if (cultures.isEmpty()) {
+                return new ResponseEntity<>(new ResponseModelEspecNoObject("Cultura não encontrada"), HttpStatus.NOT_FOUND);
+            }
+            if (categories.isEmpty()) {
+                return new ResponseEntity<>(new ResponseModelEspecNoObject("Categoria não encontrada"), HttpStatus.NOT_FOUND);
             }
             Product productExists = repository.findById(id).orElse(null);
             if (productExists == null) {
-                return ResponseEntity.notFound().build();
+                return new ResponseEntity<>(new ResponseModelEspecNoObject("Produto não encontrado"), HttpStatus.NOT_FOUND);
             }
-            productExists.update(dto,categories,cultures);
+            productExists.update(dto, categories, cultures);
             repository.save(productExists);
             return new ResponseEntity<>(new ResponseModelEspecNoObject("Produto foi atualizado!"), HttpStatus.OK);
         } catch (Exception error) {
@@ -89,6 +95,4 @@ public class ProductService {
         }
         return ResponseEntity.internalServerError().build();
     }
-
-
 }

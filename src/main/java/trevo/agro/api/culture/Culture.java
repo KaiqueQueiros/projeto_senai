@@ -1,17 +1,17 @@
 package trevo.agro.api.culture;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 @Entity
 @Table(name = "tb_culture")
 @Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode(of = "id")
 
 public class Culture {
     @Id
@@ -19,6 +19,15 @@ public class Culture {
     @Column(name = "id")
     private Long id;
     @Column(name = "name")
-    @NotNull(message = "Erro! Por favor insira o tipo de cultura!")
     private String name;
+
+    public Culture(CultureDTO dto) {
+        this.name = dto.getName().toUpperCase();
+    }
+
+    public void update(CultureDTO dto) {
+        if (dto.name() != null){
+            this.name = dto.getName().toUpperCase();
+        }
+    }
 }

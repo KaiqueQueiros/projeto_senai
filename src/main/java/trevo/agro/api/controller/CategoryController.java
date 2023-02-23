@@ -1,42 +1,43 @@
 package trevo.agro.api.controller;
 
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
-import trevo.agro.api.category.Category;
+import trevo.agro.api.category.CategoryDTO;
 import trevo.agro.api.category.CategoryRepository;
-
-import java.util.List;
+import trevo.agro.api.category.CategoryService;
+import trevo.agro.api.culture.CultureDTO;
+import trevo.agro.api.utils.ResponseModel;
 
 @RestController
 @RequestMapping(path = "/category")
 public class CategoryController {
     @Autowired
     private CategoryRepository repository;
+    @Autowired
+    private CategoryService service;
 
-    @PostMapping
-    @Transactional
-    public Category registerCategory(@RequestBody Category category) {
-        return repository.save(category);
+    @RequestMapping(value = "/register", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
+    public ResponseEntity<ResponseModel> register(@RequestBody @Valid CategoryDTO dto) {
+        return service.register(dto);
     }
 
-    @GetMapping("list")
-    public List<Category> getCategory() {
-        return repository.findAll();
+    @RequestMapping(value = "/list", method = RequestMethod.GET)
+    public ResponseEntity<ResponseModel> list() {
+        return service.list();
     }
 
-    @GetMapping("/find/{id}")
-    public Category getCategory(@PathVariable("id") Long id) {
-        return repository.findById(id).orElse(null);
-    }
-    @DeleteMapping("delete/{id}")
-    @Transactional
-    public ResponseEntity<?> deleteCategory(@PathVariable Long id) {
-        repository.deleteById(id);
-        return ResponseEntity.noContent().build();
+    @RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE)
+    public ResponseEntity<ResponseModel> delete(@PathVariable Long id) {
+        return service.delete(id);
     }
 
+    @RequestMapping(value = "/update/{id}", method = RequestMethod.PUT)
+    public ResponseEntity<ResponseModel> update(@PathVariable Long id, @RequestBody CultureDTO dto) {
+        return service.update(dto, id);
+    }
 
 
 }

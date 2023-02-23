@@ -43,11 +43,11 @@ public class ProductController {
         return service.details(id);
     }
 
-    @RequestMapping(value = "delete/{id}", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE)
     ResponseEntity<ResponseModel> deleteProduct(@PathVariable Long id) {
         return service.delete(id);
     }
-    @PutMapping(value = "update/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PutMapping(value = "/update/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     ResponseEntity<ResponseModel> update(@PathVariable Long id, @RequestBody ProductDTO dto){
         return service.update(dto,id);
     }

@@ -1,15 +1,16 @@
 package trevo.agro.api.category;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
+import trevo.agro.api.culture.CultureDTO;
 
 @Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
-
 @Table(name = "tb_category")
 @Entity
 public class Category {
@@ -17,11 +18,19 @@ public class Category {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
-    @NotNull(message = "Erro! Por favor insira no nome da categoria.")
-    @Column(name = "name",unique = true)
+    @Column(name = "name")
     private String name;
 
 
+    public Category(CategoryDTO dto) {
+        this.name = dto.getName().toUpperCase();
+    }
+
+    public void update(CultureDTO dto) {
+        if (dto.name() != null){
+            this.name = dto.getName().toUpperCase();
+        }
+    }
 }
 
 
