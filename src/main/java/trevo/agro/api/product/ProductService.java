@@ -97,6 +97,9 @@ public class ProductService {
             if (productExists == null) {
                 return new ResponseEntity<>(new ResponseModelEspecNoObject("Produto não encontrado"), HttpStatus.NOT_FOUND);
             }
+            if (productExist(dto.getName())) {
+                return new ResponseEntity<>(new ResponseModelEspecNoObject("Produto já existe!"), HttpStatus.BAD_REQUEST);
+            }
             productExists.update(dto, categories, cultures);
             repository.save(productExists);
             return new ResponseEntity<>(new ResponseModelEspecNoObject("Produto foi atualizado!"), HttpStatus.OK);
