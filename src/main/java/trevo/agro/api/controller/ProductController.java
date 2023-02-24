@@ -24,7 +24,7 @@ public class ProductController {
     @Autowired
     private CultureRepository cultureRepository;
 
-    @RequestMapping(method = RequestMethod.POST,value = "/register", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(method = RequestMethod.POST, value = "/register", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ResponseModel> registerProduct(@RequestBody @Valid ProductDTO dto) {
         return service.register(dto);
     }

@@ -18,22 +18,22 @@ public class CultureController {
     @Autowired
     private CultureService service;
 
-    @RequestMapping(value = "/register", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE,method = RequestMethod.POST)
-    public ResponseEntity<ResponseModel> register (@RequestBody @Valid CultureDTO dto) {
+    @RequestMapping(value = "/register", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
+    public ResponseEntity<ResponseModel> register(@RequestBody @Valid CultureDTO dto) {
         return service.register(dto);
     }
 
     @RequestMapping(value = "/list", method = RequestMethod.GET)
-    public ResponseEntity<ResponseModel> list(){
+    public ResponseEntity<ResponseModel> list() {
         return service.list();
     }
 
-    @RequestMapping(value = "/delete/{id}",method = RequestMethod.DELETE)
-    public ResponseEntity<ResponseModel> delete (@PathVariable Long id){
+    @RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE)
+    public ResponseEntity<ResponseModel> delete(@PathVariable Long id) {
         return service.delete(id);
     }
 
-    @RequestMapping(value = "/update/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE,method = RequestMethod.PUT)
+    @RequestMapping(value = "/update/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.PUT)
     ResponseEntity<ResponseModel> update(@PathVariable Long id, @RequestBody CultureDTO dto) {
         return service.update(dto, id);
     }

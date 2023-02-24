@@ -9,7 +9,7 @@ import java.util.Date;
 
 @Getter
 @Setter
-public class ResponseModelEspec extends ResponseModel{
+public class ResponseModelEspec extends ResponseModel {
     private Object objectResponse;
 
     public ResponseModelEspec(String message, Object objectResponse) {

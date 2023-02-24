@@ -37,12 +37,12 @@ public class Budget {
     @JoinTable
             (
                     name = "TB_BUDGET_PRODUCT",
-                    joinColumns = {@JoinColumn(name = "budget_id",referencedColumnName = "id")},
-                    inverseJoinColumns = {@JoinColumn(name = "product_id",referencedColumnName = "id")}
+                    joinColumns = {@JoinColumn(name = "budget_id", referencedColumnName = "id")},
+                    inverseJoinColumns = {@JoinColumn(name = "product_id", referencedColumnName = "id")}
             )
     private List<Product> products;
 
-    public Budget(BudgetDTO dto,List<Product> products) {
+    public Budget(BudgetDTO dto, List<Product> products) {
         this.name = dto.name();
         this.email = dto.email();
         this.phone = dto.phone();
@@ -51,22 +51,24 @@ public class Budget {
         this.company = dto.company();
         this.products = products;
     }
-    public void update(BudgetDTO dto,List<Product>products){
-        if (dto.name() != null){
+
+    public void update(BudgetDTO dto, List<Product> products) {
+        if (dto.name() != null) {
             this.name = dto.name();
         }
-        if (dto.email() != null){
+        if (dto.email() != null) {
             this.email = dto.email();
         }
-        if (dto.phone() != null){
+        if (dto.phone() != null) {
             this.phone = dto.phone();
         }
-        if (dto.country() != null){
+        if (dto.country() != null) {
             this.country = dto.country();
-        }  if (dto.company() != null){
+        }
+        if (dto.company() != null) {
             this.company = dto.company();
         }
-        if (products != null){
+        if (products != null) {
             this.products = products;
         }
     }

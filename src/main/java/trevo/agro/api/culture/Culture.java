@@ -26,7 +26,7 @@ public class Culture {
     }
 
     public void update(CultureDTO dto) {
-        if (dto.name() != null){
+        if (dto.name() != null) {
             this.name = dto.getName().toUpperCase();
         }
     }

@@ -11,6 +11,7 @@ import trevo.agro.api.culture.CultureDTO;
 import trevo.agro.api.utils.ResponseModel;
 import trevo.agro.api.utils.ResponseModelEspec;
 import trevo.agro.api.utils.ResponseModelEspecNoObject;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -59,7 +60,7 @@ public class CategoryService {
 
     public ResponseEntity<ResponseModel> update(@Valid CultureDTO dto, @PathVariable Long id) {
         try {
-           Category categories = categoryRepository.findById(id).orElse(null);
+            Category categories = categoryRepository.findById(id).orElse(null);
             if (categories == null) {
                 return new ResponseEntity<>(new ResponseModelEspecNoObject("Parametros invalidos!"), HttpStatus.NOT_FOUND);
             }

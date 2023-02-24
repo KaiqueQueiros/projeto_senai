@@ -1,8 +1,5 @@
 package trevo.agro.api.culture;
 
-import jakarta.validation.constraints.NotBlank;
-
-
 public record CultureDTO(
         String name
 ) {

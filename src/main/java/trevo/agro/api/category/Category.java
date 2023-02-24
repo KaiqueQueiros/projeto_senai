@@ -18,7 +18,7 @@ public class Category {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
-    @Column(name = "name",unique = true)
+    @Column(name = "name", unique = true)
     private String name;
 
 
@@ -27,7 +27,7 @@ public class Category {
     }
 
     public void update(CultureDTO dto) {
-        if (dto.name() != null){
+        if (dto.name() != null) {
             this.name = dto.getName().toUpperCase();
         }
     }

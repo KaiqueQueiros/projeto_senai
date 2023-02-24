@@ -8,22 +8,19 @@ import jakarta.validation.constraints.NotNull;
 import java.util.List;
 
 public record BudgetDTO(
-                        @NotBlank(message = "Por favor informe seu nome!")
-                        String name,
-                        @NotNull(message = "Informe seu email para contato!")
-                        @Email
-                        String email,
-                        @NotBlank(message = "Informe seu telefone para contato!")
-                        String phone,
-                        @NotNull(message = "Informe seu pais")
-                        String country,
-                        @NotNull(message = "Informe o nome da sua empresa")
-                        String company,
-                        @JsonProperty("products")
-                        List<Long> productIds
-)
-
-
-{
+        @NotBlank(message = "Por favor informe seu nome!")
+        String name,
+        @NotNull(message = "Informe seu email para contato!")
+        @Email
+        String email,
+        @NotBlank(message = "Informe seu telefone para contato!")
+        String phone,
+        @NotNull(message = "Informe seu pais")
+        String country,
+        @NotNull(message = "Informe o nome da sua empresa")
+        String company,
+        @JsonProperty("products")
+        List<Long> productIds
+) {
 
 }

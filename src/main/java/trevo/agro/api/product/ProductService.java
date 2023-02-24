@@ -14,6 +14,7 @@ import trevo.agro.api.culture.CultureRepository;
 import trevo.agro.api.utils.ResponseModel;
 import trevo.agro.api.utils.ResponseModelEspec;
 import trevo.agro.api.utils.ResponseModelEspecNoObject;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -47,7 +48,9 @@ public class ProductService {
             error.printStackTrace();
         }
         return ResponseEntity.internalServerError().build();
-    } private Boolean productExist(String name) {
+    }
+
+    private Boolean productExist(String name) {
         return repository.existsByName(name);
     }
 

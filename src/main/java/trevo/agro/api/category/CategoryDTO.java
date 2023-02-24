@@ -4,10 +4,11 @@ public record CategoryDTO(
 
         String name
 ) {
-    public String getName(){
+    public String getName() {
         return name;
     }
-    public Object setName(){
+
+    public Object setName() {
         return name;
     }
 }

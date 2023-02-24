@@ -1,9 +1,13 @@
 package trevo.agro.api.product;
 
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import trevo.agro.api.category.Category;
 import trevo.agro.api.culture.Culture;
+
 import java.net.URL;
 import java.time.LocalDate;
 import java.util.List;
@@ -19,7 +23,7 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
-    @Column(name = "name",unique = true)
+    @Column(name = "name", unique = true)
     private String name;
     @Column(name = "description")
     private String description;
@@ -39,9 +43,9 @@ public class Product {
     private List<Category> categories;
     @ManyToMany
     @JoinTable(
-                    name = "TB_PRODUCT_CULTURE",
-                    joinColumns = {@JoinColumn(name = "product_id", referencedColumnName = "id")},
-                    inverseJoinColumns = {@JoinColumn(name = "culture_id", referencedColumnName = "id")}
+            name = "TB_PRODUCT_CULTURE",
+            joinColumns = {@JoinColumn(name = "product_id", referencedColumnName = "id")},
+            inverseJoinColumns = {@JoinColumn(name = "culture_id", referencedColumnName = "id")}
 
     )
     private List<Culture> cultures;
@@ -56,23 +60,24 @@ public class Product {
         this.cultures = cultures;
 
     }
-    public void update(ProductDTO dto,List<Category> categories,List<Culture> cultures) {
-        if(dto.name() != null) {
+
+    public void update(ProductDTO dto, List<Category> categories, List<Culture> cultures) {
+        if (dto.name() != null) {
             this.name = dto.name();
         }
-        if(dto.area_size() != null) {
+        if (dto.area_size() != null) {
             this.area_size = dto.area_size();
         }
-        if(dto.description() != null) {
+        if (dto.description() != null) {
             this.description = dto.description();
         }
-        if (dto.img() != null){
+        if (dto.img() != null) {
             this.img = dto.img();
         }
-        if (categories != null){
+        if (categories != null) {
             this.categories = categories;
         }
-        if (cultures != null){
+        if (cultures != null) {
             this.cultures = cultures;
         }
     }

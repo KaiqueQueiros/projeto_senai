@@ -63,7 +63,7 @@ public class CultureService {
     public ResponseEntity<ResponseModel> update(@Valid CultureDTO dto, @PathVariable Long id) {
         try {
             var cultures = cultureRepository.findById(id);
-            if (cultures.isEmpty()|| dto.getName() == null) {
+            if (cultures.isEmpty() || dto.getName() == null) {
                 return new ResponseEntity<>(new ResponseModelEspecNoObject("Parametros invalidos!"), HttpStatus.NOT_FOUND);
             }
             Culture cultureExists = cultureRepository.findById(id).orElse(null);
