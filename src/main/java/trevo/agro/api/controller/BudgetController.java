@@ -24,7 +24,7 @@ public class BudgetController {
     @Autowired
     private BudgetService service;
 
-    @RequestMapping(method = RequestMethod.POST,name = "/budget",consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(method = RequestMethod.POST,value = "/register",consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ResponseModel> register(@RequestBody @Valid BudgetDTO dto) {
         return service.register(dto);
     }
@@ -34,17 +34,18 @@ public class BudgetController {
         return service.list();
     }
 
-    @DeleteMapping("delete/{id}")//Deletar pedidos.
-    public ResponseEntity<?> delete(@PathVariable Long id) {
-        repository.deleteById(id);
-        return ResponseEntity.noContent().build();
+    @RequestMapping(method = RequestMethod.DELETE,value = "/delete/{id}")
+    public ResponseEntity<ResponseModel> delete(@PathVariable Long id) {
+            return service.delete(id);
+    }
+    @RequestMapping(method = RequestMethod.GET,value = "/find/{id}")
+    public ResponseEntity<ResponseModel> detailsClient(@PathVariable Long id) {
+        return service.details(id);
+    }@RequestMapping(method = RequestMethod.PUT,value = "/update/{id}")
+    public ResponseEntity<ResponseModel> update(@PathVariable Long id,@RequestBody BudgetDTO dto){
+        return service.update(dto,id);
     }
 
-    @GetMapping("find/{id}")//Busca detalhada de pedidos por ID.
-    public ResponseEntity<?> detailsClient(@PathVariable Long id) {
-        var budget = repository.getReferenceById(id);
-        return ResponseEntity.ok(new DetailsBudget(budget));
-    }
 
 
 }

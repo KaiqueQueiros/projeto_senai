@@ -50,12 +50,30 @@ public class Budget {
         this.date = LocalDate.now();
         this.company = dto.company();
         this.products = products;
-
+    }
+    public void update(BudgetDTO dto,List<Product>products){
+        if (dto.name() != null){
+            this.name = dto.name();
+        }
+        if (dto.email() != null){
+            this.email = dto.email();
+        }
+        if (dto.phone() != null){
+            this.phone = dto.phone();
+        }
+        if (dto.country() != null){
+            this.country = dto.country();
+        }  if (dto.company() != null){
+            this.company = dto.company();
+        }
+        if (products != null){
+            this.products = products;
+        }
 
     }
 
 
-    }
+}
 
 
 
