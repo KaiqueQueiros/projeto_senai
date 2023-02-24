@@ -47,7 +47,7 @@ public class Product {
     private List<Culture> cultures;
 
     public Product(ProductDTO dto, List<Category> categories, List<Culture> cultures) {
-        this.name = dto.name();
+        this.name = dto.getName();
         this.area_size = dto.area_size();
         this.description = dto.description();
         this.date = LocalDate.now();

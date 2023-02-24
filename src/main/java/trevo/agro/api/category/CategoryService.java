@@ -59,16 +59,15 @@ public class CategoryService {
 
     public ResponseEntity<ResponseModel> update(@Valid CultureDTO dto, @PathVariable Long id) {
         try {
-            var categories = categoryRepository.findById(id);
-            if (categories.isEmpty()|| dto.getName() == null) {
+           Category categories = categoryRepository.findById(id).orElse(null);
+            if (categories == null) {
                 return new ResponseEntity<>(new ResponseModelEspecNoObject("Parametros invalidos!"), HttpStatus.NOT_FOUND);
             }
-            Category categorieExists = categoryRepository.findById(id).orElse(null);
-            if (categorieExists == null) {
-                return new ResponseEntity<>(new ResponseModelEspecNoObject("Categoria não encontrada!"), HttpStatus.NOT_FOUND);
+            if (categoryExists(dto.getName().toUpperCase())) {
+                return new ResponseEntity<>(new ResponseModelEspecNoObject("Nome já existe!"), HttpStatus.BAD_REQUEST);
             }
-            categorieExists.update(dto);
-            categoryRepository.save(categorieExists);
+            categories.update(dto);
+            categoryRepository.save(categories);
             return new ResponseEntity<>(new ResponseModelEspecNoObject("Categoria foi atualizada!"), HttpStatus.OK);
         } catch (Error error) {
             error.printStackTrace();

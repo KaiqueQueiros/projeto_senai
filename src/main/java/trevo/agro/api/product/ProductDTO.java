@@ -8,7 +8,7 @@ import java.util.List;
 
 
 public record ProductDTO(
-        @NotBlank(message = "Insira o nome do produto")
+        @NotNull(message = "Nome obrigatorio")
         String name,
         @NotBlank(message = "Insira a descrição do produto")
         String description,
@@ -22,6 +22,13 @@ public record ProductDTO(
         List<Long> cultureIds
 ) {
 
+
+        public String getName() {
+                return this.name;
+        }
+        public String setName() {
+                return this.name;
+        }
 }
 
 

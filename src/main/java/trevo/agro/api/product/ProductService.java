@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import trevo.agro.api.category.Category;
 import trevo.agro.api.category.CategoryRepository;
 import trevo.agro.api.culture.Culture;
@@ -25,7 +26,7 @@ public class ProductService {
     @Autowired
     private CultureRepository cultureRepository;
 
-    public ResponseEntity<ResponseModel> register(@Valid ProductDTO dto) {
+    public ResponseEntity<ResponseModel> register(@RequestBody @Valid ProductDTO dto) {
         try {
             List<Culture> cultures = cultureRepository.findByIdIn(dto.cultureIds());
             List<Category> categories = categoryRepository.findByIdIn(dto.categoryIds());
@@ -59,11 +60,12 @@ public class ProductService {
         }
         return new ResponseEntity<>(new ResponseModelEspec("Aqui esta os detalhes deste produto", products), HttpStatus.OK);
     }
+
     public ResponseEntity<ResponseModel> delete(@PathVariable Long id) {
         try {
             Optional<Product> product = repository.findById(id);
-            if (product.isEmpty()){
-                return new ResponseEntity<>(new ResponseModelEspecNoObject("Produto não encontrado!"),HttpStatus.NOT_FOUND);
+            if (product.isEmpty()) {
+                return new ResponseEntity<>(new ResponseModelEspecNoObject("Produto não encontrado!"), HttpStatus.NOT_FOUND);
             }
             repository.deleteById(id);
             return new ResponseEntity<>(new ResponseModelEspecNoObject("Produto excluido"), HttpStatus.OK);
@@ -72,6 +74,7 @@ public class ProductService {
         }
         return ResponseEntity.internalServerError().build();
     }
+
 
     public ResponseEntity<ResponseModel> update(@Valid ProductDTO dto, @PathVariable Long id) {
         try {
@@ -87,12 +90,14 @@ public class ProductService {
             if (productExists == null) {
                 return new ResponseEntity<>(new ResponseModelEspecNoObject("Produto não encontrado"), HttpStatus.NOT_FOUND);
             }
+
             productExists.update(dto, categories, cultures);
             repository.save(productExists);
             return new ResponseEntity<>(new ResponseModelEspecNoObject("Produto foi atualizado!"), HttpStatus.OK);
         } catch (Exception error) {
             error.printStackTrace();
         }
+
         return ResponseEntity.internalServerError().build();
     }
 }

@@ -5,46 +5,34 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
-import trevo.agro.api.budget.Budget;
-import trevo.agro.api.budget.BudgetDTO;
-import trevo.agro.api.budget.BudgetRepository;
-import trevo.agro.api.budget.DetailsBudget;
+import trevo.agro.api.budget.*;
 import trevo.agro.api.product.ProductRepository;
+import trevo.agro.api.utils.ResponseModel;
 
 @RestController
-@RequestMapping("/budget")
+@RequestMapping("budget")
 public class BudgetController {
     @Autowired
     private BudgetRepository repository;
     @Autowired
     private ProductRepository productRepository;
+    @Autowired
+    private BudgetService service;
 
-    @PostMapping(name = "/budget")
-    public ResponseEntity<?> register(@RequestBody @Valid BudgetDTO dto, UriComponentsBuilder uriBuilder) {
-        var productIds = dto.productIds();
-        try {
-            productRepository.findByIdIn(productIds);
-            var products = productRepository.findByIdIn(productIds);
-            var budget = new Budget(dto, products);
-            repository.save(budget);
-            var uri = uriBuilder.path("/budget/{id}").buildAndExpand(budget.getId()).toUri();
-            return ResponseEntity.created(uri).body(new DetailsBudget(budget));
-
-        } catch (Exception error) {
-            error.printStackTrace();
-        }
-        return ResponseEntity.internalServerError().build();
+    @RequestMapping(method = RequestMethod.POST,name = "/budget",consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<ResponseModel> register(@RequestBody @Valid BudgetDTO dto) {
+        return service.register(dto);
     }
 
-    @GetMapping("list")//Listar todos os pedidos
-    public Page<Budget> listBudget(@PageableDefault(sort = {"name"}) Pageable pagination) {
-        return repository.findAll(pagination);
+    @RequestMapping(value =  "/list",method = RequestMethod.GET)
+    public ResponseEntity<ResponseModel> list(){
+        return service.list();
     }
-
 
     @DeleteMapping("delete/{id}")//Deletar pedidos.
     public ResponseEntity<?> delete(@PathVariable Long id) {
@@ -57,11 +45,6 @@ public class BudgetController {
         var budget = repository.getReferenceById(id);
         return ResponseEntity.ok(new DetailsBudget(budget));
     }
-//    @GetMapping("find/{name}")//Busca detalhada de pedidos por ID.
-//    public ResponseEntity<?> detailsClientName(@PathVariable String name) {
-//        var budget = repository.fin(name);
-//        return ResponseEntity.ok(new DetailsBudget(budget));
-//    }
 
 
 }

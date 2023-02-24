@@ -8,7 +8,6 @@ import jakarta.validation.constraints.NotNull;
 import java.util.List;
 
 public record BudgetDTO(
-                        Long id,
                         @NotBlank(message = "Por favor informe seu nome!")
                         String name,
                         @NotNull(message = "Informe seu email para contato!")
@@ -20,7 +19,6 @@ public record BudgetDTO(
                         String country,
                         @NotNull(message = "Informe o nome da sua empresa")
                         String company,
-                        @NotNull
                         @JsonProperty("products")
                         List<Long> productIds
 )
