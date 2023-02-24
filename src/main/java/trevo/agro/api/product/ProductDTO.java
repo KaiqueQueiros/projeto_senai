@@ -24,10 +24,10 @@ public record ProductDTO(
 
 
         public String getName() {
-                return this.name;
+                return name;
         }
         public String setName() {
-                return this.name;
+                return name;
         }
 }
 

@@ -69,9 +69,7 @@ public class Budget {
         if (products != null){
             this.products = products;
         }
-
     }
-
 
 }
 

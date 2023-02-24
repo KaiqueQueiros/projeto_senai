@@ -36,6 +36,10 @@ public class ProductService {
             if (categories.isEmpty()) {
                 return new ResponseEntity<>(new ResponseModelEspecNoObject("Categoria não encontrada"), HttpStatus.NOT_FOUND);
             }
+            if (productExist(dto.getName())) {
+                return new ResponseEntity<>(new ResponseModelEspecNoObject("Produto já existe!"), HttpStatus.BAD_REQUEST);
+            }
+
             Product product = new Product(dto, categories, cultures);
             repository.save(product);
             return new ResponseEntity<>(new ResponseModelEspec("Produto foi salvo", dto), HttpStatus.OK);
@@ -43,7 +47,10 @@ public class ProductService {
             error.printStackTrace();
         }
         return ResponseEntity.internalServerError().build();
+    } private Boolean productExist(String name) {
+        return repository.existsByName(name);
     }
+
 
     public ResponseEntity<ResponseModel> list() {
         List<Product> products = repository.findAll();
