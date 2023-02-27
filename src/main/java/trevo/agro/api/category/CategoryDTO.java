@@ -1,7 +1,6 @@
 package trevo.agro.api.category;
 
 public record CategoryDTO(
-
         String name
 ) {
     public String getName() {

@@ -11,7 +11,6 @@ import trevo.agro.api.culture.CultureDTO;
 import trevo.agro.api.utils.ResponseModel;
 import trevo.agro.api.utils.ResponseModelEspec;
 import trevo.agro.api.utils.ResponseModelEspecNoObject;
-
 import java.util.List;
 import java.util.Optional;
 

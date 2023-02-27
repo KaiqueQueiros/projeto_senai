@@ -109,7 +109,6 @@ public class ProductService {
         } catch (Exception error) {
             error.printStackTrace();
         }
-
         return ResponseEntity.internalServerError().build();
     }
 }
