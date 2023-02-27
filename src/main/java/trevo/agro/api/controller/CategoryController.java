@@ -35,7 +35,7 @@ public class CategoryController {
     }
 
     @RequestMapping(value = "/update/{id}", method = RequestMethod.PUT)
-    public ResponseEntity<ResponseModel> update(@PathVariable Long id, @RequestBody CultureDTO dto) {
+    public ResponseEntity<ResponseModel> update(@PathVariable Long id, @RequestBody CategoryDTO dto) {
         return service.update(dto, id);
     }
 

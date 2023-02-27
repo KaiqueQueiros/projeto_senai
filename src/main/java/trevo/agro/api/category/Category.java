@@ -10,7 +10,6 @@ import trevo.agro.api.culture.CultureDTO;
 @Getter
 @Setter
 @NoArgsConstructor
-@AllArgsConstructor
 @Table(name = "tb_category")
 @Entity
 public class Category {
@@ -23,12 +22,12 @@ public class Category {
 
 
     public Category(CategoryDTO dto) {
-        this.name = dto.getName().toUpperCase();
+        this.name = dto.getName().toUpperCase().trim();
     }
 
-    public void update(CultureDTO dto) {
+    public void update(CategoryDTO dto) {
         if (dto.name() != null) {
-            this.name = dto.getName().toUpperCase();
+            this.name = dto.getName().toUpperCase().trim();
         }
     }
 }

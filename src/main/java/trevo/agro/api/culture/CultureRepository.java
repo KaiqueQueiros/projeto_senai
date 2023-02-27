@@ -6,7 +6,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface CultureRepository extends JpaRepository<Culture, Long> {
+public interface  CultureRepository extends JpaRepository<Culture, Long> {
     List<Culture> findByIdIn(List<Long> cultures);
 
     Boolean existsByName(String name);

@@ -22,13 +22,14 @@ public class CultureService {
     @Autowired
     private ProductRepository repository;
 
-    public ResponseEntity<ResponseModel> register(@RequestBody CultureDTO dto) {
-        if (dto.getName() == null || dto.setName() == "") {
-            return new ResponseEntity<>(new ResponseModelEspecNoObject("For favor insira o nome da cultura"), HttpStatus.BAD_REQUEST);
-        }
+    public ResponseEntity<ResponseModel> register(@RequestBody @Valid CultureDTO dto) {
         if (cultureExist(dto.getName().toUpperCase())) {
             return new ResponseEntity<>(new ResponseModelEspecNoObject("Cultura já existe!"), HttpStatus.BAD_REQUEST);
         }
+        if (dto.setName() == "") {
+            return new ResponseEntity<>(new ResponseModelEspecNoObject("For favor insira o nome da cultura"), HttpStatus.BAD_REQUEST);
+        }
+
         Culture culture = new Culture(dto);
         cultureRepository.save(culture);
         return new ResponseEntity<>(new ResponseModelEspec("Cultura cadastrada!", dto), HttpStatus.OK);

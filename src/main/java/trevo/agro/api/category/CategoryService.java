@@ -20,11 +20,11 @@ public class CategoryService {
     private CategoryRepository categoryRepository;
 
     public ResponseEntity<ResponseModel> register(@RequestBody @Valid CategoryDTO dto) {
-        if (dto.getName() == null || dto.setName() == "") {
-            return new ResponseEntity<>(new ResponseModelEspecNoObject("Informe o nome da categoria!"), HttpStatus.BAD_REQUEST);
-        }
         if (categoryExists(dto.getName().toUpperCase())) {
             return new ResponseEntity<>(new ResponseModelEspecNoObject("Categoria já existe!"), HttpStatus.BAD_REQUEST);
+        }
+        if (dto.setName() == "") {
+            return new ResponseEntity<>(new ResponseModelEspecNoObject("Informe o nome da categoria!"), HttpStatus.BAD_REQUEST);
         }
         Category category = new Category(dto);
         categoryRepository.save(category);
@@ -57,7 +57,7 @@ public class CategoryService {
         return ResponseEntity.internalServerError().build();
     }
 
-    public ResponseEntity<ResponseModel> update(@Valid CultureDTO dto, @PathVariable Long id) {
+    public ResponseEntity<ResponseModel> update(@Valid CategoryDTO dto, @PathVariable Long id) {
         try {
             Category categories = categoryRepository.findById(id).orElse(null);
             if (categories == null) {

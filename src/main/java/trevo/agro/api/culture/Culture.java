@@ -22,12 +22,12 @@ public class Culture {
     private String name;
 
     public Culture(CultureDTO dto) {
-        this.name = dto.getName().toUpperCase();
+        this.name = dto.getName().trim();
     }
 
     public void update(CultureDTO dto) {
         if (dto.name() != null) {
-            this.name = dto.getName().toUpperCase();
+            this.name = dto.getName().toUpperCase().trim();
         }
     }
 }
