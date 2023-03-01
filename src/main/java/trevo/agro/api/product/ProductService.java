@@ -14,7 +14,6 @@ import trevo.agro.api.culture.CultureRepository;
 import trevo.agro.api.utils.ResponseModel;
 import trevo.agro.api.utils.ResponseModelEspec;
 import trevo.agro.api.utils.ResponseModelEspecNoObject;
-
 import java.util.List;
 import java.util.Optional;
 
@@ -63,6 +62,7 @@ public class ProductService {
         return new ResponseEntity<>(new ResponseModelEspec("Lista de produtos", products), HttpStatus.OK);
     }
 
+
     public ResponseEntity<ResponseModel> details(@PathVariable Long id) {
         Optional<Product> products = repository.findById(id);
         if (products.isEmpty()) {
@@ -73,8 +73,7 @@ public class ProductService {
 
     public ResponseEntity<ResponseModel> delete(@PathVariable Long id) {
         try {
-            Optional<Product> product = repository.findById(id);
-            if (product.isEmpty()) {
+            if (repository.existsById(id)) {
                 return new ResponseEntity<>(new ResponseModelEspecNoObject("Produto não encontrado!"), HttpStatus.NOT_FOUND);
             }
             repository.deleteById(id);
@@ -85,6 +84,20 @@ public class ProductService {
         return ResponseEntity.internalServerError().build();
     }
 
+    public ResponseEntity<ResponseModel> alternarStatus(@PathVariable Long id) {
+        Product byId = repository.findById(id).orElse(null);
+        if (byId == null) {
+            return ResponseEntity.badRequest().build();
+        }
+        Boolean active = byId.getActive();
+        if (active) {
+            byId.setActive(Boolean.FALSE);
+        } else {
+            byId.setActive(Boolean.TRUE);
+        }
+        repository.save(byId);
+        return ResponseEntity.ok().build();
+    }
 
     public ResponseEntity<ResponseModel> update(@Valid ProductDTO dto, @PathVariable Long id) {
         try {
@@ -111,4 +124,6 @@ public class ProductService {
         }
         return ResponseEntity.internalServerError().build();
     }
+
+
 }

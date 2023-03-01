@@ -44,10 +44,14 @@ public class ProductController {
         return service.delete(id);
     }
 
+    @RequestMapping(value = "/status/{id}", method = RequestMethod.PUT)
+    ResponseEntity<ResponseModel> statusProduct(@PathVariable Long id) {
+        return service.alternarStatus(id);
+    }
+
     @RequestMapping(value = "/update/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.PUT)
     ResponseEntity<ResponseModel> update(@PathVariable Long id, @RequestBody ProductDTO dto) {
-        return service.
-                update(dto, id);
+        return service.update(dto, id);
     }
 
 }

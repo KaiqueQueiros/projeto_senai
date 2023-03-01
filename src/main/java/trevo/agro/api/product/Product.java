@@ -32,7 +32,7 @@ public class Product {
     @Column(name = "date")
     LocalDate date;
     @Column(name = "img")
-    private URL img;
+    private String img;
     @ManyToMany
     @JoinTable
             (
@@ -49,6 +49,7 @@ public class Product {
 
     )
     private List<Culture> cultures;
+    private Boolean active;
 
     public Product(ProductDTO dto, List<Category> categories, List<Culture> cultures) {
         this.name = dto.getName();
@@ -58,6 +59,7 @@ public class Product {
         this.img = dto.img();
         this.categories = categories;
         this.cultures = cultures;
+        this.active = true;
 
     }
 

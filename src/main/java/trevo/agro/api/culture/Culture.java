@@ -22,7 +22,7 @@ public class Culture {
     private String name;
 
     public Culture(CultureDTO dto) {
-        this.name = dto.getName().trim();
+        this.name = dto.getName().toUpperCase().trim();
     }
 
     public void update(CultureDTO dto) {
