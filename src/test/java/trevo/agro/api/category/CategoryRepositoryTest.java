@@ -47,7 +47,7 @@ public class CategoryRepositoryTest {
     public void whenNotEmptyName_thenNoConstraintViolations() {
         Exception exception = assertThrows(
                 ConstraintViolationException.class,
-                () -> categoryRepository.save(new Category()));
+                () -> categoryRepository.save(new Category(new CategoryDTO(""))));
         assertTrue(exception.getMessage().contains("O campo nome da categoria é obrigatorio"));
     }
 
