@@ -7,37 +7,28 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
-import trevo.agro.api.product.ProductRepository;
 import trevo.agro.api.utils.ResponseModel;
 import trevo.agro.api.utils.ResponseModelEspec;
 import trevo.agro.api.utils.ResponseModelEspecNoObject;
-
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class CultureService {
     @Autowired
     private CultureRepository cultureRepository;
-    @Autowired
-    private ProductRepository repository;
 
     public ResponseEntity<ResponseModel> register(@RequestBody @Valid CultureDTO dto) {
-        if (cultureExist(dto.getName().toUpperCase())) {
+        if (cultureRepository.existsByName(dto.getName())) {
             return new ResponseEntity<>(new ResponseModelEspecNoObject("Cultura já existe!"), HttpStatus.BAD_REQUEST);
         }
         if (dto.setName() == "") {
             return new ResponseEntity<>(new ResponseModelEspecNoObject("For favor insira o nome da cultura"), HttpStatus.BAD_REQUEST);
         }
-
         Culture culture = new Culture(dto);
         cultureRepository.save(culture);
         return new ResponseEntity<>(new ResponseModelEspec("Cultura cadastrada!", dto), HttpStatus.OK);
     }
 
-    public Boolean cultureExist(String name) {
-        return cultureRepository.existsByName(name);
-    }
 
     public ResponseEntity<ResponseModel> list() {
         List<Culture> cultures = cultureRepository.findAll();
@@ -49,12 +40,12 @@ public class CultureService {
 
     public ResponseEntity<ResponseModel> delete(@PathVariable Long id) {
         try {
-            Optional<Culture> culture = cultureRepository.findById(id);
-            if (culture.isEmpty()) {
-                return new ResponseEntity<>(new ResponseModelEspecNoObject("Cultura não encontrada!"), HttpStatus.NOT_FOUND);
+            if (cultureRepository.findById(id).isPresent()) {
+                cultureRepository.deleteById(id);
+                return new ResponseEntity<>(new ResponseModelEspecNoObject("Cultura Excluida!"), HttpStatus.NOT_FOUND);
             }
-            cultureRepository.deleteById(id);
-            return new ResponseEntity<>(new ResponseModelEspecNoObject("Cultura excluida!"), HttpStatus.OK);
+
+            return new ResponseEntity<>(new ResponseModelEspecNoObject("Cultura não encontrada!"), HttpStatus.OK);
         } catch (Error error) {
             error.printStackTrace();
         }
@@ -63,9 +54,8 @@ public class CultureService {
 
     public ResponseEntity<ResponseModel> update(@Valid CultureDTO dto, @PathVariable Long id) {
         try {
-            var cultures = cultureRepository.findById(id);
-            if (cultures.isEmpty() || dto.getName() == null) {
-                return new ResponseEntity<>(new ResponseModelEspecNoObject("Parametros invalidos!"), HttpStatus.NOT_FOUND);
+            if (cultureRepository.findById(id).isEmpty() || dto.getName() == null) {
+                return new ResponseEntity<>(new ResponseModelEspecNoObject("Cultura não encotrada ou parametros invalidos!"), HttpStatus.NOT_FOUND);
             }
             Culture cultureExists = cultureRepository.findById(id).orElse(null);
             if (cultureExists == null) {

@@ -1,10 +1,13 @@
 package trevo.agro.api.culture;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.validator.constraints.Length;
 
 @Entity
 @Table(name = "tb_culture")
@@ -19,15 +22,18 @@ public class Culture {
     @Column(name = "id")
     private Long id;
     @Column(name = "name")
+    @Length(max = 20)
+    @NotEmpty(message = "O campo nome da cultura é obrigatorio")
+    @NotBlank
     private String name;
 
     public Culture(CultureDTO dto) {
-        this.name = dto.getName().toUpperCase().trim();
+        this.name = dto.getName();
     }
 
     public void update(CultureDTO dto) {
         if (dto.name() != null) {
-            this.name = dto.getName().toUpperCase().trim();
+            this.name = dto.getName().trim();
         }
     }
 }

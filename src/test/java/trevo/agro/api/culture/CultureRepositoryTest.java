@@ -1,4 +1,4 @@
-package trevo.agro.api.category;
+package trevo.agro.api.culture;
 
 import jakarta.validation.ConstraintViolationException;
 import org.junit.jupiter.api.Test;
@@ -6,6 +6,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -13,41 +14,43 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @ExtendWith(SpringExtension.class)
 @DataJpaTest
+@AutoConfigureMockMvc
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-public class CategoryRepositoryTest {
+public class CultureRepositoryTest {
     @Autowired
-    CategoryRepository categoryRepository;
+    CultureRepository cultureRepository;
 
     @Test
     public void whenCreate_thenPersistenseData() {
-        Category category = new Category(new CategoryDTO("Pulverizador com barras"));
-        this.categoryRepository.save(category);
-        assertThat(category.getId()).isNotNull();
-         assertThat(category.getName()).isEqualTo("Pulverizador com barras");
+        Culture culture = new Culture(new CultureDTO("Cereais"));
+        this.cultureRepository.save(culture);
+        assertThat(culture.getId()).isNotNull();
+        assertThat(culture.getName()).isEqualTo("Cereais");
     }
 
     @Test
     public void whenDeleteShouldRemoveData() {
-        Category category = new Category(new CategoryDTO("Pulverizador com barras"));
-        this.categoryRepository.save(category);
-        categoryRepository.delete(category);
-        assertThat(categoryRepository.findById(category.getId())).isEmpty();
+        Culture culture = new Culture(new CultureDTO("Cereais"));
+        this.cultureRepository.save(culture);
+        cultureRepository.delete(culture);
+        assertThat(cultureRepository.findById(culture.getId())).isEmpty();
     }
 
     @Test
     public void whenUpdateShouldChandAndPersistData() {
-        Category category = new Category(new CategoryDTO("Pulverizador"));
-        this.categoryRepository.save(category);
-        category.setName("Pulverizador de barras");
-        category = this.categoryRepository.save(category);
-        assertThat(category.getName()).isEqualTo("Pulverizador de barras");
+        Culture culture = new Culture(new CultureDTO("Cerais"));
+        this.cultureRepository.save(culture);
+        culture.setName("Cereais");
+        culture = this.cultureRepository.save(culture);
+        assertThat(culture.getName()).isEqualTo("Cereais");
     }
+
     @Test
     public void whenNotEmptyName_thenNoConstraintViolations() {
         Exception exception = assertThrows(
                 ConstraintViolationException.class,
-                () -> categoryRepository.save(new Category(new CategoryDTO(""))));
-        assertTrue(exception.getMessage().contains("O campo nome da categoria é obrigatorio"));
+                () -> cultureRepository.save(new Culture(new CultureDTO(""))));
+        assertTrue(exception.getMessage().contains("O campo nome da cultura é obrigatorio"));
     }
 
 }

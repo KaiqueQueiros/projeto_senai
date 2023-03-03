@@ -20,7 +20,7 @@ public class CategoryService {
     private CategoryRepository categoryRepository;
 
     public ResponseEntity<ResponseModel> register(@RequestBody @Valid CategoryDTO dto) {
-        if (categoryExists(dto.getName().toUpperCase())) {
+        if (categoryRepository.existsByName(dto.getName())) {
             return new ResponseEntity<>(new ResponseModelEspecNoObject("Categoria já existe!"), HttpStatus.BAD_REQUEST);
         }
         if (dto.setName() == "") {
@@ -31,9 +31,6 @@ public class CategoryService {
         return new ResponseEntity<>(new ResponseModelEspec("Categoria cadastrada!", dto), HttpStatus.OK);
     }
 
-    private Boolean categoryExists(String name) {
-        return categoryRepository.existsByName(name);
-    }
 
     public ResponseEntity<ResponseModel> list() {
         List<Category> categories = categoryRepository.findAll();
@@ -60,10 +57,10 @@ public class CategoryService {
     public ResponseEntity<ResponseModel> update(@Valid CategoryDTO dto, @PathVariable Long id) {
         try {
             Category categories = categoryRepository.findById(id).orElse(null);
-            if (categories == null) {
-                return new ResponseEntity<>(new ResponseModelEspecNoObject("Parametros invalidos!"), HttpStatus.NOT_FOUND);
+            if (categories == null || dto.getName() == null) {
+                return new ResponseEntity<>(new ResponseModelEspecNoObject("Categoria inexistente ou parametros invalidos!"), HttpStatus.NOT_FOUND);
             }
-            if (categoryExists(dto.getName().toUpperCase())) {
+            if (categoryRepository.existsByName(dto.getName())) {
                 return new ResponseEntity<>(new ResponseModelEspecNoObject("Nome já existe!"), HttpStatus.BAD_REQUEST);
             }
             categories.update(dto);

@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.validator.constraints.Length;
 import trevo.agro.api.product.Product;
 
 import java.time.LocalDate;
@@ -22,16 +23,21 @@ public class Budget {
     @Column(name = "id")
     private Long id;
     @Column(name = "name")
+    @Length(max = 25)
     private String name;
     @Column(name = "email")
+    @Length(max = 25)
     private String email;
     @Column(name = "phone")
+    @Length(max = 15)
     private String phone;
     @Column(name = "country")
+    @Length(max = 20)
     private String country;
     @Column(name = "date")
     private LocalDate date;
     @Column(name = "company")
+    @Length(max = 30)
     private String company;
     @ManyToMany
     @JoinTable

@@ -20,7 +20,7 @@ import java.util.Optional;
 @Service
 public class ProductService {
     @Autowired
-    private ProductRepository repository;
+    private ProductRepository productRepository;
     @Autowired
     private CategoryRepository categoryRepository;
     @Autowired
@@ -39,9 +39,8 @@ public class ProductService {
             if (productExist(dto.getName())) {
                 return new ResponseEntity<>(new ResponseModelEspecNoObject("Produto já existe!"), HttpStatus.BAD_REQUEST);
             }
-
             Product product = new Product(dto, categories, cultures);
-            repository.save(product);
+            productRepository.save(product);
             return new ResponseEntity<>(new ResponseModelEspec("Produto foi salvo", dto), HttpStatus.OK);
         } catch (Exception error) {
             error.printStackTrace();
@@ -50,12 +49,12 @@ public class ProductService {
     }
 
     private Boolean productExist(String name) {
-        return repository.existsByName(name);
+        return productRepository.existsByName(name);
     }
 
 
     public ResponseEntity<ResponseModel> list() {
-        List<Product> products = repository.findAll();
+        List<Product> products = productRepository.findAll();
         if (products.isEmpty()) {
             return new ResponseEntity<>(new ResponseModelEspecNoObject("Não existem produtos cadastrados"), HttpStatus.NOT_FOUND);
         }
@@ -64,7 +63,7 @@ public class ProductService {
 
 
     public ResponseEntity<ResponseModel> details(@PathVariable Long id) {
-        Optional<Product> products = repository.findById(id);
+        Optional<Product> products = productRepository.findById(id);
         if (products.isEmpty()) {
             return new ResponseEntity<>(new ResponseModelEspecNoObject("Produto não encontrado"), HttpStatus.NOT_FOUND);
         }
@@ -73,10 +72,10 @@ public class ProductService {
 
     public ResponseEntity<ResponseModel> delete(@PathVariable Long id) {
         try {
-            if (repository.existsById(id)) {
+            if (productRepository.existsById(id)) {
                 return new ResponseEntity<>(new ResponseModelEspecNoObject("Produto não encontrado!"), HttpStatus.NOT_FOUND);
             }
-            repository.deleteById(id);
+            productRepository.deleteById(id);
             return new ResponseEntity<>(new ResponseModelEspecNoObject("Produto excluido"), HttpStatus.OK);
         } catch (Error error) {
             error.printStackTrace();
@@ -85,7 +84,7 @@ public class ProductService {
     }
 
     public ResponseEntity<ResponseModel> alternarStatus(@PathVariable Long id) {
-        Product byId = repository.findById(id).orElse(null);
+        Product byId = productRepository.findById(id).orElse(null);
         if (byId == null) {
             return ResponseEntity.badRequest().build();
         }
@@ -95,7 +94,7 @@ public class ProductService {
         } else {
             byId.setActive(Boolean.TRUE);
         }
-        repository.save(byId);
+        productRepository.save(byId);
         return ResponseEntity.ok().build();
     }
 
@@ -109,7 +108,7 @@ public class ProductService {
             if (categories.isEmpty()) {
                 return new ResponseEntity<>(new ResponseModelEspecNoObject("Categoria não encontrada"), HttpStatus.NOT_FOUND);
             }
-            Product productExists = repository.findById(id).orElse(null);
+            Product productExists = productRepository.findById(id).orElse(null);
             if (productExists == null) {
                 return new ResponseEntity<>(new ResponseModelEspecNoObject("Produto não encontrado"), HttpStatus.NOT_FOUND);
             }
@@ -117,7 +116,7 @@ public class ProductService {
                 return new ResponseEntity<>(new ResponseModelEspecNoObject("Produto já existe!"), HttpStatus.BAD_REQUEST);
             }
             productExists.update(dto, categories, cultures);
-            repository.save(productExists);
+            productRepository.save(productExists);
             return new ResponseEntity<>(new ResponseModelEspecNoObject("Produto foi atualizado!"), HttpStatus.OK);
         } catch (Exception error) {
             error.printStackTrace();
