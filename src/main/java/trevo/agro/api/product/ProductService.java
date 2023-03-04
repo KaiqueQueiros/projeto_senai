@@ -8,9 +8,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import trevo.agro.api.category.Category;
-import trevo.agro.api.category.CategoryRepository;
+import trevo.agro.api.repository.CategoryRepository;
 import trevo.agro.api.culture.Culture;
-import trevo.agro.api.culture.CultureRepository;
+import trevo.agro.api.repository.CultureRepository;
+import trevo.agro.api.repository.ProductRepository;
 import trevo.agro.api.utils.ResponseModel;
 import trevo.agro.api.utils.ResponseModelEspec;
 import trevo.agro.api.utils.ResponseModelEspecNoObject;
@@ -36,8 +37,17 @@ public class ProductService {
             if (categories.isEmpty()) {
                 return new ResponseEntity<>(new ResponseModelEspecNoObject("Categoria não encontrada"), HttpStatus.NOT_FOUND);
             }
-            if (productExist(dto.getName())) {
+            if (productRepository.existsByName(dto.getName())) {
                 return new ResponseEntity<>(new ResponseModelEspecNoObject("Produto já existe!"), HttpStatus.BAD_REQUEST);
+            }
+            if (dto.getName() == null) {
+                return new ResponseEntity<>(new ResponseModelEspecNoObject("Por favor informe um nome de produto válido!"), HttpStatus.BAD_REQUEST);
+            }
+            if (dto.getAreaSize() == null){
+                return new ResponseEntity<>(new ResponseModelEspecNoObject("Favor informe o tamanho de area do produto!"),HttpStatus.BAD_REQUEST);
+            }
+            if (dto.getDescription() == null){
+                return new ResponseEntity<>(new ResponseModelEspecNoObject("Favor informe a descrição do produto!"),HttpStatus.BAD_REQUEST);
             }
             Product product = new Product(dto, categories, cultures);
             productRepository.save(product);
@@ -86,7 +96,7 @@ public class ProductService {
     public ResponseEntity<ResponseModel> alternarStatus(@PathVariable Long id) {
         Product byId = productRepository.findById(id).orElse(null);
         if (byId == null) {
-            return ResponseEntity.badRequest().build();
+            return new ResponseEntity<>(new ResponseModelEspecNoObject("Produto não encontrado"),HttpStatus.NOT_FOUND);
         }
         Boolean active = byId.getActive();
         if (active) {
@@ -95,11 +105,13 @@ public class ProductService {
             byId.setActive(Boolean.TRUE);
         }
         productRepository.save(byId);
-        return ResponseEntity.ok().build();
+        return new ResponseEntity<>(new ResponseModelEspecNoObject("Status atual do produto é " + active),HttpStatus.OK);
     }
 
     public ResponseEntity<ResponseModel> update(@Valid ProductDTO dto, @PathVariable Long id) {
         try {
+            //Sempre que for fazer alguma atualização de produto, será necessario informar
+            // novamente qual o tipo de categoria e tipo de cultura do mesmo.
             List<Culture> cultures = cultureRepository.findByIdIn(dto.cultureIds());
             List<Category> categories = categoryRepository.findByIdIn(dto.categoryIds());
             if (cultures.isEmpty()) {
@@ -123,6 +135,5 @@ public class ProductService {
         }
         return ResponseEntity.internalServerError().build();
     }
-
 
 }

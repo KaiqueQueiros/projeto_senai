@@ -1,7 +1,8 @@
-package trevo.agro.api.culture;
+package trevo.agro.api.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
+import trevo.agro.api.culture.Culture;
 
 import java.util.List;
 

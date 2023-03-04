@@ -6,7 +6,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import trevo.agro.api.culture.CultureDTO;
-import trevo.agro.api.culture.CultureRepository;
+import trevo.agro.api.repository.CultureRepository;
 import trevo.agro.api.culture.CultureService;
 import trevo.agro.api.utils.ResponseModel;
 

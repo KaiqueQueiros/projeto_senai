@@ -5,10 +5,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import trevo.agro.api.category.CategoryRepository;
-import trevo.agro.api.culture.CultureRepository;
+import trevo.agro.api.repository.CategoryRepository;
+import trevo.agro.api.repository.CultureRepository;
 import trevo.agro.api.product.ProductDTO;
-import trevo.agro.api.product.ProductRepository;
+import trevo.agro.api.repository.ProductRepository;
 import trevo.agro.api.product.ProductService;
 import trevo.agro.api.utils.ResponseModel;
 

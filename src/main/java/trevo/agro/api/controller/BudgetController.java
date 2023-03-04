@@ -6,9 +6,9 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import trevo.agro.api.budget.BudgetDTO;
-import trevo.agro.api.budget.BudgetRepository;
+import trevo.agro.api.repository.BudgetRepository;
 import trevo.agro.api.budget.BudgetService;
-import trevo.agro.api.product.ProductRepository;
+import trevo.agro.api.repository.ProductRepository;
 import trevo.agro.api.utils.ResponseModel;
 
 @RestController

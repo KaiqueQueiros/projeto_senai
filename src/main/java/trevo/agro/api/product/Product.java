@@ -1,11 +1,14 @@
 package trevo.agro.api.product;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
+import org.springframework.http.ResponseEntity;
+import org.w3c.dom.Text;
 import trevo.agro.api.category.Category;
 import trevo.agro.api.culture.Culture;
 
@@ -23,14 +26,14 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
-    @Column(name = "name", unique = true)
+    @Column(name = "name", unique = true,nullable = false)
     @Length(max = 50)
     private String name;
-    @Column(name = "description")
+    @Column(name = "description",columnDefinition = "Text",nullable = false)
     private String description;
-    @Column(name = "area_size")
+    @Column(name = "area_size",nullable = false)
     @Length(max = 50)
-    private String area_size;
+    private String areaSize;
     @Column(name = "date")
     LocalDate date;
     @Column(name = "img")
@@ -55,10 +58,10 @@ public class Product {
 
     public Product(ProductDTO dto, List<Category> categories, List<Culture> cultures) {
         this.name = dto.getName();
-        this.area_size = dto.area_size();
-        this.description = dto.description();
+        this.areaSize = dto.getAreaSize();
+        this.description = dto.getDescription();
         this.date = LocalDate.now();
-        this.img = dto.img();
+        this.img = dto.getImg();
         this.categories = categories;
         this.cultures = cultures;
         this.active = true;
@@ -66,7 +69,7 @@ public class Product {
 
     public Product(ProductDTO dto) {
         this.name = dto.getName();
-        this.area_size = dto.area_size();
+        this.areaSize = dto.areaSize();
         this.description = dto.description();
         this.date = LocalDate.now();
         this.img = dto.img();
@@ -78,8 +81,8 @@ public class Product {
         if (dto.name() != null) {
             this.name = dto.name();
         }
-        if (dto.area_size() != null) {
-            this.area_size = dto.area_size();
+        if (dto.areaSize() != null) {
+            this.areaSize = dto.areaSize();
         }
         if (dto.description() != null) {
             this.description = dto.description();

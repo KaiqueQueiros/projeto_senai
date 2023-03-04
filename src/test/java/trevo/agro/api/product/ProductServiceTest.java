@@ -46,7 +46,7 @@ public class ProductServiceTest {
         ProductDTO product = new ProductDTO("Condorito 400", "Criado para pulverização em barras", "500",
                 "www.google.com.br", categoryList, cultureList);
         this.service.register(product);
-        assertThat(product.getArea_size()).isEqualTo("500");
+        assertThat(product.getAreaSize()).isEqualTo("500");
     }
 
     @Test

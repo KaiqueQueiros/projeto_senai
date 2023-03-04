@@ -6,9 +6,8 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import trevo.agro.api.category.CategoryDTO;
-import trevo.agro.api.category.CategoryRepository;
+import trevo.agro.api.repository.CategoryRepository;
 import trevo.agro.api.category.CategoryService;
-import trevo.agro.api.culture.CultureDTO;
 import trevo.agro.api.utils.ResponseModel;
 
 @RestController
