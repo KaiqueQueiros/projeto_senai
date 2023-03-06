@@ -22,13 +22,13 @@ public class Budget {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
-    @Column(name = "name")
+    @Column(name = "name",nullable = false)
     @Length(max = 25)
     private String name;
-    @Column(name = "email")
+    @Column(name = "email",nullable = false)
     @Length(max = 25)
     private String email;
-    @Column(name = "phone")
+    @Column(name = "phone",nullable = false)
     @Length(max = 15)
     private String phone;
     @Column(name = "country")

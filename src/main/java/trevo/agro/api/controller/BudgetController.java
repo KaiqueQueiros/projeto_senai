@@ -26,7 +26,7 @@ public class BudgetController {
         return service.register(dto);
     }
 
-    @RequestMapping(value = "/list", method = RequestMethod.GET)
+    @RequestMapping(method = RequestMethod.GET,value = "/list")
     public ResponseEntity<ResponseModel> list() {
         return service.list();
     }

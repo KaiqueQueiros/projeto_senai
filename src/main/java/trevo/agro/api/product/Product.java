@@ -1,16 +1,14 @@
 package trevo.agro.api.product;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
-import org.springframework.http.ResponseEntity;
-import org.w3c.dom.Text;
 import trevo.agro.api.category.Category;
 import trevo.agro.api.culture.Culture;
+import trevo.agro.api.image.Image;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -18,7 +16,6 @@ import java.util.List;
 @Getter
 @Setter
 @NoArgsConstructor
-@AllArgsConstructor
 @Table(name = "tb_product")
 @Entity
 public class Product {
@@ -26,12 +23,12 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
-    @Column(name = "name", unique = true,nullable = false)
+    @Column(name = "name", unique = true, nullable = false)
     @Length(max = 50)
     private String name;
-    @Column(name = "description",columnDefinition = "Text",nullable = false)
+    @Column(name = "description", columnDefinition = "Text", nullable = false)
     private String description;
-    @Column(name = "area_size",nullable = false)
+    @Column(name = "area_size", nullable = false)
     @Length(max = 50)
     private String areaSize;
     @Column(name = "date")
@@ -54,9 +51,17 @@ public class Product {
 
     )
     private List<Culture> cultures;
+    @OneToMany
+    @JoinTable(
+            name = "TB_PRODUCT_IMAGE",
+            joinColumns = {@JoinColumn(name = "product_id", referencedColumnName = "id")},
+            inverseJoinColumns = {@JoinColumn(name = "image_id", referencedColumnName = "id")}
+
+    )
+    private List<Image> images;
     private Boolean active;
 
-    public Product(ProductDTO dto, List<Category> categories, List<Culture> cultures) {
+    public Product(ProductDTO dto, List<Category> categories, List<Culture> cultures,List<Image> images) {
         this.name = dto.getName();
         this.areaSize = dto.getAreaSize();
         this.description = dto.getDescription();
@@ -64,6 +69,7 @@ public class Product {
         this.img = dto.getImg();
         this.categories = categories;
         this.cultures = cultures;
+        this.images = images;
         this.active = true;
     }
 

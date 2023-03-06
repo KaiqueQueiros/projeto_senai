@@ -13,7 +13,9 @@ public record ProductDTO(
         @JsonProperty("categories")
         List<Long> categoryIds,
         @JsonProperty("cultures")
-        List<Long> cultureIds
+        List<Long> cultureIds,
+        @JsonProperty("images")
+        List<Long> imageIds
 ) {
     public String getName() {
         return name;

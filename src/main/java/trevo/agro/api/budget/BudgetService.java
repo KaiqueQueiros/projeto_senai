@@ -13,7 +13,6 @@ import trevo.agro.api.repository.ProductRepository;
 import trevo.agro.api.utils.ResponseModel;
 import trevo.agro.api.utils.ResponseModelEspec;
 import trevo.agro.api.utils.ResponseModelEspecNoObject;
-
 import java.util.List;
 import java.util.Optional;
 
@@ -30,6 +29,15 @@ public class BudgetService {
             List<Product> products = productRepository.findByIdIn(dto.productIds());
             if (products.isEmpty()) {
                 return new ResponseEntity<>(new ResponseModelEspecNoObject("Nenhum produto foi selecionado!"), HttpStatus.BAD_REQUEST);
+            }
+            if (dto.getName() == null){
+               return new ResponseEntity<>(new ResponseModelEspecNoObject("Informe seu nome"),HttpStatus.BAD_REQUEST);
+            }
+            if (dto.getEmail() == null){
+                return new ResponseEntity<>(new ResponseModelEspecNoObject("Informe seu email"),HttpStatus.BAD_REQUEST);
+            }
+            if (dto.getPhone() == null){
+                return new ResponseEntity<>(new ResponseModelEspecNoObject("Informe seu telefone"),HttpStatus.BAD_REQUEST);
             }
             Budget budget = new Budget(dto, products);
             budgetRepository.save(budget);

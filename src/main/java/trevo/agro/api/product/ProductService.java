@@ -8,9 +8,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import trevo.agro.api.category.Category;
+import trevo.agro.api.image.Image;
 import trevo.agro.api.repository.CategoryRepository;
 import trevo.agro.api.culture.Culture;
 import trevo.agro.api.repository.CultureRepository;
+import trevo.agro.api.repository.ImageRepository;
 import trevo.agro.api.repository.ProductRepository;
 import trevo.agro.api.utils.ResponseModel;
 import trevo.agro.api.utils.ResponseModelEspec;
@@ -26,11 +28,14 @@ public class ProductService {
     private CategoryRepository categoryRepository;
     @Autowired
     private CultureRepository cultureRepository;
+    @Autowired
+    private ImageRepository imageRepository;
 
     public ResponseEntity<ResponseModel> register(@RequestBody @Valid ProductDTO dto) {
         try {
             List<Culture> cultures = cultureRepository.findByIdIn(dto.cultureIds());
             List<Category> categories = categoryRepository.findByIdIn(dto.categoryIds());
+            List<Image> images = imageRepository.findByIdIn(dto.imageIds());
             if (cultures.isEmpty()) {
                 return new ResponseEntity<>(new ResponseModelEspecNoObject("Cultura não encontrada"), HttpStatus.NOT_FOUND);
             }
@@ -49,7 +54,7 @@ public class ProductService {
             if (dto.getDescription() == null){
                 return new ResponseEntity<>(new ResponseModelEspecNoObject("Favor informe a descrição do produto!"),HttpStatus.BAD_REQUEST);
             }
-            Product product = new Product(dto, categories, cultures);
+            Product product = new Product(dto, categories, cultures,images);
             productRepository.save(product);
             return new ResponseEntity<>(new ResponseModelEspec("Produto foi salvo", dto), HttpStatus.OK);
         } catch (Exception error) {
@@ -58,11 +63,6 @@ public class ProductService {
         return ResponseEntity.internalServerError().build();
     }
 
-    private Boolean productExist(String name) {
-        return productRepository.existsByName(name);
-    }
-
-
     public ResponseEntity<ResponseModel> list() {
         List<Product> products = productRepository.findAll();
         if (products.isEmpty()) {
@@ -70,7 +70,6 @@ public class ProductService {
         }
         return new ResponseEntity<>(new ResponseModelEspec("Lista de produtos", products), HttpStatus.OK);
     }
-
 
     public ResponseEntity<ResponseModel> details(@PathVariable Long id) {
         Optional<Product> products = productRepository.findById(id);
@@ -83,10 +82,10 @@ public class ProductService {
     public ResponseEntity<ResponseModel> delete(@PathVariable Long id) {
         try {
             if (productRepository.existsById(id)) {
-                return new ResponseEntity<>(new ResponseModelEspecNoObject("Produto não encontrado!"), HttpStatus.NOT_FOUND);
+                productRepository.deleteById(id);
+                return new ResponseEntity<>(new ResponseModelEspecNoObject("Produto excluido"), HttpStatus.OK);
             }
-            productRepository.deleteById(id);
-            return new ResponseEntity<>(new ResponseModelEspecNoObject("Produto excluido"), HttpStatus.OK);
+            return new ResponseEntity<>(new ResponseModelEspecNoObject("Produto não encontrado!"), HttpStatus.NOT_FOUND);
         } catch (Error error) {
             error.printStackTrace();
         }
@@ -124,7 +123,7 @@ public class ProductService {
             if (productExists == null) {
                 return new ResponseEntity<>(new ResponseModelEspecNoObject("Produto não encontrado"), HttpStatus.NOT_FOUND);
             }
-            if (productExist(dto.getName())) {
+            if (productRepository.existsByName(dto.getName())) {
                 return new ResponseEntity<>(new ResponseModelEspecNoObject("Produto já existe!"), HttpStatus.BAD_REQUEST);
             }
             productExists.update(dto, categories, cultures);
