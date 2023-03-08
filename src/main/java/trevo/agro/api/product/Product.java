@@ -1,7 +1,6 @@
 package trevo.agro.api.product;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -9,7 +8,6 @@ import org.hibernate.validator.constraints.Length;
 import trevo.agro.api.category.Category;
 import trevo.agro.api.culture.Culture;
 import trevo.agro.api.image.Image;
-
 import java.time.LocalDate;
 import java.util.List;
 
@@ -28,19 +26,17 @@ public class Product {
     private String name;
     @Column(name = "description", columnDefinition = "Text", nullable = false)
     private String description;
-    @Column(name = "area_size", nullable = false)
+    @Column(name = "areaSize", nullable = false)
     @Length(max = 50)
     private String areaSize;
     @Column(name = "date")
-    LocalDate date;
-    @Column(name = "img")
-    private String img;
+    private LocalDate date;
     @ManyToMany
     @JoinTable
             (
-                    name = "TB_PRODUCT_CATEGORY",
-                    joinColumns = {@JoinColumn(name = "product_id", referencedColumnName = "id")},
-                    inverseJoinColumns = {@JoinColumn(name = "category_id", referencedColumnName = "id")}
+            name = "TB_PRODUCT_CATEGORY",
+            joinColumns = {@JoinColumn(name = "product_id", referencedColumnName = "id")},
+            inverseJoinColumns = {@JoinColumn(name = "category_id", referencedColumnName = "id")}
             )
     private List<Category> categories;
     @ManyToMany
@@ -49,9 +45,9 @@ public class Product {
             joinColumns = {@JoinColumn(name = "product_id", referencedColumnName = "id")},
             inverseJoinColumns = {@JoinColumn(name = "culture_id", referencedColumnName = "id")}
 
-    )
+                )
     private List<Culture> cultures;
-    @OneToMany
+    @ManyToMany
     @JoinTable(
             name = "TB_PRODUCT_IMAGE",
             joinColumns = {@JoinColumn(name = "product_id", referencedColumnName = "id")},
@@ -61,29 +57,27 @@ public class Product {
     private List<Image> images;
     private Boolean active;
 
-    public Product(ProductDTO dto, List<Category> categories, List<Culture> cultures,List<Image> images) {
+    public Product(ProductSaveDTO dto, List<Category> categories, List<Culture> cultures, List<Image> images) {
         this.name = dto.getName();
         this.areaSize = dto.getAreaSize();
         this.description = dto.getDescription();
         this.date = LocalDate.now();
-        this.img = dto.getImg();
         this.categories = categories;
         this.cultures = cultures;
         this.images = images;
         this.active = true;
     }
 
-    public Product(ProductDTO dto) {
+    public Product(ProductSaveDTO dto) {
         this.name = dto.getName();
         this.areaSize = dto.areaSize();
         this.description = dto.description();
         this.date = LocalDate.now();
-        this.img = dto.img();
         this.active = true;
     }
 
 
-    public void update(ProductDTO dto, List<Category> categories, List<Culture> cultures) {
+    public void update(ProductSaveDTO dto, List<Category> categories, List<Culture> cultures) {
         if (dto.name() != null) {
             this.name = dto.name();
         }
@@ -92,9 +86,6 @@ public class Product {
         }
         if (dto.description() != null) {
             this.description = dto.description();
-        }
-        if (dto.img() != null) {
-            this.img = dto.img();
         }
         if (categories != null) {
             this.categories = categories;

@@ -11,7 +11,6 @@ import trevo.agro.api.repository.ImageRepository;
 import trevo.agro.api.utils.ImageUtils;
 import trevo.agro.api.utils.ResponseModel;
 import trevo.agro.api.utils.ResponseModelEspecNoObject;
-
 import java.io.IOException;
 import java.util.Optional;
 
@@ -25,20 +24,19 @@ public class ImageService {
                 .name(photo.getOriginalFilename())
                 .type(photo.getContentType())
                 .imageData(ImageUtils.compressImage(photo.getBytes())).build());
-        return new ResponseEntity<>(new ResponseModelEspecNoObject("Imagem salva foi salva como :" + photo.getOriginalFilename()), HttpStatus.OK);
+        return new ResponseEntity<>(new ResponseModelEspecNoObject("Imagem salva foi salva nome : " + image.getName()), HttpStatus.OK);
 
     }
-    public byte[] downloadImage (String fileName){
-        Optional<Image> dbImageData = imageRepository.findByName(fileName);
-        byte[] images = ImageUtils.decompressImage(dbImageData.get().getImageData());
-        return images;
+    public byte[] downloadImage (Long id){
+        Optional<Image> dbImageData = imageRepository.findById(id);
+        return ImageUtils.decompressImage(dbImageData.get().getImageData());
     }
 
     public ResponseEntity<ResponseModel> delete(@PathVariable Long id) {
-        if (imageRepository.findById(id).isPresent()) {
-            imageRepository.deleteById(id);
+        if (imageRepository.existsById(id)) {
+                imageRepository.deleteById(id);
             return new ResponseEntity<>(new ResponseModelEspecNoObject("Imagem excluida"),HttpStatus.OK);
         }
-        return new ResponseEntity<>(new ResponseModelEspecNoObject("Imagem não encontrada"),HttpStatus.OK);
+        return new ResponseEntity<>(new ResponseModelEspecNoObject("Imagem não encontrada"),HttpStatus.BAD_REQUEST);
     }
 }

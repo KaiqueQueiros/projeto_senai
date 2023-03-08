@@ -10,6 +10,5 @@ import java.util.List;
 public interface ProductRepository extends JpaRepository<Product, Long> {
     List<Product> findByIdIn(List<Long> products);
     Boolean existsByName(String name);
-    Boolean existsByDescription(String description);
-    Boolean existsByAreaSize(String areaSize);
+
 }

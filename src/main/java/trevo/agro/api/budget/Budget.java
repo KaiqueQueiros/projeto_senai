@@ -42,9 +42,9 @@ public class Budget {
     @ManyToMany
     @JoinTable
             (
-                    name = "TB_BUDGET_PRODUCT",
-                    joinColumns = {@JoinColumn(name = "budget_id", referencedColumnName = "id")},
-                    inverseJoinColumns = {@JoinColumn(name = "product_id", referencedColumnName = "id")}
+            name = "TB_BUDGET_PRODUCT",
+            joinColumns = {@JoinColumn(name = "budget_id", referencedColumnName = "id")},
+            inverseJoinColumns = {@JoinColumn(name = "product_id", referencedColumnName = "id")}
             )
     private List<Product> products;
 

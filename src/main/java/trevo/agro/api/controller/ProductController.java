@@ -7,7 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import trevo.agro.api.repository.CategoryRepository;
 import trevo.agro.api.repository.CultureRepository;
-import trevo.agro.api.product.ProductDTO;
+import trevo.agro.api.product.ProductSaveDTO;
 import trevo.agro.api.repository.ProductRepository;
 import trevo.agro.api.product.ProductService;
 import trevo.agro.api.utils.ResponseModel;
@@ -25,7 +25,7 @@ public class ProductController {
     private CultureRepository cultureRepository;
 
     @RequestMapping(method = RequestMethod.POST, value = "/register", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<ResponseModel> registerProduct(@RequestBody @Valid ProductDTO dto) {
+    public ResponseEntity<ResponseModel> registerProduct(@RequestBody @Valid ProductSaveDTO dto) {
         return service.register(dto);
     }
 
@@ -35,7 +35,7 @@ public class ProductController {
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public ResponseEntity<ResponseModel> detailsProduct(@PathVariable Long id) {
+    public ResponseEntity<?> detailsProduct(@PathVariable Long id) {
         return service.details(id);
     }
 
@@ -50,7 +50,7 @@ public class ProductController {
     }
 
     @RequestMapping(value = "/update/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.PUT)
-    ResponseEntity<ResponseModel> update(@PathVariable Long id, @RequestBody ProductDTO dto) {
+    ResponseEntity<ResponseModel> update(@PathVariable Long id, @RequestBody ProductSaveDTO dto) {
         return service.update(dto, id);
     }
 

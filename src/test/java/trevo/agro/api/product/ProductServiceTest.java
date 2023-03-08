@@ -24,8 +24,8 @@ public class ProductServiceTest {
         List<Long> categoryList = new ArrayList<>();
         List<Long> cultureList = new ArrayList<>();
         List<Long> imageList = new ArrayList<>();
-        ProductDTO product = new ProductDTO("Condorito 400", "Criado para pulverização em barras", "500",
-                "www.google.com.br",imageList, categoryList, cultureList);
+        ProductSaveDTO product = new ProductSaveDTO("Condorito 400", "Criado para pulverização em barras", "500",
+                imageList, categoryList, cultureList);
         this.service.register(product);
         assertThat(product.getDescription()).isEqualTo("Criado para pulverização em barras");
     }
@@ -35,8 +35,8 @@ public class ProductServiceTest {
         List<Long> categoryList = new ArrayList<>();
         List<Long> cultureList = new ArrayList<>();
         List<Long> imageList = new ArrayList<>();
-        ProductDTO product = new ProductDTO("Condorito 400", "Criado para pulverização em barras", "500",
-                "www.google.com.br",imageList, categoryList, cultureList);
+        ProductSaveDTO product = new ProductSaveDTO("Condorito 400", "Criado para pulverização em barras", "500",
+                imageList, categoryList, cultureList);
         this.service.register(product);
         assertThat(product.getName()).isEqualTo("Condorito 400");
     }
@@ -46,20 +46,10 @@ public class ProductServiceTest {
         List<Long> categoryList = new ArrayList<>();
         List<Long> cultureList = new ArrayList<>();
         List<Long> imageList = new ArrayList<>();
-        ProductDTO product = new ProductDTO("Condorito 400", "Criado para pulverização em barras", "500",
-                "www.google.com.br",imageList, categoryList, cultureList);
+        ProductSaveDTO product = new ProductSaveDTO("Condorito 400", "Criado para pulverização em barras", "500",
+                imageList, categoryList, cultureList);
         this.service.register(product);
         assertThat(product.getAreaSize()).isEqualTo("500");
     }
 
-    @Test
-    public void whenImage_thenPersistenseData() {
-        List<Long> categoryList = new ArrayList<>();
-        List<Long> cultureList = new ArrayList<>();
-        List<Long> imageList = new ArrayList<>();
-        ProductDTO product = new ProductDTO("Condorito 400", "Criado para pulverização em barras", "500",
-                "www.google.com.br", imageList,categoryList, cultureList);
-        this.service.register(product);
-        assertThat(product.getImg()).isEqualTo("www.google.com.br");
-    }
 }

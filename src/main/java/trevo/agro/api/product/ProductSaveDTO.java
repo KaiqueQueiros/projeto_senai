@@ -4,12 +4,11 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.List;
 
-public record ProductDTO(
+public record ProductSaveDTO(
 
         String name,
         String description,
         String areaSize,
-        String img,
         @JsonProperty("categories")
         List<Long> categoryIds,
         @JsonProperty("cultures")
@@ -29,8 +28,6 @@ public record ProductDTO(
         return areaSize;
     }
 
-    public String getImg() {
-        return img;
-    }
+
 }
 

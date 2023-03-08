@@ -8,17 +8,19 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import trevo.agro.api.category.Category;
-import trevo.agro.api.image.Image;
-import trevo.agro.api.repository.CategoryRepository;
 import trevo.agro.api.culture.Culture;
+import trevo.agro.api.image.Image;
+import trevo.agro.api.image.ImageService;
+import trevo.agro.api.repository.CategoryRepository;
 import trevo.agro.api.repository.CultureRepository;
 import trevo.agro.api.repository.ImageRepository;
 import trevo.agro.api.repository.ProductRepository;
 import trevo.agro.api.utils.ResponseModel;
 import trevo.agro.api.utils.ResponseModelEspec;
 import trevo.agro.api.utils.ResponseModelEspecNoObject;
+
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class ProductService {
@@ -30,8 +32,10 @@ public class ProductService {
     private CultureRepository cultureRepository;
     @Autowired
     private ImageRepository imageRepository;
+    @Autowired
+    private ImageService imageService;
 
-    public ResponseEntity<ResponseModel> register(@RequestBody @Valid ProductDTO dto) {
+    public ResponseEntity<ResponseModel> register(@RequestBody @Valid ProductSaveDTO dto) {
         try {
             List<Culture> cultures = cultureRepository.findByIdIn(dto.cultureIds());
             List<Category> categories = categoryRepository.findByIdIn(dto.categoryIds());
@@ -48,13 +52,13 @@ public class ProductService {
             if (dto.getName() == null) {
                 return new ResponseEntity<>(new ResponseModelEspecNoObject("Por favor informe um nome de produto válido!"), HttpStatus.BAD_REQUEST);
             }
-            if (dto.getAreaSize() == null){
-                return new ResponseEntity<>(new ResponseModelEspecNoObject("Favor informe o tamanho de area do produto!"),HttpStatus.BAD_REQUEST);
+            if (dto.getAreaSize() == null) {
+                return new ResponseEntity<>(new ResponseModelEspecNoObject("Favor informe o tamanho de area do produto!"), HttpStatus.BAD_REQUEST);
             }
-            if (dto.getDescription() == null){
-                return new ResponseEntity<>(new ResponseModelEspecNoObject("Favor informe a descrição do produto!"),HttpStatus.BAD_REQUEST);
+            if (dto.getDescription() == null) {
+                return new ResponseEntity<>(new ResponseModelEspecNoObject("Favor informe a descrição do produto!"), HttpStatus.BAD_REQUEST);
             }
-            Product product = new Product(dto, categories, cultures,images);
+            Product product = new Product(dto, categories, cultures, images);
             productRepository.save(product);
             return new ResponseEntity<>(new ResponseModelEspec("Produto foi salvo", dto), HttpStatus.OK);
         } catch (Exception error) {
@@ -71,18 +75,23 @@ public class ProductService {
         return new ResponseEntity<>(new ResponseModelEspec("Lista de produtos", products), HttpStatus.OK);
     }
 
-    public ResponseEntity<ResponseModel> details(@PathVariable Long id) {
-        Optional<Product> products = productRepository.findById(id);
-        if (products.isEmpty()) {
+    public ResponseEntity<?> details(@PathVariable Long id) {
+        Product product = productRepository.findById(id).orElse(null);
+        if (product == null || product.getImages().isEmpty()) {
             return new ResponseEntity<>(new ResponseModelEspecNoObject("Produto não encontrado"), HttpStatus.NOT_FOUND);
         }
-        return new ResponseEntity<>(new ResponseModelEspec("Aqui esta os detalhes deste produto", products), HttpStatus.OK);
+        List<String> list = new ArrayList<>();
+        for (Image image : product.getImages()){
+            list.add ("http://localhost:8080/image/" + image.getId());
+        }
+        ProductImgDto productImgDto = new ProductImgDto(product,list);
+        return new ResponseEntity<>(new ResponseModelEspec("Aqui esta os detalhes deste produto", productImgDto), HttpStatus.OK);
     }
 
     public ResponseEntity<ResponseModel> delete(@PathVariable Long id) {
         try {
             if (productRepository.existsById(id)) {
-                productRepository.deleteById(id);
+                    productRepository.deleteById(id);
                 return new ResponseEntity<>(new ResponseModelEspecNoObject("Produto excluido"), HttpStatus.OK);
             }
             return new ResponseEntity<>(new ResponseModelEspecNoObject("Produto não encontrado!"), HttpStatus.NOT_FOUND);
@@ -95,7 +104,7 @@ public class ProductService {
     public ResponseEntity<ResponseModel> alternarStatus(@PathVariable Long id) {
         Product byId = productRepository.findById(id).orElse(null);
         if (byId == null) {
-            return new ResponseEntity<>(new ResponseModelEspecNoObject("Produto não encontrado"),HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(new ResponseModelEspecNoObject("Produto não encontrado"), HttpStatus.NOT_FOUND);
         }
         Boolean active = byId.getActive();
         if (active) {
@@ -104,10 +113,10 @@ public class ProductService {
             byId.setActive(Boolean.TRUE);
         }
         productRepository.save(byId);
-        return new ResponseEntity<>(new ResponseModelEspecNoObject("Status atual do produto é " + active),HttpStatus.OK);
+        return new ResponseEntity<>(new ResponseModelEspecNoObject("Status atual do produto é " + active), HttpStatus.OK);
     }
 
-    public ResponseEntity<ResponseModel> update(@Valid ProductDTO dto, @PathVariable Long id) {
+    public ResponseEntity<ResponseModel> update(@Valid ProductSaveDTO dto, @PathVariable Long id) {
         try {
             //Sempre que for fazer alguma atualização de produto, será necessario informar
             // novamente qual o tipo de categoria e tipo de cultura do mesmo.
