@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import trevo.agro.api.category.Category;
 import trevo.agro.api.culture.Culture;
 import trevo.agro.api.image.Image;
-import trevo.agro.api.image.ImageService;
 import trevo.agro.api.repository.CategoryRepository;
 import trevo.agro.api.repository.CultureRepository;
 import trevo.agro.api.repository.ImageRepository;
@@ -32,8 +31,6 @@ public class ProductService {
     private CultureRepository cultureRepository;
     @Autowired
     private ImageRepository imageRepository;
-    @Autowired
-    private ImageService imageService;
 
     public ResponseEntity<ResponseModel> register(@RequestBody @Valid ProductSaveDTO dto) {
         try {
@@ -41,10 +38,13 @@ public class ProductService {
             List<Category> categories = categoryRepository.findByIdIn(dto.categoryIds());
             List<Image> images = imageRepository.findByIdIn(dto.imageIds());
             if (cultures.isEmpty()) {
-                return new ResponseEntity<>(new ResponseModelEspecNoObject("Cultura não encontrada"), HttpStatus.NOT_FOUND);
+                return new ResponseEntity<>(new ResponseModelEspecNoObject("Cultura informada não existe"), HttpStatus.BAD_REQUEST);
             }
             if (categories.isEmpty()) {
-                return new ResponseEntity<>(new ResponseModelEspecNoObject("Categoria não encontrada"), HttpStatus.NOT_FOUND);
+                return new ResponseEntity<>(new ResponseModelEspecNoObject("Categoria informada não existe"), HttpStatus.BAD_REQUEST);
+            }
+            if (images.isEmpty()) {
+                return new ResponseEntity<>(new ResponseModelEspecNoObject("Imagem informada não existe"), HttpStatus.BAD_REQUEST);
             }
             if (productRepository.existsByName(dto.getName())) {
                 return new ResponseEntity<>(new ResponseModelEspecNoObject("Produto já existe!"), HttpStatus.BAD_REQUEST);
@@ -72,26 +72,27 @@ public class ProductService {
         if (products.isEmpty()) {
             return new ResponseEntity<>(new ResponseModelEspecNoObject("Não existem produtos cadastrados"), HttpStatus.NOT_FOUND);
         }
+
         return new ResponseEntity<>(new ResponseModelEspec("Lista de produtos", products), HttpStatus.OK);
     }
 
-    public ResponseEntity<?> details(@PathVariable Long id) {
+    public ResponseEntity<ResponseModel> details(@PathVariable Long id) {
         Product product = productRepository.findById(id).orElse(null);
-        if (product == null || product.getImages().isEmpty()) {
+        if (product == null) {
             return new ResponseEntity<>(new ResponseModelEspecNoObject("Produto não encontrado"), HttpStatus.NOT_FOUND);
         }
         List<String> list = new ArrayList<>();
-        for (Image image : product.getImages()){
-            list.add ("http://localhost:8080/image/" + image.getId());
+        for (Image image : product.getImages()) {
+            list.add("http://localhost:8080/image/" + image.getId());
         }
-        ProductImgDto productImgDto = new ProductImgDto(product,list);
+        ProductImgDto productImgDto = new ProductImgDto(product, list);
         return new ResponseEntity<>(new ResponseModelEspec("Aqui esta os detalhes deste produto", productImgDto), HttpStatus.OK);
     }
 
     public ResponseEntity<ResponseModel> delete(@PathVariable Long id) {
         try {
             if (productRepository.existsById(id)) {
-                    productRepository.deleteById(id);
+                  productRepository.deleteById(id);
                 return new ResponseEntity<>(new ResponseModelEspecNoObject("Produto excluido"), HttpStatus.OK);
             }
             return new ResponseEntity<>(new ResponseModelEspecNoObject("Produto não encontrado!"), HttpStatus.NOT_FOUND);

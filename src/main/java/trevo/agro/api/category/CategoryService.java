@@ -7,7 +7,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
+import trevo.agro.api.exceptions.models.NotFoundException;
 import trevo.agro.api.repository.CategoryRepository;
+import trevo.agro.api.repository.ProductRepository;
 import trevo.agro.api.utils.ResponseModel;
 import trevo.agro.api.utils.ResponseModelEspec;
 import trevo.agro.api.utils.ResponseModelEspecNoObject;
@@ -18,6 +20,8 @@ import java.util.Optional;
 public class CategoryService {
     @Autowired
     private CategoryRepository categoryRepository;
+    @Autowired
+    private ProductRepository productRepository;
 
     public ResponseEntity<ResponseModel> register(@RequestBody @Valid CategoryDTO dto) {
         if (categoryRepository.existsByName(dto.getName())) {
@@ -35,16 +39,17 @@ public class CategoryService {
     public ResponseEntity<ResponseModel> list() {
         List<Category> categories = categoryRepository.findAll();
         if (categories.isEmpty()) {
-            return new ResponseEntity<>(new ResponseModelEspecNoObject("Não existem categorias cadastradas"), HttpStatus.NOT_FOUND);
+            throw new NotFoundException("Não existem categorias cadastradas");
         }
         return new ResponseEntity<>(new ResponseModelEspec("Lista de categorias", categories), HttpStatus.OK);
     }
 
     public ResponseEntity<ResponseModel> delete(@PathVariable Long id) {
         try {
+
             Optional<Category> category = categoryRepository.findById(id);
             if (category.isEmpty()) {
-                return new ResponseEntity<>(new ResponseModelEspecNoObject("Categoria não encontrada!"), HttpStatus.NOT_FOUND);
+                throw new NotFoundException("Categoria não encontrada");
             }
             categoryRepository.deleteById(id);
             return new ResponseEntity<>(new ResponseModelEspecNoObject("Categoria excluida!"), HttpStatus.OK);

@@ -38,6 +38,7 @@ public class Product {
             joinColumns = {@JoinColumn(name = "product_id", referencedColumnName = "id")},
             inverseJoinColumns = {@JoinColumn(name = "category_id", referencedColumnName = "id")}
             )
+
     private List<Category> categories;
     @ManyToMany
     @JoinTable(
@@ -47,7 +48,7 @@ public class Product {
 
                 )
     private List<Culture> cultures;
-    @ManyToMany
+    @OneToMany
     @JoinTable(
             name = "TB_PRODUCT_IMAGE",
             joinColumns = {@JoinColumn(name = "product_id", referencedColumnName = "id")},

@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
+import trevo.agro.api.exceptions.models.NotFoundException;
 import trevo.agro.api.repository.CultureRepository;
 import trevo.agro.api.utils.ResponseModel;
 import trevo.agro.api.utils.ResponseModelEspec;
@@ -34,7 +35,8 @@ public class CultureService {
     public ResponseEntity<ResponseModel> list() {
         List<Culture> cultures = cultureRepository.findAll();
         if (cultures.isEmpty()) {
-            return new ResponseEntity<>(new ResponseModelEspecNoObject("Não existem culturas cadastradas!"), HttpStatus.NOT_FOUND);
+            throw new NotFoundException("Não existem culturas cadastradas");
+
         }
         return new ResponseEntity<>(new ResponseModelEspec("Lista de culturas!", cultures), HttpStatus.OK);
     }
@@ -43,10 +45,10 @@ public class CultureService {
         try {
             if (cultureRepository.findById(id).isPresent()) {
                 cultureRepository.deleteById(id);
-                return new ResponseEntity<>(new ResponseModelEspecNoObject("Cultura Excluida!"), HttpStatus.NOT_FOUND);
+                return new ResponseEntity<>(new ResponseModelEspecNoObject("Cultura Excluida!"), HttpStatus.OK);
             }
+            throw new NotFoundException("Cultura inexistente");
 
-            return new ResponseEntity<>(new ResponseModelEspecNoObject("Cultura não encontrada!"), HttpStatus.OK);
         } catch (Error error) {
             error.printStackTrace();
         }
