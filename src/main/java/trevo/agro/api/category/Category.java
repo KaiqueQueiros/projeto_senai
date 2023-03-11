@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
 import trevo.agro.api.culture.CultureDTO;
+import trevo.agro.api.exceptions.models.NotFoundException;
 
 @Getter
 @Setter
@@ -28,12 +29,15 @@ public class Category {
 
 
     public Category(CategoryDTO dto) {
-        this.name = dto.getName();
+        this.name = dto.name();
     }
 
     public void update(CategoryDTO dto) {
         if (dto.name() != null) {
-            this.name = dto.getName().trim();
+            this.name = dto.name().trim();
+        }
+        if (dto.name() == null) {
+            throw new NotFoundException(" Informe o nome de categoria que deseja atualizar");
         }
     }
 

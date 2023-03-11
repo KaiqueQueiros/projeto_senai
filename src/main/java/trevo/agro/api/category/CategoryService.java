@@ -24,17 +24,13 @@ public class CategoryService {
     private ProductRepository productRepository;
 
     public ResponseEntity<ResponseModel> register(@RequestBody @Valid CategoryDTO dto) {
-        if (categoryRepository.existsByName(dto.getName())) {
-            return new ResponseEntity<>(new ResponseModelEspecNoObject("Categoria já existe!"), HttpStatus.BAD_REQUEST);
-        }
-        if (dto.setName() == "") {
-            return new ResponseEntity<>(new ResponseModelEspecNoObject("Informe o nome da categoria!"), HttpStatus.BAD_REQUEST);
+        if (categoryRepository.existsByName(dto.name())) {
+            throw new NotFoundException("Nome de categoria ja existe");
         }
         Category category = new Category(dto);
         categoryRepository.save(category);
         return new ResponseEntity<>(new ResponseModelEspec("Categoria cadastrada!", dto), HttpStatus.OK);
     }
-
 
     public ResponseEntity<ResponseModel> list() {
         List<Category> categories = categoryRepository.findAll();
@@ -45,35 +41,24 @@ public class CategoryService {
     }
 
     public ResponseEntity<ResponseModel> delete(@PathVariable Long id) {
-        try {
-
             Optional<Category> category = categoryRepository.findById(id);
             if (category.isEmpty()) {
                 throw new NotFoundException("Categoria não encontrada");
             }
             categoryRepository.deleteById(id);
             return new ResponseEntity<>(new ResponseModelEspecNoObject("Categoria excluida!"), HttpStatus.OK);
-        } catch (Error error) {
-            error.printStackTrace();
-        }
-        return ResponseEntity.internalServerError().build();
     }
 
     public ResponseEntity<ResponseModel> update(@Valid CategoryDTO dto, @PathVariable Long id) {
-        try {
             Category categories = categoryRepository.findById(id).orElse(null);
-            if (categories == null || dto.getName() == null) {
-                return new ResponseEntity<>(new ResponseModelEspecNoObject("Categoria inexistente ou parametros invalidos!"), HttpStatus.NOT_FOUND);
+            if (categories == null) {
+                throw new NotFoundException("Categoria inexistente");
             }
-            if (categoryRepository.existsByName(dto.getName())) {
+            if (categoryRepository.existsByName(dto.name())) {
                 return new ResponseEntity<>(new ResponseModelEspecNoObject("Nome já existe!"), HttpStatus.BAD_REQUEST);
             }
             categories.update(dto);
             categoryRepository.save(categories);
             return new ResponseEntity<>(new ResponseModelEspecNoObject("Categoria foi atualizada!"), HttpStatus.OK);
-        } catch (Error error) {
-            error.printStackTrace();
-        }
-        return ResponseEntity.internalServerError().build();
     }
 }

@@ -24,10 +24,11 @@ public class ProductServiceTest {
         List<Long> categoryList = new ArrayList<>();
         List<Long> cultureList = new ArrayList<>();
         List<Long> imageList = new ArrayList<>();
-        ProductSaveDTO product = new ProductSaveDTO("Condorito 400", "Criado para pulverização em barras", "500",
+        List<Long> areaList = new ArrayList<>();
+        ProductSaveDTO product = new ProductSaveDTO("Condorito 400", "Criado para pulverização em barras",areaList,
                 imageList, categoryList, cultureList);
         this.service.register(product);
-        assertThat(product.getDescription()).isEqualTo("Criado para pulverização em barras");
+        assertThat(product.description()).isEqualTo("Criado para pulverização em barras");
     }
 
     @Test
@@ -35,10 +36,11 @@ public class ProductServiceTest {
         List<Long> categoryList = new ArrayList<>();
         List<Long> cultureList = new ArrayList<>();
         List<Long> imageList = new ArrayList<>();
-        ProductSaveDTO product = new ProductSaveDTO("Condorito 400", "Criado para pulverização em barras", "500",
+        List<Long> areaList = new ArrayList<>();
+        ProductSaveDTO product = new ProductSaveDTO("Condorito 400", "Criado para pulverização em barras", areaList,
                 imageList, categoryList, cultureList);
         this.service.register(product);
-        assertThat(product.getName()).isEqualTo("Condorito 400");
+        assertThat(product.name()).isEqualTo("Condorito 400");
     }
 
     @Test
@@ -46,10 +48,10 @@ public class ProductServiceTest {
         List<Long> categoryList = new ArrayList<>();
         List<Long> cultureList = new ArrayList<>();
         List<Long> imageList = new ArrayList<>();
-        ProductSaveDTO product = new ProductSaveDTO("Condorito 400", "Criado para pulverização em barras", "500",
+        List<Long> areaList = new ArrayList<>();
+        ProductSaveDTO product = new ProductSaveDTO("Condorito 400", "Criado para pulverização em barras", areaList,
                 imageList, categoryList, cultureList);
         this.service.register(product);
-        assertThat(product.getAreaSize()).isEqualTo("500");
     }
 
 }

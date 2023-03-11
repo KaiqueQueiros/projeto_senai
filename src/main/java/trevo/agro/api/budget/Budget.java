@@ -26,17 +26,17 @@ public class Budget {
     @Length(max = 25)
     private String name;
     @Column(name = "email",nullable = false)
-    @Length(max = 25)
+    @Length(max = 35)
     private String email;
     @Column(name = "phone",nullable = false)
     @Length(max = 15)
     private String phone;
-    @Column(name = "country")
+    @Column(name = "country",nullable = false)
     @Length(max = 20)
     private String country;
     @Column(name = "date")
     private LocalDate date;
-    @Column(name = "company")
+    @Column(name = "company",nullable = false)
     @Length(max = 30)
     private String company;
     @ManyToMany

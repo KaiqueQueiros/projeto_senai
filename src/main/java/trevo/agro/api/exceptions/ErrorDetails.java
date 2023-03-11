@@ -26,4 +26,5 @@ public class ErrorDetails {
         this.status = status;
         this.message = erros;
     }
+
 }

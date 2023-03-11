@@ -8,6 +8,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
+import trevo.agro.api.exceptions.models.NotFoundException;
 
 @Entity
 @Table(name = "tb_culture")
@@ -23,17 +24,18 @@ public class Culture {
     private Long id;
     @Column(name = "name")
     @Length(max = 20)
-    @NotEmpty(message = "O campo nome da cultura é obrigatorio")
-    @NotBlank
     private String name;
 
     public Culture(CultureDTO dto) {
-        this.name = dto.getName();
+        this.name = dto.name();
     }
 
     public void update(CultureDTO dto) {
         if (dto.name() != null) {
-            this.name = dto.getName().trim();
+            this.name = dto.name().trim();
+        }
+        if (dto.name() == null) {
+            throw new NotFoundException("Informe o nome que deseja atualizar");
         }
     }
 }

@@ -21,7 +21,7 @@ public class ImageService {
 
     public ResponseEntity<ResponseModel> uploadImage(@RequestParam MultipartFile photo) throws IOException {
         if (imageRepository.existsByName(photo.getOriginalFilename())) {
-            return new ResponseEntity<>(new ResponseModelEspecNoObject("Imagem ja existe"), HttpStatus.BAD_REQUEST);
+            throw new NotFoundException("Nenhuma imagem encontrada");
         }
         Image image = imageRepository.save(Image.builder()
                 .name(photo.getOriginalFilename())

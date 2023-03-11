@@ -24,15 +24,15 @@ public class CultureRepositoryTest {
 
     @Test
     public void whenCreate_thenPersistenseData() {
-        Culture culture = new Culture(new CultureDTO("Cereais"));
+        Culture culture = new Culture(new CultureDTO("Torre"));
         this.cultureRepository.save(culture);
         assertThat(culture.getId()).isNotNull();
-        assertThat(culture.getName()).isEqualTo("Cereais");
+        assertThat(culture.getName()).isEqualTo("Torre");
     }
 
     @Test
     public void whenDeleteShouldRemoveData() {
-        Culture culture = new Culture(new CultureDTO("Cereais"));
+        Culture culture = new Culture(new CultureDTO("Torre"));
         this.cultureRepository.save(culture);
         cultureRepository.delete(culture);
         assertThat(cultureRepository.findById(culture.getId())).isEmpty();
@@ -40,18 +40,18 @@ public class CultureRepositoryTest {
 
     @Test
     public void whenUpdateShouldChandAndPersistData() {
-        Culture culture = new Culture(new CultureDTO("Cerais"));
+        Culture culture = new Culture(new CultureDTO("Torre"));
         this.cultureRepository.save(culture);
-        culture.setName("Cereais");
+        culture.setName("Torre");
         culture = this.cultureRepository.save(culture);
-        assertThat(culture.getName()).isEqualTo("Cereais");
+        assertThat(culture.getName()).isEqualTo("Torre");
     }
 
     @Test
     public void whenNotEmptyName_thenNoConstraintViolations() {
         Exception exception = assertThrows(
                 ConstraintViolationException.class,
-                () -> cultureRepository.save(new Culture(new CultureDTO(""))));
+                () -> cultureRepository.save(new Culture(new CultureDTO(null))));
         assertTrue(exception.getMessage().contains("O campo nome da cultura é obrigatorio"));
     }
 

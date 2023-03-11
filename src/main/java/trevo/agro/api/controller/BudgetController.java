@@ -42,7 +42,7 @@ public class BudgetController {
     }
 
     @RequestMapping(method = RequestMethod.PUT, value = "/update/{id}")
-    public ResponseEntity<ResponseModel> update(@PathVariable Long id, @RequestBody BudgetDTO dto) {
+    public ResponseEntity<ResponseModel> update(@PathVariable Long id, @RequestBody @Valid BudgetDTO dto) {
         return service.update(dto, id);
     }
 
