@@ -59,11 +59,18 @@ public class ProductService {
     }
 
     public ResponseEntity<ResponseModel> list() {
-        List<Product> products = productRepository.findAll();
-        if (products.isEmpty()) {
-            throw new NotFoundException("Não existem produtos cadastrados");
+        List<Product> productList = productRepository.findAll();
+        List<ProductImgDto> productImgDtoList = new ArrayList<>();
+        for (Product product : productList) {
+            List<String> list = new ArrayList<>();
+            for (Image image : product.getImages()) {
+                list.add("http://localhost:8080/image/" + image.getId());
+            }
+            ProductImgDto productImgDto = new ProductImgDto(product, list);
+            productImgDtoList.add(productImgDto);
         }
-        return new ResponseEntity<>(new ResponseModelEspec("Lista de produtos",products), HttpStatus.OK);
+
+        return new ResponseEntity<>(new ResponseModelEspec("Detalhes de todos os produtos", productImgDtoList), HttpStatus.OK);
     }
     public ResponseEntity<ResponseModel> details(@PathVariable Long id) {
         Product product = productRepository.findById(id).orElse(null);
