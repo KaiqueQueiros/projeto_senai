@@ -8,7 +8,6 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import trevo.agro.api.repository.CategoryRepository;
 import trevo.agro.api.repository.ProductRepository;
-
 import java.util.ArrayList;
 import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -34,12 +33,8 @@ public class ProductRepositoryTest {
 
     @Test
     public void whenDeleteShouldRemoveData() {
-        List<Long> categoryList = new ArrayList<>();
-        List<Long> cultureList = new ArrayList<>();
-        List<Long> imageList = new ArrayList<>();
-        List<Long> areaList = new ArrayList<>();
-        Product product = new Product(new ProductSaveDTO("Condorito ", "Criado para pulverização em barras", areaList,
-                imageList, categoryList, cultureList));
+        Product product = new Product(new ProductSaveDTO("Condorito ", "Criado para pulverização em barras", new ArrayList<>(),
+                new ArrayList<>(), new ArrayList<>(), new ArrayList<>()));
         this.productRepository.save(product);
         productRepository.delete(product);
         assertThat(categoryRepository.findById(product.getId())).isEmpty();
@@ -57,13 +52,8 @@ public class ProductRepositoryTest {
 
     @Test
     public void whenUpdateDescriptionShouldChandAndPersistData() {
-        List<Long> categoryList = new ArrayList<>();
-        List<Long> cultureList = new ArrayList<>();
-        List<Long> imageList = new ArrayList<>();
-        List<Long> areaList = new ArrayList<>();
-
-        Product product = new Product(new ProductSaveDTO("Uniport 2000 Plus", "Criado para pulverização em barras", areaList,
-                imageList,categoryList, cultureList));
+        Product product = new Product(new ProductSaveDTO("Uniport 2000 Plus", "Criado para pulverização em barras", new ArrayList<>(),
+                new ArrayList<>(),new ArrayList<>(), new ArrayList<>()));
         this.productRepository.save(product);
         product.setDescription("Teste de atualização de campo descrição");
         product = this.productRepository.save(product);
