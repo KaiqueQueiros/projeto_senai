@@ -7,55 +7,58 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
+import trevo.agro.api.exceptions.models.BadRequestException;
+import trevo.agro.api.exceptions.models.NotFoundException;
 import trevo.agro.api.product.Product;
 import trevo.agro.api.repository.AreaRepository;
 import trevo.agro.api.repository.ProductRepository;
-import trevo.agro.api.utils.ResponseModel;
 import trevo.agro.api.utils.ResponseModelEspec;
-import trevo.agro.api.utils.ResponseModelEspecNoObject;
-
 import java.util.List;
 
 @Service
 public class AreaService {
-   @Autowired
-   private AreaRepository areaRepository;
-   @Autowired
-   private ProductRepository productRepository;
+    @Autowired
+    private AreaRepository areaRepository;
+    @Autowired
+    private ProductRepository productRepository;
 
-    public ResponseEntity<ResponseModel> register(@RequestBody @Valid AreaDTO dto) {
+    public ResponseEntity<?> register(@RequestBody @Valid AreaDTO dto) {
         Area area = new Area(dto);
+        if (areaRepository.existsBySize(dto.size())) {
+            throw new BadRequestException("Area " + dto.size() + " ja existe");
+        }
         areaRepository.save(area);
-        return new ResponseEntity<>(new ResponseModelEspec("Area cadastrada",dto), HttpStatus.OK);
+        return new ResponseEntity<>(new ResponseModelEspec("Area cadastrada", dto), HttpStatus.OK);
     }
 
-    public ResponseEntity<ResponseModel> list() {
-        if (areaRepository.findAll().isEmpty()){
-            return new ResponseEntity<>(new ResponseModelEspecNoObject("Nenhuma area encontrada"),HttpStatus.NOT_FOUND);
+    public ResponseEntity<?> list() {
+        if (areaRepository.findAll().isEmpty()) {
+            throw new NotFoundException("Nenhuma area encontrada");
         }
-        return new ResponseEntity <>(new ResponseModelEspec("Lista de areas",areaRepository.findAll()),HttpStatus.OK);
+        List<Area> areas = areaRepository.findAll();
+        return new ResponseEntity<>(new ResponseModelEspec("Lista de areas", areas), HttpStatus.OK);
     }
 
-    public ResponseEntity<ResponseModel> update(AreaDTO dto, Long id) {
+    public ResponseEntity<?> update(AreaDTO dto, Long id) {
         Area area = areaRepository.findById(id).orElse(null);
-        if (!areaRepository.existsById(id)){
-            return new ResponseEntity<>(new ResponseModelEspecNoObject("Area com id " + id + " não foi encontrado"),HttpStatus.NOT_FOUND);
+        if (!areaRepository.existsById(id) || area == null) {
+            throw new NotFoundException("Area com id " + id + " não foi encontrado");
         }
-        assert area != null;
         area.update(dto);
         areaRepository.save(area);
-        return new ResponseEntity<>(new ResponseModelEspecNoObject("Area " + dto.size() + " foi atualizada"),HttpStatus.OK);
+        return ResponseEntity.ok().body("Area " + dto.size() + " foi atualizada");
     }
-    public ResponseEntity<ResponseModel> delete(@PathVariable Long id){
+
+    public ResponseEntity<?> delete(@PathVariable Long id) {
         Area area = areaRepository.findById(id).orElse(null);
-        if (!areaRepository.existsById(id)) {
-            return new ResponseEntity<>(new ResponseModelEspecNoObject("Area com id " + id + " não foi encontrado"), HttpStatus.NOT_FOUND);
-        }
         List<Product> productList = productRepository.findByAreas(area);
-        if (productList.isEmpty()){
-            areaRepository.deleteById(id);
-            return new ResponseEntity<>(new ResponseModelEspecNoObject("Area excluida"),HttpStatus.OK);
+        if (!areaRepository.existsById(id)) {
+            throw new NotFoundException("Area com id " + id + " não foi encontrado");
         }
-        return new ResponseEntity<>(new ResponseModelEspecNoObject("Esta relacionada com produtos"),HttpStatus.BAD_REQUEST);
+        if (productList.isEmpty()) {
+            areaRepository.deleteById(id);
+            return ResponseEntity.ok().body("Area excluida");
+        }
+        throw new BadRequestException("Area não pode ser excluida pois esta relacionada com produto");
     }
 }

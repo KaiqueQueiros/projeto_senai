@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
+import trevo.agro.api.exceptions.models.BadRequestException;
 import trevo.agro.api.product.Product;
 
 import java.time.LocalDate;
@@ -55,6 +56,9 @@ public class Budget {
         this.country = dto.country();
         this.date = LocalDate.now();
         this.company = dto.company();
+        if (products.isEmpty()){
+            throw new BadRequestException("É necessário informar pelo menos um produto de interesse");
+        }
         this.products = products;
     }
 

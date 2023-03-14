@@ -1,6 +1,7 @@
 package trevo.agro.api.product;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.persistence.UniqueConstraint;
 import jakarta.validation.constraints.NotEmpty;
 
 import java.util.List;
@@ -23,7 +24,6 @@ public record ProductSaveDTO(
         @JsonProperty("images")
         @NotEmpty(message = "Informe a imagem do produto")
         List<Long> imageIds
-
 ) {
 
 }

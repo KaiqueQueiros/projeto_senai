@@ -15,6 +15,7 @@ import java.util.List;
 @NoArgsConstructor
 
 public class ProductImgDto {
+    Long id;
     String name;
     String description;
     LocalDate date;
@@ -24,6 +25,7 @@ public class ProductImgDto {
     List<String> urlImages;
 
     public ProductImgDto(Product product, List<String> urlImages) {
+        this.id = product.getId();
         this.name = product.getName();
         this.description = product.getDescription();
         this.date = product.getDate();

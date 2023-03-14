@@ -1,9 +1,11 @@
 package trevo.agro.api.category;
 
-import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
+
+import java.util.Optional;
 
 public record CategoryDTO(
-        @NotBlank(message = "O campo nome da categoria é obrigatorio")
+        @NotEmpty(message = "O campo nome da categoria é obrigatorio")
         String name
 ) {
 }

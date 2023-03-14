@@ -22,9 +22,8 @@ public class Category {
     @Column(name = "id")
     private Long id;
     @NotEmpty(message = "O campo nome da categoria é obrigatorio")
-    @Column(name = "name")
+    @Column(name = "name",unique = true,nullable = false)
     @Length(max = 30)
-    @NotBlank
     private String name;
 
 

@@ -18,23 +18,18 @@ import static org.assertj.core.api.Assertions.assertThat;
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 public class ProductRepositoryTest {
     @Autowired
-    private ProductRepository productRepository;
+    ProductRepository productRepository;
     @Autowired
     CategoryRepository categoryRepository;
 
     @Test
     public void whenCreate_thenPersistenseData() {
-        List<Long> categoryList = new ArrayList<>();
-        List<Long> cultureList = new ArrayList<>();
-        List<Long> imageList = new ArrayList<>();
-        List<Long> areaList = new ArrayList<>();
-        Product product = new Product(new ProductSaveDTO("Condorito 400", "Criado para pulverização em barras",
-                 imageList,categoryList, cultureList,areaList));
+        Product product = new Product(new ProductSaveDTO("Condor", "Criado para pulverização em barras",
+                new ArrayList<>(),new ArrayList<>(), new ArrayList<>(),new ArrayList<>()));
         this.productRepository.save(product);
         assertThat(product.getId()).isNotNull();
-        assertThat(product.getName()).isEqualTo("Condorito 400");
+        assertThat(product.getName()).isEqualTo("Condor");
         assertThat(product.getDescription()).isEqualTo("Criado para pulverização em barras");
-
     }
 
     @Test
@@ -43,7 +38,7 @@ public class ProductRepositoryTest {
         List<Long> cultureList = new ArrayList<>();
         List<Long> imageList = new ArrayList<>();
         List<Long> areaList = new ArrayList<>();
-        Product product = new Product(new ProductSaveDTO("Condorito 400", "Criado para pulverização em barras", areaList,
+        Product product = new Product(new ProductSaveDTO("Condorito ", "Criado para pulverização em barras", areaList,
                 imageList, categoryList, cultureList));
         this.productRepository.save(product);
         productRepository.delete(product);
@@ -52,12 +47,8 @@ public class ProductRepositoryTest {
 
     @Test
     public void whenUpdateNameShouldChandAndPersistData() {
-        List<Long> categoryList = new ArrayList<>();
-        List<Long> cultureList = new ArrayList<>();
-        List<Long> imageList = new ArrayList<>();
-        List<Long> areaList = new ArrayList<>();
-        Product product = new Product(new ProductSaveDTO("Condorito 400", "Criado para pulverização em barras", areaList,
-                 imageList,categoryList, cultureList));
+        Product product = new Product(new ProductSaveDTO("Uniport 3030 Canavieiro", "Criado para pulverização em barras", new ArrayList<>(),
+                 new ArrayList<>(),new ArrayList<>(), new ArrayList<>()));
         this.productRepository.save(product);
         product.setName("Condor");
         product = this.productRepository.save(product);
@@ -71,7 +62,7 @@ public class ProductRepositoryTest {
         List<Long> imageList = new ArrayList<>();
         List<Long> areaList = new ArrayList<>();
 
-        Product product = new Product(new ProductSaveDTO("Condorito 400", "Criado para pulverização em barras", areaList,
+        Product product = new Product(new ProductSaveDTO("Uniport 2000 Plus", "Criado para pulverização em barras", areaList,
                 imageList,categoryList, cultureList));
         this.productRepository.save(product);
         product.setDescription("Teste de atualização de campo descrição");
@@ -79,17 +70,6 @@ public class ProductRepositoryTest {
         assertThat(product.getDescription()).isEqualTo("Teste de atualização de campo descrição");
     }
 
-    @Test
-    public void whenUpdateArea_sizeShouldChandAndPersistData() {
-        List<Long> categoryList = new ArrayList<>();
-        List<Long> cultureList = new ArrayList<>();
-        List<Long> imageList = new ArrayList<>();
-        List<Long> areaList = new ArrayList<>();
 
-        Product product = new Product(new ProductSaveDTO("Condorito 400", "Criado para pulverização em barras",areaList,
-                 imageList,categoryList, cultureList));
-        this.productRepository.save(product);
-        product = this.productRepository.save(product);
-    }
 
 }

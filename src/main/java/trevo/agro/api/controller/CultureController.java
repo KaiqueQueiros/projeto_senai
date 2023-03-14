@@ -6,9 +6,8 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import trevo.agro.api.culture.CultureDTO;
-import trevo.agro.api.repository.CultureRepository;
 import trevo.agro.api.culture.CultureService;
-import trevo.agro.api.utils.ResponseModel;
+import trevo.agro.api.repository.CultureRepository;
 
 @RequestMapping("/culture")
 @RestController
@@ -19,22 +18,22 @@ public class CultureController {
     private CultureService service;
 
     @RequestMapping(value = "/register", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
-    public ResponseEntity<ResponseModel> register(@RequestBody @Valid CultureDTO dto) {
+    public ResponseEntity<?> register(@RequestBody @Valid CultureDTO dto) {
         return service.register(dto);
     }
 
     @RequestMapping(value = "/list", method = RequestMethod.GET)
-    public ResponseEntity<ResponseModel> list() {
+    public ResponseEntity<?> list() {
         return service.list();
     }
 
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE)
-    public ResponseEntity<ResponseModel> delete(@PathVariable Long id) {
+    public ResponseEntity<?> delete(@PathVariable Long id) {
         return service.delete(id);
     }
 
     @RequestMapping(value = "/update/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.PUT)
-    ResponseEntity<ResponseModel> update(@PathVariable Long id, @RequestBody CultureDTO dto) {
+    ResponseEntity<?> update(@PathVariable Long id, @RequestBody CultureDTO dto) {
         return service.update(dto, id);
     }
 

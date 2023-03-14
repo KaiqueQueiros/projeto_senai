@@ -22,8 +22,9 @@ public class Culture {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
-    @Column(name = "name")
+    @Column(name = "name",unique = true)
     @Length(max = 20)
+    @NotEmpty(message = "O campo nome da cultura é obrigatorio")
     private String name;
 
     public Culture(CultureDTO dto) {

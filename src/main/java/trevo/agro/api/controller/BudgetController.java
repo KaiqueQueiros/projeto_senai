@@ -6,10 +6,9 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import trevo.agro.api.budget.BudgetDTO;
-import trevo.agro.api.repository.BudgetRepository;
 import trevo.agro.api.budget.BudgetService;
+import trevo.agro.api.repository.BudgetRepository;
 import trevo.agro.api.repository.ProductRepository;
-import trevo.agro.api.utils.ResponseModel;
 
 @RestController
 @RequestMapping("budget")
@@ -22,27 +21,27 @@ public class BudgetController {
     private BudgetService service;
 
     @RequestMapping(method = RequestMethod.POST, value = "/register", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<ResponseModel> register(@RequestBody @Valid BudgetDTO dto) {
+    public ResponseEntity<?> register(@RequestBody @Valid BudgetDTO dto) {
         return service.register(dto);
     }
 
-    @RequestMapping(method = RequestMethod.GET,value = "/list")
-    public ResponseEntity<ResponseModel> list() {
+    @RequestMapping(method = RequestMethod.GET, value = "/list")
+    public ResponseEntity<?> list() {
         return service.list();
     }
 
     @RequestMapping(method = RequestMethod.DELETE, value = "/delete/{id}")
-    public ResponseEntity<ResponseModel> delete(@PathVariable Long id) {
+    public ResponseEntity<?> delete(@PathVariable Long id) {
         return service.delete(id);
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/find/{id}")
-    public ResponseEntity<ResponseModel> detailsClient(@PathVariable Long id) {
+    public ResponseEntity<?> detailsClient(@PathVariable Long id) {
         return service.details(id);
     }
 
     @RequestMapping(method = RequestMethod.PUT, value = "/update/{id}")
-    public ResponseEntity<ResponseModel> update(@PathVariable Long id, @RequestBody @Valid BudgetDTO dto) {
+    public ResponseEntity<?> update(@PathVariable Long id, @RequestBody @Valid BudgetDTO dto) {
         return service.update(dto, id);
     }
 

@@ -19,22 +19,22 @@ public class CategoryController {
     private CategoryService service;
 
     @RequestMapping(value = "/register", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
-    public ResponseEntity<ResponseModel> register(@RequestBody @Valid CategoryDTO dto) {
+    public ResponseEntity<?> register(@RequestBody @Valid CategoryDTO dto) {
         return service.register(dto);
     }
 
     @RequestMapping(value = "/list", method = RequestMethod.GET)
-    public ResponseEntity<ResponseModel> list() {
+    public ResponseEntity<?> list() {
         return service.list();
     }
 
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE)
-    public ResponseEntity<ResponseModel> delete(@PathVariable Long id) {
+    public ResponseEntity<?> delete(@PathVariable Long id) {
         return service.delete(id);
     }
 
     @RequestMapping(value = "/update/{id}", method = RequestMethod.PUT)
-    public ResponseEntity<ResponseModel> update(@PathVariable Long id, @RequestBody CategoryDTO dto) {
+    public ResponseEntity<?> update(@PathVariable Long id, @RequestBody CategoryDTO dto) {
         return service.update(dto, id);
     }
 

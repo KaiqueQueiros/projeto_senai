@@ -1,7 +1,6 @@
 package trevo.agro.api.product;
 
-import com.fasterxml.jackson.annotation.*;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import jakarta.validation.Valid;
 import lombok.Getter;
@@ -12,8 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import trevo.agro.api.area.Area;
 import trevo.agro.api.category.Category;
 import trevo.agro.api.culture.Culture;
+import trevo.agro.api.exceptions.models.BadRequestException;
 import trevo.agro.api.image.Image;
-import trevo.agro.api.repository.CategoryRepository;
 import trevo.agro.api.repository.ProductRepository;
 
 import java.time.LocalDate;
@@ -49,9 +48,9 @@ public class Product {
     @ManyToMany
     @JoinTable
             (
-            name = "TB_PRODUCT_CATEGORY",
-            joinColumns = {@JoinColumn(name = "product_id", referencedColumnName = "id")},
-            inverseJoinColumns = {@JoinColumn(name = "category_id", referencedColumnName = "id")}
+                    name = "TB_PRODUCT_CATEGORY",
+                    joinColumns = {@JoinColumn(name = "product_id", referencedColumnName = "id")},
+                    inverseJoinColumns = {@JoinColumn(name = "category_id", referencedColumnName = "id")}
             )
 
     private List<Category> categories;
@@ -60,7 +59,7 @@ public class Product {
             name = "TB_PRODUCT_CULTURE",
             joinColumns = {@JoinColumn(name = "product_id", referencedColumnName = "id")},
             inverseJoinColumns = {@JoinColumn(name = "culture_id", referencedColumnName = "id")}
-                )
+    )
     private List<Culture> cultures;
     @OneToMany
     @JoinTable(
@@ -68,17 +67,30 @@ public class Product {
             joinColumns = {@JoinColumn(name = "product_id", referencedColumnName = "id")},
             inverseJoinColumns = {@JoinColumn(name = "image_id", referencedColumnName = "id")}
     )
-    @JsonIgnoreProperties({"imageData","type"})
+    @JsonIgnoreProperties({"imageData", "type"})
     private List<Image> images;
     private Boolean active;
 
-    public Product(ProductSaveDTO dto,List<Area> areas, List<Category> categories, List<Culture> cultures, List<Image> images) {
+
+    public Product(ProductSaveDTO dto, List<Area> areas, List<Category> categories, List<Culture> cultures, List<Image> images) {
         this.name = dto.name();
         this.description = dto.description();
         this.date = LocalDate.now();
+        if (areas.isEmpty()) {
+            throw new BadRequestException("Informe uma area válida");
+        }
         this.areas = areas;
+        if (categories.isEmpty()){
+            throw new BadRequestException("Informe uma categoria válida");
+        }
         this.categories = categories;
+        if (cultures.isEmpty()){
+            throw new BadRequestException("Informe uma cultura válida");
+        }
         this.cultures = cultures;
+        if (images.isEmpty()){
+            throw new BadRequestException("Informe uma imagem válida");
+        }
         this.images = images;
         this.active = true;
     }
@@ -90,25 +102,30 @@ public class Product {
         this.active = true;
     }
 
-    public void update(ProductSaveDTO dto, List<Category> categories, List<Culture> cultures,List<Image> images,List<Area> areas) {
+
+    public void update(ProductSaveDTO dto, List<Category> categories, List<Culture> cultures, List<Image> images, List<Area> areas) {
         if (dto.name() != null) {
             this.name = dto.name();
         }
         if (dto.description() != null) {
             this.description = dto.description();
         }
-        if (categories != null) {
-            this.categories = categories;
+        if (areas.isEmpty()) {
+            throw new BadRequestException("Informe uma area válida");
         }
-        if (cultures != null) {
-            this.cultures = cultures;
+        this.areas = areas;
+        if (categories.isEmpty()){
+            throw new BadRequestException("Informe uma categoria válida");
         }
-        if (images != null) {
-            this.images = images;
+        this.categories = categories;
+        if (cultures.isEmpty()){
+            throw new BadRequestException("Informe uma cultura válida");
         }
-        if (areas != null) {
-            this.areas = areas;
+        this.cultures = cultures;
+        if (images.isEmpty()){
+            throw new BadRequestException("Informe uma imagem válida");
         }
+        this.images = images;
 
     }
 }

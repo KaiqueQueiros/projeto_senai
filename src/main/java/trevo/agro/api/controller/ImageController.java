@@ -17,7 +17,7 @@ public class ImageController {
     private ImageService service;
 
     @RequestMapping(method = RequestMethod.POST, value = "/register")
-    public ResponseEntity<ResponseModel> uploadImage(@RequestParam("image") MultipartFile photo) throws IOException {
+    public ResponseEntity<?> uploadImage(@RequestParam("image") MultipartFile photo) throws IOException {
         return service.uploadImage(photo);
     }
 
@@ -29,7 +29,7 @@ public class ImageController {
     }
 
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE)
-    public ResponseEntity<ResponseModel> deletarImagem(@PathVariable Long id) {
+    public ResponseEntity<?> deletarImagem(@PathVariable Long id) {
         return service.delete(id);
 
 

@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
+import trevo.agro.api.exceptions.models.BadRequestException;
 import trevo.agro.api.exceptions.models.NotFoundException;
 import trevo.agro.api.product.Product;
 import trevo.agro.api.repository.BudgetRepository;
@@ -25,15 +26,19 @@ public class BudgetService {
     private BudgetRepository budgetRepository;
 
 
-    public ResponseEntity<ResponseModel> register(@RequestBody @Valid BudgetDTO dto) {
-
+    public ResponseEntity<?> register(@RequestBody @Valid BudgetDTO dto) {
             List<Product> products = productRepository.findByIdIn(dto.productIds());
             Budget budget = new Budget(dto, products);
             budgetRepository.save(budget);
-            return new ResponseEntity<>(new ResponseModelEspec("Registramos seu interesse em nossos produtos, entraremos em contato em breve!", dto), HttpStatus.OK);
+            return new ResponseEntity<>(new ResponseModelEspecNoObject(dto.name() + " Obrigado por solicitar um orçamento em nosso site!" +
+                    " Ficamos felizes em poder ajudá-lo e agradecemos pela confiança em nossos serviços." +
+                    " Para fornecer um orçamento preciso, precisamos avaliar suas necessidades com mais detalhes." +
+                    " Entraremos em contato em breve para obter mais informações e esclarecer quaisquer dúvidas." +
+                    " Nossa equipe está sempre disponível para ajudá-lo no que for preciso." +
+                    " Agradecemos novamente pela sua preferência e aguardamos ansiosamente seu retorno para seguir com a solicitação do orçamento. Atenciosamente, Trevo SA"), HttpStatus.OK);
     }
 
-    public ResponseEntity<ResponseModel> list() {
+    public ResponseEntity<?> list() {
         List<Budget> budgets = budgetRepository.findAll();
         if (budgets.isEmpty()) {
             throw new NotFoundException("Nenhum orçamento encontrado");
@@ -41,32 +46,32 @@ public class BudgetService {
         return new ResponseEntity<>(new ResponseModelEspec("Lista de orçamentos!", budgets), HttpStatus.OK);
     }
 
-    public ResponseEntity<ResponseModel> details(@PathVariable Long id) {
-            Optional<Budget> budget = budgetRepository.findById(id);
-            if (budget.isEmpty()) {
-                throw new NotFoundException("Nenhum orçamento encontrado");
+    public ResponseEntity<?> details(@PathVariable Long id) {
+            Budget budget = budgetRepository.findById(id).orElse(null);
+            if (budget == null) {
+                throw new NotFoundException("Nenhum orçamento com id " + id +"encontrado");
             }
             return new ResponseEntity<>(new ResponseModelEspec("Detalhes do orçamento!", budget), HttpStatus.OK);
     }
 
-    public ResponseEntity<ResponseModel> delete(@PathVariable Long id) {
-        Optional<Budget> budget = budgetRepository.findById(id);
-        if (budget.isEmpty()) {
-            throw new NotFoundException("Nenhum orçamento encontrado");
+    public ResponseEntity<?> delete(@PathVariable Long id) {
+        Budget budget = budgetRepository.findById(id).orElse(null);
+        if (budget == null) {
+            throw new NotFoundException("Orçamento com id " + id +" encontrado");
         }
         budgetRepository.deleteById(id);
         return new ResponseEntity<>(new ResponseModelEspecNoObject("Orçamento excluido!"), HttpStatus.OK);
     }
 
-    public ResponseEntity<ResponseModel> update(@Valid BudgetDTO dto, @PathVariable Long id) {
+    public ResponseEntity<ResponseModel> update(@Valid @RequestBody BudgetDTO dto, @PathVariable Long id) {
             List<Product> products = productRepository.findByIdIn(dto.productIds());
+            Budget budget = budgetRepository.findById(id).orElse(null);
             if (!budgetRepository.existsById(id)) {
-                return new ResponseEntity<>(new ResponseModelEspecNoObject("Orçamento não encontrado!"), HttpStatus.NOT_FOUND);
+               throw new BadRequestException("Orçamento com id "+ id +" não encontrado!");
             }
-            Budget budgetExists = budgetRepository.findById(id).orElse(null);
-            assert budgetExists != null;
-            budgetExists.update(dto, products);
-            budgetRepository.save(budgetExists);
+            assert budget != null;
+            budget.update(dto, products);
+            budgetRepository.save(budget);
             return new ResponseEntity<>(new ResponseModelEspecNoObject("Orçamento foi atualizado!"), HttpStatus.OK);
 
     }
