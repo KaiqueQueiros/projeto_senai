@@ -13,27 +13,33 @@ import trevo.agro.api.product.Product;
 import trevo.agro.api.repository.ImageRepository;
 import trevo.agro.api.repository.ProductRepository;
 import trevo.agro.api.utils.ImageUtils;
-import trevo.agro.api.utils.ResponseModel;
+import trevo.agro.api.utils.ResponseModelEspec;
 import trevo.agro.api.utils.ResponseModelEspecNoObject;
+
 import java.io.IOException;
 import java.util.List;
 
 @Service
 public class ImageService {
     @Autowired
-    private ImageRepository imageRepository;
+    ImageRepository imageRepository;
     @Autowired
-    private ProductRepository productRepository;
+    ProductRepository productRepository;
 
     public ResponseEntity<?> uploadImage(@RequestParam MultipartFile photo) throws IOException {
         if (imageRepository.existsByName(photo.getOriginalFilename())) {
-            throw new NotFoundException("Nenhuma imagem encontrada");
+            throw new NotFoundException("Imagem " + photo.getOriginalFilename() + " já existe");
         }
         Image image = imageRepository.save(Image.builder()
                 .name(photo.getOriginalFilename())
                 .type(photo.getContentType())
                 .imageData(ImageUtils.compressImage(photo.getBytes())).build());
         return new ResponseEntity<>(new ResponseModelEspecNoObject("Imagem salva foi salva nome : " + image.getName()), HttpStatus.OK);
+    }
+
+    public ResponseEntity<?> listImages() {
+        List<Image> images = imageRepository.findAll();
+        return new ResponseEntity<>(new ResponseModelEspec("Detalhes de todos os produtos ", images), HttpStatus.OK);
     }
 
     public byte[] downloadImage(@PathVariable Long id) {
@@ -50,10 +56,9 @@ public class ImageService {
             throw new BadRequestException("Imagem com id " + id + "não encontrada");
         }
         List<Product> productList = productRepository.findByImages(image);
-        if (productList.isEmpty()){
+        if (productList.isEmpty()) {
             imageRepository.deleteById(id);
         }
         throw new BadRequestException("Imagem não pode ser excluida pois esta relacionada com produto");
-
     }
 }

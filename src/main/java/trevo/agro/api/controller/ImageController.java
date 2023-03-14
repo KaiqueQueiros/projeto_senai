@@ -7,7 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import trevo.agro.api.image.ImageService;
-import trevo.agro.api.utils.ResponseModel;
+
 import java.io.IOException;
 
 @RestController
@@ -31,8 +31,11 @@ public class ImageController {
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE)
     public ResponseEntity<?> deletarImagem(@PathVariable Long id) {
         return service.delete(id);
+    }
 
-
+    @GetMapping(value = "/list")
+    public ResponseEntity<?> list() {
+        return service.listImages();
     }
 
 }

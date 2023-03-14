@@ -7,15 +7,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import trevo.agro.api.culture.CultureDTO;
 import trevo.agro.api.culture.CultureService;
-import trevo.agro.api.repository.CultureRepository;
 
 @RequestMapping("/culture")
 @RestController
 public class CultureController {
     @Autowired
-    private CultureRepository repository;
-    @Autowired
-    private CultureService service;
+    CultureService service;
 
     @RequestMapping(value = "/register", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
     public ResponseEntity<?> register(@RequestBody @Valid CultureDTO dto) {
@@ -36,6 +33,4 @@ public class CultureController {
     ResponseEntity<?> update(@PathVariable Long id, @RequestBody CultureDTO dto) {
         return service.update(dto, id);
     }
-
-
 }

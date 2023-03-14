@@ -12,10 +12,8 @@ import trevo.agro.api.product.Product;
 import trevo.agro.api.product.ProductSaveDTO;
 import trevo.agro.api.repository.CategoryRepository;
 import trevo.agro.api.repository.ProductRepository;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import static org.aspectj.bridge.MessageUtil.fail;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -69,7 +67,6 @@ public class CategoryServiceTest {
         categoryId.add(category.getId());
         Product product = new Product(new ProductSaveDTO("Produto 1", "Teste", new ArrayList<>(), categoryId, new ArrayList<>(), new ArrayList<>()));
         productRepository.save(product);
-
         try {
             categoryRepository.deleteById(category.getId());
             fail("A exceção de violação de restrição não foi lançada.");

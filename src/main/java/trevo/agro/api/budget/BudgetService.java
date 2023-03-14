@@ -9,12 +9,16 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import trevo.agro.api.exceptions.models.BadRequestException;
 import trevo.agro.api.exceptions.models.NotFoundException;
+import trevo.agro.api.image.Image;
 import trevo.agro.api.product.Product;
+import trevo.agro.api.product.ProductImgDTO;
 import trevo.agro.api.repository.BudgetRepository;
 import trevo.agro.api.repository.ProductRepository;
 import trevo.agro.api.utils.ResponseModel;
 import trevo.agro.api.utils.ResponseModelEspec;
 import trevo.agro.api.utils.ResponseModelEspecNoObject;
+
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -39,11 +43,11 @@ public class BudgetService {
     }
 
     public ResponseEntity<?> list() {
-        List<Budget> budgets = budgetRepository.findAll();
-        if (budgets.isEmpty()) {
-            throw new NotFoundException("Nenhum orçamento encontrado");
+        List<Budget> budgetList = budgetRepository.findAll();
+        if (budgetList.isEmpty()) {
+            throw new NotFoundException("Não existem orçamentos cadastrados");
         }
-        return new ResponseEntity<>(new ResponseModelEspec("Lista de orçamentos!", budgets), HttpStatus.OK);
+        return ResponseEntity.ok(new ResponseModelEspec("Detalhes de todos os orçamentos", budgetList));
     }
 
     public ResponseEntity<?> details(@PathVariable Long id) {

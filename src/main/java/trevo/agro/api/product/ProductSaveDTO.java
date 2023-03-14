@@ -1,7 +1,6 @@
 package trevo.agro.api.product;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import jakarta.persistence.UniqueConstraint;
 import jakarta.validation.constraints.NotEmpty;
 
 import java.util.List;

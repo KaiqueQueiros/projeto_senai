@@ -14,7 +14,7 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 
-public class ProductImgDto {
+public class ProductImgDTO {
     Long id;
     String name;
     String description;
@@ -23,8 +23,9 @@ public class ProductImgDto {
     List<Culture> cultures;
     List<Area> areas;
     List<String> urlImages;
+    Boolean status;
 
-    public ProductImgDto(Product product, List<String> urlImages) {
+    public ProductImgDTO(Product product, List<String> urlImages) {
         this.id = product.getId();
         this.name = product.getName();
         this.description = product.getDescription();
@@ -33,6 +34,7 @@ public class ProductImgDto {
         this.cultures = product.getCultures();
         this.areas = product.getAreas();
         this.urlImages = urlImages;
+        this.status = product.getActive();
     }
 
 }

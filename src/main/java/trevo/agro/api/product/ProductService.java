@@ -1,6 +1,5 @@
 package trevo.agro.api.product;
 
-import jakarta.persistence.criteria.Order;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -51,21 +50,24 @@ public class ProductService {
         return new ResponseEntity<>(new ResponseModelEspecNoObject("Produto " + dto.name() + " cadastrado"), HttpStatus.OK);
     }
 
-    public ResponseEntity<ResponseModel> list() {
+    public ResponseEntity<?> list() {
         List<Product> productList = productRepository.findAll();
-        List<ProductImgDto> productImgDtoList = new ArrayList<>();
+        if (productList.isEmpty()){
+            throw new NotFoundException("Não existem produtos cadastrados");
+        }
+        List<ProductImgDTO> productImgDTOList = new ArrayList<>();
         for (Product product : productList) {
             List<String> list = new ArrayList<>();
             for (Image image : product.getImages()) {
                 list.add("http://localhost:8080/image/" + image.getId());
             }
-            ProductImgDto productImgDto = new ProductImgDto(product, list);
-            productImgDtoList.add(productImgDto);
+            ProductImgDTO productImgDto = new ProductImgDTO(product, list);
+            productImgDTOList.add(productImgDto);
         }
 
-        return new ResponseEntity<>(new ResponseModelEspec("Detalhes de todos os produtos", productImgDtoList), HttpStatus.OK);
+        return new ResponseEntity<>(new ResponseModelEspec("Detalhes de todos os produtos", productImgDTOList), HttpStatus.OK);
     }
-    public ResponseEntity<ResponseModel> details(@PathVariable Long id) {
+    public ResponseEntity<?> details(@PathVariable Long id) {
         Product product = productRepository.findById(id).orElse(null);
         if (product == null) {
             return new ResponseEntity<>(new ResponseModelEspecNoObject("Produto de id " + id + " não existe"),HttpStatus.BAD_REQUEST);
@@ -74,11 +76,11 @@ public class ProductService {
         for (Image image : product.getImages()) {
             list.add("http://localhost:8080/image/" + image.getId());
         }
-        ProductImgDto productImgDto = new ProductImgDto(product, list);
+        ProductImgDTO productImgDto = new ProductImgDTO(product, list);
         return new ResponseEntity<>(new ResponseModelEspec("Detalhes do produto " + product.getName(), productImgDto), HttpStatus.OK);
     }
 
-    public ResponseEntity<ResponseModel> delete(@PathVariable Long id) {
+    public ResponseEntity<?> delete(@PathVariable Long id) {
         Product product = productRepository.findById(id).orElse(null);
         List<Budget> budgetList = budgetRepository.findByProducts(product);
         if (!productRepository.existsById(id)) {
@@ -91,7 +93,7 @@ public class ProductService {
         throw new BadRequestException("Não foi possivel excluir esse produto pois o mesmo possui relacionamento com pedidos");
     }
 
-    public ResponseEntity<ResponseModel> alternarStatus(@PathVariable Long id) {
+    public ResponseEntity<?> alternarStatus(@PathVariable Long id) {
         Product byId = productRepository.findById(id).orElse(null);
         if (byId == null) {
             throw  new NotFoundException ("Produto não encontrado");
@@ -106,7 +108,7 @@ public class ProductService {
         return new ResponseEntity<>(new ResponseModelEspecNoObject("Status atual do produto é " + status), HttpStatus.OK);
     }
 
-    public ResponseEntity<ResponseModel> update(@RequestBody @Valid ProductSaveDTO dto, @PathVariable Long id) {
+    public ResponseEntity<?> update(@RequestBody @Valid ProductSaveDTO dto, @PathVariable Long id) {
         List<Culture> cultures = cultureRepository.findByIdIn(dto.cultureIds());
         List<Category> categories = categoryRepository.findByIdIn(dto.categoryIds());
         List<Image> images = imageRepository.findByIdIn(dto.imageIds());

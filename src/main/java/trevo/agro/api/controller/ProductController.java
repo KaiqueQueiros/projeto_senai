@@ -5,32 +5,22 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import trevo.agro.api.repository.CategoryRepository;
-import trevo.agro.api.repository.CultureRepository;
 import trevo.agro.api.product.ProductSaveDTO;
-import trevo.agro.api.repository.ProductRepository;
 import trevo.agro.api.product.ProductService;
-import trevo.agro.api.utils.ResponseModel;
 
 @RestController
 @RequestMapping("product")
 public class ProductController {
     @Autowired
-    private ProductService service;
-    @Autowired
-    private ProductRepository repository;
-    @Autowired
-    private CategoryRepository categoryRepository;
-    @Autowired
-    private CultureRepository cultureRepository;
+    ProductService service;
 
     @RequestMapping(method = RequestMethod.POST, value = "/register", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<ResponseModel> registerProduct(@RequestBody @Valid ProductSaveDTO dto) {
+    public ResponseEntity<?> registerProduct(@RequestBody @Valid ProductSaveDTO dto) {
         return service.register(dto);
     }
 
     @RequestMapping(value = "/list", method = RequestMethod.GET)
-    public ResponseEntity<ResponseModel> list() {
+    public ResponseEntity<?> list() {
         return service.list();
     }
 
@@ -40,17 +30,17 @@ public class ProductController {
     }
 
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE)
-    ResponseEntity<ResponseModel> deleteProduct(@PathVariable Long id) {
+    ResponseEntity<?> deleteProduct(@PathVariable Long id) {
         return service.delete(id);
     }
 
     @RequestMapping(value = "/status/{id}", method = RequestMethod.PUT)
-    ResponseEntity<ResponseModel> statusProduct(@PathVariable Long id) {
+    ResponseEntity<?> statusProduct(@PathVariable Long id) {
         return service.alternarStatus(id);
     }
 
     @RequestMapping(value = "/update/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.PUT)
-    ResponseEntity<ResponseModel> update(@PathVariable Long id, @RequestBody ProductSaveDTO dto) {
+    ResponseEntity<?> update(@PathVariable Long id, @RequestBody ProductSaveDTO dto) {
         return service.update(dto, id);
     }
 

@@ -7,16 +7,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import trevo.agro.api.budget.BudgetDTO;
 import trevo.agro.api.budget.BudgetService;
-import trevo.agro.api.repository.BudgetRepository;
-import trevo.agro.api.repository.ProductRepository;
 
 @RestController
 @RequestMapping("budget")
 public class BudgetController {
-    @Autowired
-    private BudgetRepository repository;
-    @Autowired
-    private ProductRepository productRepository;
     @Autowired
     private BudgetService service;
 

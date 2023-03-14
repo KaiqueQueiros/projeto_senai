@@ -45,7 +45,7 @@ public class Product {
             )
     private List<Area> areas;
 
-    @ManyToMany
+    @OneToMany
     @JoinTable
             (
                     name = "TB_PRODUCT_CATEGORY",

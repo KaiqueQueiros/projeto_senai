@@ -6,17 +6,14 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import trevo.agro.api.category.CategoryDTO;
-import trevo.agro.api.repository.CategoryRepository;
 import trevo.agro.api.category.CategoryService;
-import trevo.agro.api.utils.ResponseModel;
 
 @RestController
 @RequestMapping(path = "/category")
 public class CategoryController {
+
     @Autowired
-    private CategoryRepository repository;
-    @Autowired
-    private CategoryService service;
+    CategoryService service;
 
     @RequestMapping(value = "/register", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
     public ResponseEntity<?> register(@RequestBody @Valid CategoryDTO dto) {

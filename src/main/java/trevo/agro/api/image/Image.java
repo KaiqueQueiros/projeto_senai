@@ -1,8 +1,8 @@
 package trevo.agro.api.image;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.annotations.Type;
 
 @Entity
 @Table(name = "tb_image")
@@ -16,12 +16,13 @@ public class Image {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
-    @Column(name = "name",length = 30)
+    @Column(name = "name", length = 30)
     private String name;
-    @Column(name = "type",length = 30)
+    @Column(name = "type", length = 30)
     private String type;
     @Lob
     @Column(name = "imagedata", length = 1000)
+    @JsonIgnore
     private byte[] imageData;
 
 
