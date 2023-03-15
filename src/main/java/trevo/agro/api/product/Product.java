@@ -7,14 +7,11 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
-import org.springframework.beans.factory.annotation.Autowired;
 import trevo.agro.api.area.Area;
 import trevo.agro.api.category.Category;
 import trevo.agro.api.culture.Culture;
 import trevo.agro.api.exceptions.models.BadRequestException;
 import trevo.agro.api.image.Image;
-import trevo.agro.api.repository.ProductRepository;
-
 import java.time.LocalDate;
 import java.util.List;
 
@@ -37,22 +34,19 @@ public class Product {
     @Column(name = "date")
     private LocalDate date;
     @ManyToMany
-    @JoinTable
-            (
-                    name = "TB_PRODUCT_AREA",
-                    joinColumns = {@JoinColumn(name = "product_id", referencedColumnName = "id")},
-                    inverseJoinColumns = {@JoinColumn(name = "area_id", referencedColumnName = "id")}
-            )
+    @JoinTable(
+            name = "TB_PRODUCT_AREA",
+            joinColumns = {@JoinColumn(name = "product_id", referencedColumnName = "id")},
+            inverseJoinColumns = {@JoinColumn(name = "area_id", referencedColumnName = "id")}
+    )
     private List<Area> areas;
 
     @OneToMany
-    @JoinTable
-            (
-                    name = "TB_PRODUCT_CATEGORY",
-                    joinColumns = {@JoinColumn(name = "product_id", referencedColumnName = "id")},
-                    inverseJoinColumns = {@JoinColumn(name = "category_id", referencedColumnName = "id")}
-            )
-
+    @JoinTable(
+            name = "TB_PRODUCT_CATEGORY",
+            joinColumns = {@JoinColumn(name = "product_id", referencedColumnName = "id")},
+            inverseJoinColumns = {@JoinColumn(name = "category_id", referencedColumnName = "id")}
+    )
     private List<Category> categories;
     @ManyToMany
     @JoinTable(
@@ -80,15 +74,15 @@ public class Product {
             throw new BadRequestException("Informe uma area válida");
         }
         this.areas = areas;
-        if (categories.isEmpty()){
+        if (categories.isEmpty()) {
             throw new BadRequestException("Informe uma categoria válida");
         }
         this.categories = categories;
-        if (cultures.isEmpty()){
+        if (cultures.isEmpty()) {
             throw new BadRequestException("Informe uma cultura válida");
         }
         this.cultures = cultures;
-        if (images.isEmpty()){
+        if (images.isEmpty()) {
             throw new BadRequestException("Informe uma imagem válida");
         }
         this.images = images;
@@ -114,15 +108,15 @@ public class Product {
             throw new BadRequestException("Informe uma area válida");
         }
         this.areas = areas;
-        if (categories.isEmpty()){
+        if (categories.isEmpty()) {
             throw new BadRequestException("Informe uma categoria válida");
         }
         this.categories = categories;
-        if (cultures.isEmpty()){
+        if (cultures.isEmpty()) {
             throw new BadRequestException("Informe uma cultura válida");
         }
         this.cultures = cultures;
-        if (images.isEmpty()){
+        if (images.isEmpty()) {
             throw new BadRequestException("Informe uma imagem válida");
         }
         this.images = images;

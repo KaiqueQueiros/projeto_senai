@@ -1,9 +1,9 @@
 package trevo.agro.api.area;
 
-import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
 
 public record AreaDTO(
-        @NotBlank(message = "Tamanho de area obrigatoria")
+        @NotEmpty(message = "Tamanho de area obrigatoria")
         String size
 ) {
 }

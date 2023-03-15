@@ -62,6 +62,14 @@ public class Budget {
         this.products = products;
     }
 
+    public Budget(BudgetDTO budgetDTO) {
+        this.name = budgetDTO.name();
+        this.email = budgetDTO.email();
+        this.phone = budgetDTO.phone();
+        this.country = budgetDTO.country();
+        this.company = budgetDTO.company();
+    }
+
     public void update(BudgetDTO dto, List<Product> products) {
         if (dto.name() != null) {
             this.name = dto.name();

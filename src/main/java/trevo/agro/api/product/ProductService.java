@@ -18,7 +18,6 @@ import trevo.agro.api.repository.*;
 import trevo.agro.api.utils.ResponseModel;
 import trevo.agro.api.utils.ResponseModelEspec;
 import trevo.agro.api.utils.ResponseModelEspecNoObject;
-
 import java.util.ArrayList;
 import java.util.List;
 
