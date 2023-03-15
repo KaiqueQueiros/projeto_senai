@@ -9,7 +9,7 @@ Possibilitando a requisição de orçamentos dos produtos disponibilizados pela 
 
 
 - Documentação da API com swagger [clique aqui.](http://localhost:8080/swagger-ui/index.html)
-- Trello [clique aqui.](https://trello.com/b/0Pf03pNd/backend-1)
+- Trello [clique aqui.](https://trello.com/b/k1HOD0Xz/kanban-projeto-trevo)
 - Diagrama do banco de dados [clique aqui.](https://github.com/KaiqueQueiros/trevo_agro/blob/master/src/main/Documentos/MER.png)
 
 
