@@ -13,11 +13,11 @@
 
 ## Cronograma
 
-- [x] - Definição de requisitos 
-- [x] - Metodologia agil usando Trello
-- [x] - Especificação de estrutura do banco de dados
-- [x] - Preparação de ferramentas utilizadas InteliJ
-- [x] - Implementação dos dados na api
-- [x] - Relacionamentos entre entidades
-- [x] - Testes em produção
-- [x] - Testes unitarios usando Junit
+- [x] Definição de requisitos 
+- [x] Metodologia agil usando Trello
+- [x] Especificação de estrutura do banco de dados
+- [x] Preparação de ferramentas utilizadas InteliJ
+- [x] Implementação dos dados na api
+- [x] Relacionamentos entre entidades
+- [x] Testes em produção
+- [x] Testes unitarios usando Junit
