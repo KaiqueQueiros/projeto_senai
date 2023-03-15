@@ -1,4 +1,6 @@
 # Projeto Trevo api
+Este projeto foi criado com intuito efetuar cadastro e consulta de produtos oferecidos pela industria Trevo. Com esta api, os usuarios poderão consultar informações sobre os produtos.
+Possibilitando a requisição de orçamentos dos produtos disponibilizados pela empresa. 
 
 ## Ferramentas utilizadas de apoio
 - Java 17
