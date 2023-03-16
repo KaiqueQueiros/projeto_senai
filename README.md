@@ -3,7 +3,7 @@ Este projeto foi criado com intuito efetuar cadastros e consultas de produtos of
 Possibilitando a requisição de orçamentos dos produtos disponibilizados pela empresa. 
 
 ## Ferramentas utilizadas de apoio
-- Java 17
+- Java 19
 - Spring boot 3.0.2
 - PostgreSql
 
