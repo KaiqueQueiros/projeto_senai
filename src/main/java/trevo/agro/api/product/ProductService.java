@@ -46,7 +46,7 @@ public class ProductService {
         }
         Product product = new Product(dto, areas, categories, cultures, images);
         productRepository.save(product);
-        return new ResponseEntity<>(new ResponseModelEspecNoObject("Produto " + dto.name() + " cadastrado"), HttpStatus.OK);
+        return new ResponseEntity<>(new ResponseModelEspecNoObject("Produto " + dto.name() + " foi cadastrado"), HttpStatus.OK);
     }
 
     public ResponseEntity<?> list() {

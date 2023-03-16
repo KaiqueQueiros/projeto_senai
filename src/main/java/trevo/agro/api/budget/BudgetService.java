@@ -53,7 +53,7 @@ public class BudgetService {
     public ResponseEntity<?> details(@PathVariable Long id) {
             Budget budget = budgetRepository.findById(id).orElse(null);
             if (budget == null) {
-                throw new NotFoundException("Nenhum orçamento com id " + id +"encontrado");
+                throw new NotFoundException("Nenhum orçamento com id " + id +" encontrado");
             }
             return new ResponseEntity<>(new ResponseModelEspec("Detalhes do orçamento!", budget), HttpStatus.OK);
     }
@@ -61,7 +61,7 @@ public class BudgetService {
     public ResponseEntity<?> delete(@PathVariable Long id) {
         Budget budget = budgetRepository.findById(id).orElse(null);
         if (budget == null) {
-            throw new NotFoundException("Orçamento com id " + id +" encontrado");
+            throw new NotFoundException("Orçamento com id " + id +" não encontrado");
         }
         budgetRepository.deleteById(id);
         return new ResponseEntity<>(new ResponseModelEspecNoObject("Orçamento excluido!"), HttpStatus.OK);
@@ -71,7 +71,7 @@ public class BudgetService {
             List<Product> products = productRepository.findByIdIn(dto.productIds());
             Budget budget = budgetRepository.findById(id).orElse(null);
             if (!budgetRepository.existsById(id)) {
-               throw new BadRequestException("Orçamento com id "+ id +" não encontrado!");
+               throw new BadRequestException("Orçamento com id "+ id + " não encontrado!");
             }
             assert budget != null;
             budget.update(dto, products);

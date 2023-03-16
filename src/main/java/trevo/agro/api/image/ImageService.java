@@ -53,7 +53,7 @@ public class ImageService {
     public ResponseEntity<?> delete(@PathVariable Long id) {
         Image image = imageRepository.findById(id).orElse(null);
         if (!imageRepository.existsById(id)) {
-            throw new BadRequestException("Imagem com id " + id + "não encontrada");
+            throw new BadRequestException("Imagem com id " + id + " não encontrada");
         }
         List<Product> productList = productRepository.findByImages(image);
         if (productList.isEmpty()) {
