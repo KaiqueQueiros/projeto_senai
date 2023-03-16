@@ -1,0 +1,143 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > ProductImgDTO</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">trevo.agro.api.product</a>
+</div>
+
+<h1>Coverage Summary for Class: ProductImgDTO (trevo.agro.api.product)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ProductImgDTO</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/12)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/21)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package trevo.agro.api.product;
+&nbsp;
+&nbsp;import lombok.Getter;
+&nbsp;import lombok.NoArgsConstructor;
+&nbsp;import lombok.Setter;
+&nbsp;import trevo.agro.api.area.Area;
+&nbsp;import trevo.agro.api.category.Category;
+&nbsp;import trevo.agro.api.culture.Culture;
+&nbsp;
+&nbsp;import java.time.LocalDate;
+&nbsp;import java.util.List;
+&nbsp;
+&nbsp;@Getter
+<b class="nc">&nbsp;@Setter</b>
+<b class="nc">&nbsp;@NoArgsConstructor</b>
+&nbsp;
+&nbsp;public class ProductImgDTO {
+<b class="nc">&nbsp;    Long id;</b>
+<b class="nc">&nbsp;    String name;</b>
+<b class="nc">&nbsp;    String description;</b>
+<b class="nc">&nbsp;    LocalDate date;</b>
+<b class="nc">&nbsp;    List&lt;Category&gt; categories;</b>
+<b class="nc">&nbsp;    List&lt;Culture&gt; cultures;</b>
+<b class="nc">&nbsp;    List&lt;Area&gt; areas;</b>
+<b class="nc">&nbsp;    List&lt;String&gt; urlImages;</b>
+<b class="nc">&nbsp;    Boolean status;</b>
+&nbsp;
+<b class="nc">&nbsp;    public ProductImgDTO(Product product, List&lt;String&gt; urlImages) {</b>
+<b class="nc">&nbsp;        this.id = product.getId();</b>
+<b class="nc">&nbsp;        this.name = product.getName();</b>
+<b class="nc">&nbsp;        this.description = product.getDescription();</b>
+<b class="nc">&nbsp;        this.date = product.getDate();</b>
+<b class="nc">&nbsp;        this.categories = product.getCategories();</b>
+<b class="nc">&nbsp;        this.cultures = product.getCultures();</b>
+<b class="nc">&nbsp;        this.areas = product.getAreas();</b>
+<b class="nc">&nbsp;        this.urlImages = urlImages;</b>
+<b class="nc">&nbsp;        this.status = product.getActive();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-03-15 20:30</div>
+</div>
+</body>
+</html>

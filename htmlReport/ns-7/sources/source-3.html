@@ -1,0 +1,171 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > CultureService</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">trevo.agro.api.culture</a>
+</div>
+
+<h1>Coverage Summary for Class: CultureService (trevo.agro.api.culture)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">CultureService</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    20%
+  </span>
+  <span class="absValue">
+    (1/5)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    4,2%
+  </span>
+  <span class="absValue">
+    (1/24)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package trevo.agro.api.culture;
+&nbsp;
+&nbsp;import jakarta.validation.Valid;
+&nbsp;import org.springframework.beans.factory.annotation.Autowired;
+&nbsp;import org.springframework.http.HttpStatus;
+&nbsp;import org.springframework.http.ResponseEntity;
+&nbsp;import org.springframework.stereotype.Service;
+&nbsp;import org.springframework.web.bind.annotation.PathVariable;
+&nbsp;import org.springframework.web.bind.annotation.RequestBody;
+&nbsp;import trevo.agro.api.exceptions.models.BadRequestException;
+&nbsp;import trevo.agro.api.exceptions.models.NotFoundException;
+&nbsp;import trevo.agro.api.product.Product;
+&nbsp;import trevo.agro.api.repository.CultureRepository;
+&nbsp;import trevo.agro.api.repository.ProductRepository;
+&nbsp;import trevo.agro.api.utils.ResponseModelEspec;
+&nbsp;import trevo.agro.api.utils.ResponseModelEspecNoObject;
+&nbsp;
+&nbsp;import java.util.List;
+&nbsp;
+&nbsp;@Service
+<b class="fc">&nbsp;public class CultureService {</b>
+&nbsp;    @Autowired
+&nbsp;    private CultureRepository cultureRepository;
+&nbsp;    @Autowired
+&nbsp;    private ProductRepository productRepository;
+&nbsp;
+&nbsp;    public ResponseEntity&lt;?&gt; register(@RequestBody @Valid CultureDTO dto) {
+<b class="nc">&nbsp;        if (cultureRepository.existsByName(dto.name())) {</b>
+<b class="nc">&nbsp;            throw new BadRequestException(&quot;Nome &quot; + dto.name() + &quot; ja existe&quot;);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        Culture culture = new Culture(dto);</b>
+<b class="nc">&nbsp;        cultureRepository.save(culture);</b>
+<b class="nc">&nbsp;        return new ResponseEntity&lt;&gt;(new ResponseModelEspec(&quot;Cultura cadastrada!&quot;, dto), HttpStatus.OK);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public ResponseEntity&lt;?&gt; list() {
+<b class="nc">&nbsp;        List&lt;Culture&gt; cultures = cultureRepository.findAll();</b>
+<b class="nc">&nbsp;        if (cultures.isEmpty()) {</b>
+<b class="nc">&nbsp;            throw new NotFoundException(&quot;Nenhuma cultura cadastrada&quot;);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        return new ResponseEntity&lt;&gt;(new ResponseModelEspec(&quot;Lista de culturas!&quot;, cultures), HttpStatus.OK);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public ResponseEntity&lt;?&gt; delete(@PathVariable Long id) {
+<b class="nc">&nbsp;        Culture culture = cultureRepository.findById(id).orElse(null);</b>
+<b class="nc">&nbsp;        List&lt;Product&gt; productList = productRepository.findByCultures(culture);</b>
+<b class="nc">&nbsp;        if (!cultureRepository.existsById(id)) {</b>
+<b class="nc">&nbsp;            throw new BadRequestException(&quot;Cultura com id &quot; + id + &quot;não encontrada&quot;);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        if (productList.isEmpty()) {</b>
+<b class="nc">&nbsp;            cultureRepository.deleteById(id);</b>
+<b class="nc">&nbsp;            return new ResponseEntity&lt;&gt;(new ResponseModelEspecNoObject(&quot;Cultura excluida&quot;), HttpStatus.OK);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        throw new BadRequestException(&quot;Não é possivel excluir a cultura pois esta relacionada com produtos&quot;);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public ResponseEntity&lt;?&gt; update(@Valid CultureDTO dto, @PathVariable Long id) {
+<b class="nc">&nbsp;        Culture cultureExists = cultureRepository.findById(id).orElse(null);</b>
+<b class="nc">&nbsp;        if (cultureExists == null) {</b>
+<b class="nc">&nbsp;            throw new NotFoundException(&quot;Cultura não encontrada&quot;);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        cultureExists.update(dto);</b>
+<b class="nc">&nbsp;        cultureRepository.save(cultureExists);</b>
+<b class="nc">&nbsp;        return new ResponseEntity&lt;&gt;(new ResponseModelEspec(&quot;Cultura foi atualizada!&quot;,cultureExists), HttpStatus.OK);</b>
+&nbsp;    }
+&nbsp;}
+&nbsp;
+&nbsp;
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-03-15 20:30</div>
+</div>
+</body>
+</html>

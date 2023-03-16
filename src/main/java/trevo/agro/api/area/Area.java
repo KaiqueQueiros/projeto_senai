@@ -1,27 +1,20 @@
 package trevo.agro.api.area;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.validator.constraints.Length;
 
-
+@Entity
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
-@Setter
-@Table(name = "tb_area")
-@Entity
+@Table(name = "tb_area_product")
 public class Area {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(name = "size",unique = true,nullable = false)
-    @Length(max = 10)
-    @NotEmpty(message = "Tamanho de area obrigatoria")
     private String size;
 
 
