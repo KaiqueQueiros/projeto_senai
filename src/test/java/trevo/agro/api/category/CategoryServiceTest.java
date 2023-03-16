@@ -1,5 +1,6 @@
 package trevo.agro.api.category;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,8 @@ import trevo.agro.api.repository.CategoryRepository;
 import trevo.agro.api.repository.ProductRepository;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+
 import static org.aspectj.bridge.MessageUtil.fail;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -41,22 +44,23 @@ public class CategoryServiceTest {
     public void whenDeleteCategoryDate() {
         Category category = new Category(new CategoryDTO("Pulverizadores turbos"));
         this.categoryRepository.save(category);
-        this.categoryService.delete(1L);
-        assertFalse(categoryRepository.findAll().isEmpty());
+        this.categoryService.delete(category.getId());
+        Optional<Category> byId = categoryRepository.findById(category.getId());
+        assertFalse(byId.isEmpty());
     }
 
-    @Test
-    public void whenFindNameCategory() {
-        Category category = new Category(new CategoryDTO("Pulverizadores turbos"));
-        categoryRepository.save(category);
-        categoryService.list();
-//        assertThat();
-    }
 
     @Test
     public void whenTestDeleteCategoryThatNotExist() {
         categoryService.delete(999L);
         assertTrue(true);
+    }
+    @Test
+    public void whenListCategory(){
+        Category category = new Category(new CategoryDTO("Pulverizadores turbos"));
+        categoryRepository.save(category);
+        List<Category> all = categoryRepository.findAll();
+        Assertions.assertFalse(all.isEmpty());
     }
 
     @Test
