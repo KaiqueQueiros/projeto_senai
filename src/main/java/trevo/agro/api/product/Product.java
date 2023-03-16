@@ -1,6 +1,7 @@
 package trevo.agro.api.product;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import
+        com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import jakarta.validation.Valid;
 import lombok.Getter;
@@ -41,7 +42,7 @@ public class Product {
     )
     private List<Area> areas;
 
-    @OneToMany
+    @ManyToMany
     @JoinTable(
             name = "TB_PRODUCT_CATEGORY",
             joinColumns = {@JoinColumn(name = "product_id", referencedColumnName = "id")},
@@ -55,7 +56,7 @@ public class Product {
             inverseJoinColumns = {@JoinColumn(name = "culture_id", referencedColumnName = "id")}
     )
     private List<Culture> cultures;
-    @OneToMany
+    @ManyToMany
     @JoinTable(
             name = "TB_PRODUCT_IMAGE",
             joinColumns = {@JoinColumn(name = "product_id", referencedColumnName = "id")},
