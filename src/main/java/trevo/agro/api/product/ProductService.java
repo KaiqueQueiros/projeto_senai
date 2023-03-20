@@ -46,7 +46,7 @@ public class ProductService {
         }
         Product product = new Product(dto, areas, categories, cultures, images);
         productRepository.save(product);
-        return new ResponseEntity<>(new ResponseModelEspecNoObject("Produto " + dto.name() + " foi cadastrado"), HttpStatus.OK);
+        return new ResponseEntity<>(new ResponseModelEspec("Produto " + dto.name() + " foi cadastrado",product), HttpStatus.OK);
     }
 
     public ResponseEntity<?> list() {
@@ -95,7 +95,7 @@ public class ProductService {
     public ResponseEntity<?> alternarStatus(@PathVariable Long id) {
         Product byId = productRepository.findById(id).orElse(null);
         if (byId == null) {
-            throw  new NotFoundException ("Produto não encontrado");
+            throw new NotFoundException ("Produto não encontrado");
         }
         Boolean status = byId.getActive();
         if (status) {
@@ -113,13 +113,12 @@ public class ProductService {
         List<Image> images = imageRepository.findByIdIn(dto.imageIds());
         List<Area> areas = areaRepository.findByIdIn(dto.areasIds());
         Product productExists = productRepository.findById(id).orElse(null);
-        if (productRepository.findById(id).isEmpty()) {
+        if (productRepository.findById(id).isEmpty() || productExists == null) {
             return new ResponseEntity<>(new ResponseModelEspecNoObject("Produto com id "+ id +" não encontrado"),HttpStatus.BAD_REQUEST);
         }
         if (productRepository.existsByName(dto.name())) {
             return new ResponseEntity<>(new ResponseModelEspecNoObject("Produto com nome "  + dto.name() + " ja existe"),HttpStatus.BAD_REQUEST);
         }
-        assert productExists != null;
         productExists.update(dto, categories, cultures, images, areas);
         productRepository.save(productExists);
         return new ResponseEntity<>(new ResponseModelEspecNoObject("Produto " + dto.name() +" foi atualizado!"), HttpStatus.OK);

@@ -14,27 +14,27 @@ public class BudgetController {
     @Autowired
     private BudgetService service;
 
-    @RequestMapping(method = RequestMethod.POST, value = "/register", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/register", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> register(@RequestBody @Valid BudgetDTO dto) {
         return service.register(dto);
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "/list")
+    @GetMapping(value = "/list")
     public ResponseEntity<?> list() {
         return service.list();
     }
 
-    @RequestMapping(method = RequestMethod.DELETE, value = "/delete/{id}")
+    @DeleteMapping(value = "/delete/{id}")
     public ResponseEntity<?> delete(@PathVariable Long id) {
         return service.delete(id);
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "/find/{id}")
+    @GetMapping(value = "/find/{id}")
     public ResponseEntity<?> detailsClient(@PathVariable Long id) {
         return service.details(id);
     }
 
-    @RequestMapping(method = RequestMethod.PUT, value = "/update/{id}")
+    @PutMapping(value = "/update/{id}")
     public ResponseEntity<?> update(@PathVariable Long id, @RequestBody @Valid BudgetDTO dto) {
         return service.update(dto, id);
     }

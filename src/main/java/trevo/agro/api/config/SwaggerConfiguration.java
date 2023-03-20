@@ -19,5 +19,6 @@ public class SwaggerConfiguration {
                 .build()
                 .pathMapping("/")
                 .apiInfo(new ApiInfoBuilder().title("Trevo agro").description("Trevo agro api foi desenvolvida por Kaique Queiros").build());
+
     }
 }

@@ -34,12 +34,12 @@ public class BudgetService {
             List<Product> products = productRepository.findByIdIn(dto.productIds());
             Budget budget = new Budget(dto, products);
             budgetRepository.save(budget);
-            return new ResponseEntity<>(new ResponseModelEspecNoObject(dto.name() + " Obrigado por solicitar um orçamento em nosso site!" +
+            return new ResponseEntity<>(new ResponseModelEspec(dto.name() + " Obrigado por solicitar um orçamento em nosso site!" +
                     " Ficamos felizes em poder ajudá-lo e agradecemos pela confiança em nossos serviços." +
                     " Para fornecer um orçamento preciso, precisamos avaliar suas necessidades com mais detalhes." +
                     " Entraremos em contato em breve para obter mais informações e esclarecer quaisquer dúvidas." +
                     " Nossa equipe está sempre disponível para ajudá-lo no que for preciso." +
-                    " Agradecemos novamente pela sua preferência e aguardamos ansiosamente seu retorno para seguir com a solicitação do orçamento. Atenciosamente, Trevo SA"), HttpStatus.OK);
+                    " Agradecemos novamente pela sua preferência e aguardamos ansiosamente seu retorno para seguir com a solicitação do orçamento. Atenciosamente, Trevo SA",products), HttpStatus.OK);
     }
 
     public ResponseEntity<?> list() {

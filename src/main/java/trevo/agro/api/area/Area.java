@@ -24,7 +24,6 @@ public class Area {
     @NotEmpty(message = "Tamanho de area obrigatoria")
     private String size;
 
-
     public Area(AreaDTO dto){
         this.size = dto.size();
     }

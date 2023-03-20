@@ -39,7 +39,10 @@ public class ImageService {
 
     public ResponseEntity<?> listImages() {
         List<Image> images = imageRepository.findAll();
-        return new ResponseEntity<>(new ResponseModelEspec("Detalhes de todos os produtos ", images), HttpStatus.OK);
+        if(images.isEmpty()){
+            throw new NotFoundException("Não existem imagens cadastradas");
+        }
+        return new ResponseEntity<>(new ResponseModelEspec("Lista de imagens", images), HttpStatus.OK);
     }
 
     public byte[] downloadImage(@PathVariable Long id) {

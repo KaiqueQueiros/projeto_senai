@@ -24,7 +24,7 @@ public class ProductRepositoryTest {
     @Test
     public void whenCreate_thenPersistenseData() {
         Product product = new Product(new ProductSaveDTO("Condor", "Criado para pulverização em barras",
-                new ArrayList<>(),new ArrayList<>(), new ArrayList<>(),new ArrayList<>()));
+                new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>()));
         this.productRepository.save(product);
         assertThat(product.getId()).isNotNull();
         assertThat(product.getName()).isEqualTo("Condor");
@@ -43,7 +43,7 @@ public class ProductRepositoryTest {
     @Test
     public void whenUpdateNameShouldChandAndPersistData() {
         Product product = new Product(new ProductSaveDTO("Uniport 3030 Canavieiro", "Criado para pulverização em barras", new ArrayList<>(),
-                 new ArrayList<>(),new ArrayList<>(), new ArrayList<>()));
+                new ArrayList<>(), new ArrayList<>(), new ArrayList<>()));
         this.productRepository.save(product);
         product.setName("Condor");
         product = this.productRepository.save(product);
@@ -53,13 +53,12 @@ public class ProductRepositoryTest {
     @Test
     public void whenUpdateDescriptionShouldChandAndPersistData() {
         Product product = new Product(new ProductSaveDTO("Uniport 2000 Plus", "Criado para pulverização em barras", new ArrayList<>(),
-                new ArrayList<>(),new ArrayList<>(), new ArrayList<>()));
+                new ArrayList<>(), new ArrayList<>(), new ArrayList<>()));
         this.productRepository.save(product);
         product.setDescription("Teste de atualização de campo descrição");
         product = this.productRepository.save(product);
         assertThat(product.getDescription()).isEqualTo("Teste de atualização de campo descrição");
     }
-
 
 
 }

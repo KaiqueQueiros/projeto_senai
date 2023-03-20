@@ -49,7 +49,6 @@ public class CategoryServiceTest {
         assertFalse(byId.isEmpty());
     }
 
-
     @Test
     public void whenTestDeleteCategoryThatNotExist() {
         categoryService.delete(999L);
@@ -69,7 +68,7 @@ public class CategoryServiceTest {
         categoryRepository.save(category);
         List<Long> categoryId = new ArrayList<>();
         categoryId.add(category.getId());
-        Product product = new Product(new ProductSaveDTO("Produto 1", "Teste", new ArrayList<>(), categoryId, new ArrayList<>(), new ArrayList<>()));
+        Product product = new Product(new ProductSaveDTO("Produto 1", "Teste", null, categoryId, null, null));
         productRepository.save(product);
         try {
             categoryRepository.deleteById(category.getId());
