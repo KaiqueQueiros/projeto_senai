@@ -14,32 +14,32 @@ public class ProductController {
     @Autowired
     ProductService service;
 
-    @RequestMapping(method = RequestMethod.POST, value = "/register", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/register", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> registerProduct(@RequestBody @Valid ProductSaveDTO dto) {
         return service.register(dto);
     }
 
-    @RequestMapping(value = "/list", method = RequestMethod.GET)
+    @GetMapping(value = "/list")
     public ResponseEntity<?> list() {
         return service.list();
     }
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    @GetMapping(value = "/{id}")
     public ResponseEntity<?> detailsProduct(@PathVariable Long id) {
         return service.details(id);
     }
 
-    @RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE)
+    @DeleteMapping(value = "/delete/{id}")
     ResponseEntity<?> deleteProduct(@PathVariable Long id) {
         return service.delete(id);
     }
 
-    @RequestMapping(value = "/status/{id}", method = RequestMethod.PUT)
+    @PutMapping(value = "/status/{id}")
     ResponseEntity<?> statusProduct(@PathVariable Long id) {
         return service.alternarStatus(id);
     }
 
-    @RequestMapping(value = "/update/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.PUT)
+    @PutMapping(value = "/update/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     ResponseEntity<?> update(@PathVariable Long id, @RequestBody ProductSaveDTO dto) {
         return service.update(dto, id);
     }

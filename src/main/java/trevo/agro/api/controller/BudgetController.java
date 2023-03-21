@@ -29,9 +29,13 @@ public class BudgetController {
         return service.delete(id);
     }
 
-    @GetMapping(value = "/find/{id}")
-    public ResponseEntity<?> detailsClient(@PathVariable Long id) {
-        return service.details(id);
+    @GetMapping(value = "/find/id/{id}")
+    public ResponseEntity<?> detailsClientId(@PathVariable Long id) {
+        return service.detailsId(id);
+    }
+    @GetMapping(value = "/find/name/{name}")
+    public ResponseEntity<?> detailsClientName(@PathVariable String name){
+        return service.detailsName(name);
     }
 
     @PutMapping(value = "/update/{id}")

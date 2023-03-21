@@ -66,7 +66,7 @@ public class Product {
     private Boolean active;
 
 
-    public Product(ProductSaveDTO dto, List<Area> areas, List<Category> categories, List<Culture> cultures, List<Image> images) {
+    public Product(ProductSaveDTO dto, List<Category> categories, List<Culture> cultures, List<Image> images, List<Area> areas) {
         this.name = dto.name();
         this.description = dto.description();
         this.date = LocalDate.now();

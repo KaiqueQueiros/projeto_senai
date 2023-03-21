@@ -44,7 +44,7 @@ public class ProductService {
         if (productRepository.existsByName(dto.name())) {
             return new ResponseEntity<>(new ResponseModelEspecNoObject("Produto " + dto.name() + " ja existe"),HttpStatus.BAD_REQUEST);
         }
-        Product product = new Product(dto, areas, categories, cultures, images);
+        Product product = new Product(dto,categories, cultures, images,areas);
         productRepository.save(product);
         return new ResponseEntity<>(new ResponseModelEspec("Produto " + dto.name() + " foi cadastrado",product), HttpStatus.OK);
     }
@@ -121,6 +121,6 @@ public class ProductService {
         }
         productExists.update(dto, categories, cultures, images, areas);
         productRepository.save(productExists);
-        return new ResponseEntity<>(new ResponseModelEspecNoObject("Produto " + dto.name() +" foi atualizado!"), HttpStatus.OK);
+        return new ResponseEntity<>(new ResponseModelEspec("Produto foi atualizado!",productExists), HttpStatus.OK);
     }
 }

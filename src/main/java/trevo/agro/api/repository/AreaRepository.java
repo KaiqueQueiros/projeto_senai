@@ -7,6 +7,5 @@ import java.util.List;
 @Repository
 public interface AreaRepository extends JpaRepository <Area,Long> {
     List<Area> findByIdIn (List<Long> areasIds);
-
     boolean existsBySize(String size);
 }

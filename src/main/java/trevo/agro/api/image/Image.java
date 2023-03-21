@@ -16,7 +16,7 @@ public class Image {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
-    @Column(name = "name", length = 30)
+    @Column(name = "name", length = 30,unique = true)
     private String name;
     @Column(name = "type", length = 30)
     private String type;
