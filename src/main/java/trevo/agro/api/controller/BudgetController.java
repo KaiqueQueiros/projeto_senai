@@ -37,11 +37,13 @@ public class BudgetController {
     public ResponseEntity<?> detailsClientName(@PathVariable String name){
         return service.detailsName(name);
     }
+    @GetMapping(value = "/find/email/{email}")
+    public ResponseEntity<?> detailsClientEmail(@PathVariable String email) {
+        return service.detailsPhone(email);
+    }
 
     @PutMapping(value = "/update/{id}")
     public ResponseEntity<?> update(@PathVariable Long id, @RequestBody @Valid BudgetDTO dto) {
         return service.update(dto, id);
     }
-
-
 }

@@ -53,11 +53,18 @@ public class BudgetService {
     }
 
     public ResponseEntity<?> detailsName(@PathVariable String name) {
-        List<Budget> firstNamesByName = budgetRepository.findByName(name);
-        if (firstNamesByName.isEmpty()) {
+        List<Budget> budgetList = budgetRepository.findByName(name);
+        if (budgetList.isEmpty()) {
             throw new NotFoundException("Insira o nome completo do cliente e tente novamente");
         }
-        return new ResponseEntity<>(new ResponseModelEspec("Lista de pedidos de " + name + ": ", firstNamesByName), HttpStatus.OK);
+        return new ResponseEntity<>(new ResponseModelEspec("Lista de pedidos de " + name + ": ", budgetList), HttpStatus.OK);
+    }
+    public ResponseEntity<?> detailsPhone(@PathVariable String email){
+        List<Budget> budgetList = budgetRepository.findByEmail(email);
+        if (budgetList.isEmpty()){
+            throw new NotFoundException("Insira o email correto do cliente e tente novamente");
+        }
+        return new ResponseEntity<>(new ResponseModelEspec("Lista de pedidos desse cliente", budgetList), HttpStatus.OK);
     }
 
     public ResponseEntity<?> delete(@PathVariable Long id) {
