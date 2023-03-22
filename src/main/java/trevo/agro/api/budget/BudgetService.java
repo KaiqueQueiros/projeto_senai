@@ -79,10 +79,9 @@ public class BudgetService {
     public ResponseEntity<ResponseModel> update(@Valid @RequestBody BudgetDTO dto, @PathVariable Long id) {
         List<Product> products = productRepository.findByIdIn(dto.productIds());
         Budget budget = budgetRepository.findById(id).orElse(null);
-        if (!budgetRepository.existsById(id)) {
+        if (!budgetRepository.existsById(id) || budget == null) {
             throw new BadRequestException("Orçamento com id " + id + " não encontrado!");
         }
-        assert budget != null;
         budget.update(dto, products);
         budgetRepository.save(budget);
         return new ResponseEntity<>(new ResponseModelEspecNoObject("Orçamento foi atualizado!"), HttpStatus.OK);
