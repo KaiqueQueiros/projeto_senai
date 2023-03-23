@@ -13,7 +13,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 @Table(name = "tb_budget")
-@Entity(name = "budget")
+@Entity(name = "Budget")
 @Getter
 @Setter
 @NoArgsConstructor

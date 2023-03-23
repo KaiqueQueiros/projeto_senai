@@ -21,9 +21,9 @@ import java.util.Optional;
 @Service
 public class CategoryService {
     @Autowired
-    private CategoryRepository categoryRepository;
+    CategoryRepository categoryRepository;
     @Autowired
-    private ProductRepository productRepository;
+    ProductRepository productRepository;
 
     public ResponseEntity<?> register(@RequestBody @Valid CategoryDTO dto) {
         if (categoryRepository.existsByName(dto.name())) {
