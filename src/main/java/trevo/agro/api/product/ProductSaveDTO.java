@@ -12,7 +12,7 @@ public record ProductSaveDTO(
         @NotEmpty(message = "Descrição de produto obrigatoria")
         String description,
         @JsonProperty("areas")
-        @NotEmpty(message = "Selecione a area")
+        @NotEmpty(message = "Informe a area")
         List<Long> areasIds,
         @JsonProperty("categories")
         @NotEmpty(message = "Informe a categoria do produto")

@@ -12,11 +12,9 @@ import trevo.agro.api.exceptions.models.NotFoundException;
 import trevo.agro.api.product.Product;
 import trevo.agro.api.repository.CategoryRepository;
 import trevo.agro.api.repository.ProductRepository;
-import trevo.agro.api.utils.ResponseModel;
 import trevo.agro.api.utils.ResponseModelEspec;
 import trevo.agro.api.utils.ResponseModelEspecNoObject;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class CategoryService {
@@ -43,28 +41,28 @@ public class CategoryService {
     }
 
     public ResponseEntity<?> delete(@PathVariable Long id) {
-            Category category = categoryRepository.findById(id).orElse(null);
-            List<Product> productList = productRepository.findByCategories(category);
-            if (!categoryRepository.existsById(id)) {
-                throw new NotFoundException("Categoria com id " + id + " não foi encontrada");
-            }
-            if (productList.isEmpty()){
-                categoryRepository.deleteById(id);
-                return new ResponseEntity<>(new ResponseModelEspecNoObject("Categoria excluida"),HttpStatus.OK);
-            }
-            throw new BadRequestException("Categoria não pode ser excluida pois possui relacionamento com produto");
+        Category category = categoryRepository.findById(id).orElse(null);
+        List<Product> productList = productRepository.findByCategories(category);
+        if (!categoryRepository.existsById(id)) {
+            throw new NotFoundException("Categoria com id " + id + " não foi encontrada");
+        }
+        if (productList.isEmpty()) {
+            categoryRepository.deleteById(id);
+            return new ResponseEntity<>(new ResponseModelEspecNoObject("Categoria excluida"), HttpStatus.OK);
+        }
+        throw new BadRequestException("Categoria não pode ser excluida pois possui relacionamento com produto");
     }
 
     public ResponseEntity<?> update(@Valid CategoryDTO dto, @PathVariable Long id) {
-            Category category = categoryRepository.findById(id).orElse(null);
-            if (category == null) {
-                throw new NotFoundException("Categoria inexistente");
-            }
-            if (categoryRepository.existsByName(dto.name())) {
-                throw new BadRequestException("Nome " + dto.name() + " já existe");
-            }
-            category.update(dto);
-            categoryRepository.save(category);
-            return new ResponseEntity<>(new ResponseModelEspec("Categoria foi atualizada!",category), HttpStatus.OK);
+        Category category = categoryRepository.findById(id).orElse(null);
+        if (category == null) {
+            throw new NotFoundException("Categoria inexistente");
+        }
+        if (categoryRepository.existsByName(dto.name())) {
+            throw new BadRequestException("Nome " + dto.name() + " já existe");
+        }
+        category.update(dto);
+        categoryRepository.save(category);
+        return new ResponseEntity<>(new ResponseModelEspec("Categoria foi atualizada!", category), HttpStatus.OK);
     }
 }

@@ -3,10 +3,8 @@ package trevo.agro.api.utils;
 
 import lombok.Getter;
 import lombok.Setter;
-
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.List;
 
 @Getter
 @Setter
@@ -18,5 +16,4 @@ public class ResponseModelEspec extends ResponseModel {
         this.objectResponse = objectResponse;
         this.setDate(new SimpleDateFormat("dd/MM/yyyy HH:mm:ss:SSS").format(new Date()));
     }
-
 }

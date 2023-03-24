@@ -1,16 +1,16 @@
  create table tb_area (
       id bigserial not null,
-        size varchar(255),
+        size varchar(20),
         primary key (id)
     );
     create table tb_budget (
-           id bigserial not null,
-            company varchar(30) not null,
+           id bigserial not null,//uuid
+            company varchar(50) not null,
             country varchar(20) not null,
             date date,
-            email varchar(35) not null,
-            name varchar(25) not null,
-            phone varchar(15) not null,
+            email varchar(50) not null,
+            name varchar(50) not null,
+            phone varchar(50) not null,
             primary key (id)
         );
  create table tb_budget_product (

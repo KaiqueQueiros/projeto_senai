@@ -20,9 +20,9 @@ import java.util.List;
 @Service
 public class CultureService {
     @Autowired
-    private CultureRepository cultureRepository;
+    CultureRepository cultureRepository;
     @Autowired
-    private ProductRepository productRepository;
+    ProductRepository productRepository;
 
     public ResponseEntity<?> register(@RequestBody @Valid CultureDTO dto) {
         if (cultureRepository.existsByName(dto.name())) {
@@ -45,7 +45,7 @@ public class CultureService {
         Culture culture = cultureRepository.findById(id).orElse(null);
         List<Product> productList = productRepository.findByCultures(culture);
         if (!cultureRepository.existsById(id)) {
-            throw new BadRequestException("Cultura com id " + id + "não encontrada");
+            throw new BadRequestException("Cultura com id " + id + " não encontrada");
         }
         if (productList.isEmpty()) {
             cultureRepository.deleteById(id);
@@ -54,10 +54,13 @@ public class CultureService {
         throw new BadRequestException("Não é possivel excluir a cultura pois esta relacionada com produtos");
     }
 
-    public ResponseEntity<?> update(@Valid CultureDTO dto, @PathVariable Long id) {
+    public ResponseEntity<?> update(@Valid @RequestBody CultureDTO dto, @PathVariable Long id) {
         Culture cultureExists = cultureRepository.findById(id).orElse(null);
-        if (cultureExists == null) {
-            throw new NotFoundException("Cultura não encontrada");
+        if (cultureRepository.existsByName(dto.name())){
+            throw new BadRequestException("Nome já existe");
+        }
+        if (!cultureRepository.existsById(id)|| cultureExists == null) {
+            throw new BadRequestException("Cultura não encontrada");
         }
         cultureExists.update(dto);
         cultureRepository.save(cultureExists);
