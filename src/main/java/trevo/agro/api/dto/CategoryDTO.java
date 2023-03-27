@@ -1,4 +1,4 @@
-package trevo.agro.api.category;
+package trevo.agro.api.dto;
 
 import jakarta.validation.constraints.NotEmpty;
 

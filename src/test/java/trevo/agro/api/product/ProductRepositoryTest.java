@@ -1,15 +1,18 @@
 package trevo.agro.api.product;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+import trevo.agro.api.dto.ProductSaveDTO;
+import trevo.agro.api.models.Product;
 import trevo.agro.api.repository.CategoryRepository;
 import trevo.agro.api.repository.ProductRepository;
 import java.util.ArrayList;
-import java.util.List;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 @ExtendWith(SpringExtension.class)
@@ -22,6 +25,7 @@ public class ProductRepositoryTest {
     CategoryRepository categoryRepository;
 
     @Test
+    @DisplayName("Deve criar e persistir o dado")
     public void whenCreate_thenPersistenseData() {
         Product product = new Product(new ProductSaveDTO("Condor", "Criado para pulverização em barras",
                 new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>()));

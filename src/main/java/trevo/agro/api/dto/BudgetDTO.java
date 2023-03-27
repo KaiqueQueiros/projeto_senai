@@ -1,4 +1,4 @@
-package trevo.agro.api.budget;
+package trevo.agro.api.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.Email;

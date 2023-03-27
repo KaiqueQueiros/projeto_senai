@@ -1,46 +1,42 @@
-package trevo.agro.api.category;
+package trevo.agro.api.models;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
-import trevo.agro.api.culture.CultureDTO;
+import trevo.agro.api.dto.CultureDTO;
 import trevo.agro.api.exceptions.models.NotFoundException;
 
+@Entity
+@Table(name = "tb_culture")
 @Getter
 @Setter
 @NoArgsConstructor
-@Table(name = "tb_category")
-@Entity
-public class Category {
+@AllArgsConstructor
+
+public class Culture {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
-    @NotEmpty(message = "O campo nome da categoria é obrigatorio")
     @Column(name = "name",unique = true,nullable = false)
-    @Length(max = 30)
+    @Length(max = 20)
+    @NotEmpty(message = "O campo nome da cultura é obrigatorio")
     private String name;
 
-
-    public Category(CategoryDTO dto) {
+    public Culture(CultureDTO dto) {
         this.name = dto.name();
     }
 
-    public void update(CategoryDTO dto) {
+    public void update(CultureDTO dto) {
         if (dto.name() != null) {
             this.name = dto.name().trim();
         }
         if (dto.name() == null) {
-            throw new NotFoundException(" Informe o nome de categoria que deseja atualizar");
+            throw new NotFoundException("Informe o nome que deseja atualizar");
         }
     }
-
 }
-
-
-

@@ -5,8 +5,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import trevo.agro.api.culture.CultureDTO;
-import trevo.agro.api.culture.CultureService;
+import trevo.agro.api.dto.CultureDTO;
+import trevo.agro.api.service.CultureService;
 
 @RequestMapping("/culture")
 @RestController

@@ -6,7 +6,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import trevo.agro.api.image.ImageService;
+import trevo.agro.api.service.ImageService;
 
 import java.io.IOException;
 
@@ -16,19 +16,18 @@ public class ImageController {
     @Autowired
     private ImageService service;
 
-    @RequestMapping(method = RequestMethod.POST, value = "/register")
+    @PostMapping(value = "/register")
     public ResponseEntity<?> uploadImage(@RequestParam("image") MultipartFile photo) throws IOException {
         return service.uploadImage(photo);
     }
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    @GetMapping(value = "/{id}")
     public ResponseEntity<?> downloadImage(@PathVariable Long id) {
         byte[] imageData = service.downloadImage(id);
-        return ResponseEntity.status(HttpStatus.OK).contentType(MediaType.valueOf("image/png"))
-                .body(imageData);
+        return ResponseEntity.status(HttpStatus.OK).contentType(MediaType.valueOf("image/png")).body(imageData);
     }
 
-    @RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE)
+    @DeleteMapping(value = "/delete/{id}")
     public ResponseEntity<?> deletarImagem(@PathVariable Long id) {
         return service.delete(id);
     }

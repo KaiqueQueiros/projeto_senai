@@ -1,4 +1,4 @@
-package trevo.agro.api.product;
+package trevo.agro.api.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.NotEmpty;

@@ -85,7 +85,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;import org.springframework.web.bind.annotation.RequestBody;
 &nbsp;import trevo.agro.api.exceptions.models.BadRequestException;
 &nbsp;import trevo.agro.api.exceptions.models.NotFoundException;
-&nbsp;import trevo.agro.api.product.Product;
+&nbsp;import trevo.agro.api.models.Product;
 &nbsp;import trevo.agro.api.repository.AreaRepository;
 &nbsp;import trevo.agro.api.repository.ProductRepository;
 &nbsp;import trevo.agro.api.utils.ResponseModelEspec;
@@ -118,7 +118,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;    public ResponseEntity&lt;?&gt; update(AreaDTO dto, Long id) {
 <b class="nc">&nbsp;        Area area = areaRepository.findById(id).orElse(null);</b>
 <b class="nc">&nbsp;        if (!areaRepository.existsById(id) || area == null) {</b>
-<b class="nc">&nbsp;            throw new NotFoundException(&quot;Area com id &quot; + id + &quot; não foi encontrado&quot;);</b>
+<b class="nc">&nbsp;            throw new NotFoundException(&quot;Area com id &quot; + id + &quot; nï¿½o foi encontrado&quot;);</b>
 &nbsp;        }
 <b class="nc">&nbsp;        area.update(dto);</b>
 <b class="nc">&nbsp;        areaRepository.save(area);</b>
@@ -129,13 +129,13 @@ Current scope:     <a href="../../index.html">all classes</a>
 <b class="nc">&nbsp;        Area area = areaRepository.findById(id).orElse(null);</b>
 <b class="nc">&nbsp;        List&lt;Product&gt; productList = productRepository.findByAreas(area);</b>
 <b class="nc">&nbsp;        if (!areaRepository.existsById(id)) {</b>
-<b class="nc">&nbsp;            throw new NotFoundException(&quot;Area com id &quot; + id + &quot; não foi encontrado&quot;);</b>
+<b class="nc">&nbsp;            throw new NotFoundException(&quot;Area com id &quot; + id + &quot; nï¿½o foi encontrado&quot;);</b>
 &nbsp;        }
 <b class="nc">&nbsp;        if (productList.isEmpty()) {</b>
 <b class="nc">&nbsp;            areaRepository.deleteById(id);</b>
 <b class="nc">&nbsp;            return ResponseEntity.ok().body(&quot;Area excluida&quot;);</b>
 &nbsp;        }
-<b class="nc">&nbsp;        throw new BadRequestException(&quot;Area não pode ser excluida pois esta relacionada com produto&quot;);</b>
+<b class="nc">&nbsp;        throw new BadRequestException(&quot;Area nï¿½o pode ser excluida pois esta relacionada com produto&quot;);</b>
 &nbsp;    }
 &nbsp;}
 </code>

@@ -85,7 +85,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;import org.springframework.web.bind.annotation.RequestBody;
 &nbsp;import trevo.agro.api.exceptions.models.BadRequestException;
 &nbsp;import trevo.agro.api.exceptions.models.NotFoundException;
-&nbsp;import trevo.agro.api.product.Product;
+&nbsp;import trevo.agro.api.models.Product;
 &nbsp;import trevo.agro.api.repository.CultureRepository;
 &nbsp;import trevo.agro.api.repository.ProductRepository;
 &nbsp;import trevo.agro.api.utils.ResponseModelEspec;
@@ -121,19 +121,19 @@ Current scope:     <a href="../../index.html">all classes</a>
 <b class="nc">&nbsp;        Culture culture = cultureRepository.findById(id).orElse(null);</b>
 <b class="nc">&nbsp;        List&lt;Product&gt; productList = productRepository.findByCultures(culture);</b>
 <b class="nc">&nbsp;        if (!cultureRepository.existsById(id)) {</b>
-<b class="nc">&nbsp;            throw new BadRequestException(&quot;Cultura com id &quot; + id + &quot;não encontrada&quot;);</b>
+<b class="nc">&nbsp;            throw new BadRequestException(&quot;Cultura com id &quot; + id + &quot;nï¿½o encontrada&quot;);</b>
 &nbsp;        }
 <b class="nc">&nbsp;        if (productList.isEmpty()) {</b>
 <b class="nc">&nbsp;            cultureRepository.deleteById(id);</b>
 <b class="nc">&nbsp;            return new ResponseEntity&lt;&gt;(new ResponseModelEspecNoObject(&quot;Cultura excluida&quot;), HttpStatus.OK);</b>
 &nbsp;        }
-<b class="nc">&nbsp;        throw new BadRequestException(&quot;Não é possivel excluir a cultura pois esta relacionada com produtos&quot;);</b>
+<b class="nc">&nbsp;        throw new BadRequestException(&quot;Nï¿½o ï¿½ possivel excluir a cultura pois esta relacionada com produtos&quot;);</b>
 &nbsp;    }
 &nbsp;
 &nbsp;    public ResponseEntity&lt;?&gt; update(@Valid CultureDTO dto, @PathVariable Long id) {
 <b class="nc">&nbsp;        Culture cultureExists = cultureRepository.findById(id).orElse(null);</b>
 <b class="nc">&nbsp;        if (cultureExists == null) {</b>
-<b class="nc">&nbsp;            throw new NotFoundException(&quot;Cultura não encontrada&quot;);</b>
+<b class="nc">&nbsp;            throw new NotFoundException(&quot;Cultura nï¿½o encontrada&quot;);</b>
 &nbsp;        }
 <b class="nc">&nbsp;        cultureExists.update(dto);</b>
 <b class="nc">&nbsp;        cultureRepository.save(cultureExists);</b>

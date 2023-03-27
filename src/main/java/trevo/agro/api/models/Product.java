@@ -1,6 +1,5 @@
-package trevo.agro.api.product;
+package trevo.agro.api.models;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import jakarta.validation.Valid;
@@ -8,11 +7,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
-import trevo.agro.api.area.Area;
-import trevo.agro.api.category.Category;
-import trevo.agro.api.culture.Culture;
 import trevo.agro.api.exceptions.models.BadRequestException;
-import trevo.agro.api.image.Image;
+import trevo.agro.api.dto.ProductSaveDTO;
+
 import java.time.LocalDate;
 import java.util.List;
 
@@ -97,31 +94,13 @@ public class Product {
         this.active = true;
     }
 
-
-    public void update(ProductSaveDTO dto, List<Category> categories, List<Culture> cultures, List<Image> images, List<Area> areas) {
+    public void update(ProductSaveDTO dto) {
         if (dto.name() != null) {
             this.name = dto.name();
         }
         if (dto.description() != null) {
             this.description = dto.description();
         }
-        if (areas.isEmpty()) {
-            throw new BadRequestException("Informe uma area válida");
-        }
-        this.areas = areas;
-        if (categories.isEmpty()) {
-            throw new BadRequestException("Informe uma categoria válida");
-        }
-        this.categories = categories;
-        if (cultures.isEmpty()) {
-            throw new BadRequestException("Informe uma cultura válida");
-        }
-        this.cultures = cultures;
-        if (images.isEmpty()) {
-            throw new BadRequestException("Informe uma imagem válida");
-        }
-        this.images = images;
-
     }
 }
 

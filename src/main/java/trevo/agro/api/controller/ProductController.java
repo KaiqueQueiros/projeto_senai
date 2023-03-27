@@ -5,8 +5,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import trevo.agro.api.product.ProductSaveDTO;
-import trevo.agro.api.product.ProductService;
+import trevo.agro.api.dto.ProductSaveDTO;
+import trevo.agro.api.service.ProductService;
 
 @RestController
 @RequestMapping("product")

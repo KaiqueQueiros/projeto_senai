@@ -93,11 +93,11 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;import lombok.NoArgsConstructor;
 &nbsp;import lombok.Setter;
 &nbsp;import org.hibernate.validator.constraints.Length;
-&nbsp;import trevo.agro.api.area.Area;
-&nbsp;import trevo.agro.api.category.Category;
-&nbsp;import trevo.agro.api.culture.Culture;
+&nbsp;import trevo.agro.api.models.Area;
+&nbsp;import trevo.agro.api.models.Category;
+&nbsp;import trevo.agro.api.models.Culture;
 &nbsp;import trevo.agro.api.exceptions.models.BadRequestException;
-&nbsp;import trevo.agro.api.image.Image;
+&nbsp;import trevo.agro.api.models.Image;
 &nbsp;import java.time.LocalDate;
 &nbsp;import java.util.List;
 &nbsp;
@@ -157,19 +157,19 @@ Current scope:     <a href="../../index.html">all classes</a>
 <b class="nc">&nbsp;        this.description = dto.description();</b>
 <b class="nc">&nbsp;        this.date = LocalDate.now();</b>
 <b class="nc">&nbsp;        if (areas.isEmpty()) {</b>
-<b class="nc">&nbsp;            throw new BadRequestException(&quot;Informe uma area válida&quot;);</b>
+<b class="nc">&nbsp;            throw new BadRequestException(&quot;Informe uma area vï¿½lida&quot;);</b>
 &nbsp;        }
 <b class="nc">&nbsp;        this.areas = areas;</b>
 <b class="nc">&nbsp;        if (categories.isEmpty()) {</b>
-<b class="nc">&nbsp;            throw new BadRequestException(&quot;Informe uma categoria válida&quot;);</b>
+<b class="nc">&nbsp;            throw new BadRequestException(&quot;Informe uma categoria vï¿½lida&quot;);</b>
 &nbsp;        }
 <b class="nc">&nbsp;        this.categories = categories;</b>
 <b class="nc">&nbsp;        if (cultures.isEmpty()) {</b>
-<b class="nc">&nbsp;            throw new BadRequestException(&quot;Informe uma cultura válida&quot;);</b>
+<b class="nc">&nbsp;            throw new BadRequestException(&quot;Informe uma cultura vï¿½lida&quot;);</b>
 &nbsp;        }
 <b class="nc">&nbsp;        this.cultures = cultures;</b>
 <b class="nc">&nbsp;        if (images.isEmpty()) {</b>
-<b class="nc">&nbsp;            throw new BadRequestException(&quot;Informe uma imagem válida&quot;);</b>
+<b class="nc">&nbsp;            throw new BadRequestException(&quot;Informe uma imagem vï¿½lida&quot;);</b>
 &nbsp;        }
 <b class="nc">&nbsp;        this.images = images;</b>
 <b class="nc">&nbsp;        this.active = true;</b>
@@ -191,19 +191,19 @@ Current scope:     <a href="../../index.html">all classes</a>
 <b class="nc">&nbsp;            this.description = dto.description();</b>
 &nbsp;        }
 <b class="nc">&nbsp;        if (areas.isEmpty()) {</b>
-<b class="nc">&nbsp;            throw new BadRequestException(&quot;Informe uma area válida&quot;);</b>
+<b class="nc">&nbsp;            throw new BadRequestException(&quot;Informe uma area vï¿½lida&quot;);</b>
 &nbsp;        }
 <b class="nc">&nbsp;        this.areas = areas;</b>
 <b class="nc">&nbsp;        if (categories.isEmpty()) {</b>
-<b class="nc">&nbsp;            throw new BadRequestException(&quot;Informe uma categoria válida&quot;);</b>
+<b class="nc">&nbsp;            throw new BadRequestException(&quot;Informe uma categoria vï¿½lida&quot;);</b>
 &nbsp;        }
 <b class="nc">&nbsp;        this.categories = categories;</b>
 <b class="nc">&nbsp;        if (cultures.isEmpty()) {</b>
-<b class="nc">&nbsp;            throw new BadRequestException(&quot;Informe uma cultura válida&quot;);</b>
+<b class="nc">&nbsp;            throw new BadRequestException(&quot;Informe uma cultura vï¿½lida&quot;);</b>
 &nbsp;        }
 <b class="nc">&nbsp;        this.cultures = cultures;</b>
 <b class="nc">&nbsp;        if (images.isEmpty()) {</b>
-<b class="nc">&nbsp;            throw new BadRequestException(&quot;Informe uma imagem válida&quot;);</b>
+<b class="nc">&nbsp;            throw new BadRequestException(&quot;Informe uma imagem vï¿½lida&quot;);</b>
 &nbsp;        }
 <b class="nc">&nbsp;        this.images = images;</b>
 &nbsp;

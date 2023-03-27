@@ -1,4 +1,4 @@
-package trevo.agro.api.area;
+package trevo.agro.api.models;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
+import trevo.agro.api.dto.AreaDTO;
 
 @NoArgsConstructor
 @AllArgsConstructor

@@ -1,4 +1,4 @@
-package trevo.agro.api.culture;
+package trevo.agro.api.service;
 
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,9 +7,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
+import trevo.agro.api.dto.CultureDTO;
 import trevo.agro.api.exceptions.models.BadRequestException;
 import trevo.agro.api.exceptions.models.NotFoundException;
-import trevo.agro.api.product.Product;
+import trevo.agro.api.models.Culture;
+import trevo.agro.api.models.Product;
 import trevo.agro.api.repository.CultureRepository;
 import trevo.agro.api.repository.ProductRepository;
 import trevo.agro.api.utils.ResponseModelEspec;

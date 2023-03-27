@@ -93,7 +93,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;import lombok.Setter;
 &nbsp;import org.hibernate.validator.constraints.Length;
 &nbsp;import trevo.agro.api.exceptions.models.BadRequestException;
-&nbsp;import trevo.agro.api.product.Product;
+&nbsp;import trevo.agro.api.models.Product;
 &nbsp;
 &nbsp;import java.time.LocalDate;
 &nbsp;import java.util.List;
@@ -143,7 +143,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 <b class="nc">&nbsp;        this.date = LocalDate.now();</b>
 <b class="nc">&nbsp;        this.company = dto.company();</b>
 <b class="nc">&nbsp;        if (products.isEmpty()){</b>
-<b class="nc">&nbsp;            throw new BadRequestException(&quot;É necessário informar pelo menos um produto de interesse&quot;);</b>
+<b class="nc">&nbsp;            throw new BadRequestException(&quot;ï¿½ necessï¿½rio informar pelo menos um produto de interesse&quot;);</b>
 &nbsp;        }
 <b class="nc">&nbsp;        this.products = products;</b>
 &nbsp;    }

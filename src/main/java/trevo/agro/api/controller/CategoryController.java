@@ -5,8 +5,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import trevo.agro.api.category.CategoryDTO;
-import trevo.agro.api.category.CategoryService;
+import trevo.agro.api.dto.CategoryDTO;
+import trevo.agro.api.service.CategoryService;
 
 @RestController
 @RequestMapping(path = "/category")

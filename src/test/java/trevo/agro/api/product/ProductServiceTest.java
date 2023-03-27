@@ -8,7 +8,11 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+import trevo.agro.api.dto.ProductSaveDTO;
+import trevo.agro.api.models.Product;
 import trevo.agro.api.repository.ProductRepository;
+import trevo.agro.api.service.ProductService;
+
 import java.util.ArrayList;
 import java.util.Optional;
 

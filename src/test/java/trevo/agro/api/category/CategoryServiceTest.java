@@ -9,10 +9,14 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import trevo.agro.api.product.Product;
-import trevo.agro.api.product.ProductSaveDTO;
+import trevo.agro.api.dto.CategoryDTO;
+import trevo.agro.api.models.Category;
+import trevo.agro.api.models.Product;
+import trevo.agro.api.dto.ProductSaveDTO;
 import trevo.agro.api.repository.CategoryRepository;
 import trevo.agro.api.repository.ProductRepository;
+import trevo.agro.api.service.CategoryService;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;

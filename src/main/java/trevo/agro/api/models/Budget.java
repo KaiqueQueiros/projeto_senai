@@ -1,4 +1,4 @@
-package trevo.agro.api.budget;
+package trevo.agro.api.models;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -6,8 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
+import trevo.agro.api.dto.BudgetDTO;
 import trevo.agro.api.exceptions.models.BadRequestException;
-import trevo.agro.api.product.Product;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -24,21 +24,21 @@ public class Budget {
     @Column(name = "id")
     private Long id;
     @Column(name = "name",nullable = false)
-    @Length(max = 25)
+    @Length(max = 50)
     private String name;
     @Column(name = "email",nullable = false)
-    @Length(max = 35)
+    @Length(max = 50)
     private String email;
     @Column(name = "phone",nullable = false)
-    @Length(max = 15)
+    @Length(max = 50)
     private String phone;
     @Column(name = "country",nullable = false)
-    @Length(max = 20)
+    @Length(max = 50)
     private String country;
     @Column(name = "date")
     private LocalDate date;
     @Column(name = "company",nullable = false)
-    @Length(max = 30)
+    @Length(max = 100)
     private String company;
     @ManyToMany
     @JoinTable

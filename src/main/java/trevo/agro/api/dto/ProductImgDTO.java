@@ -1,11 +1,12 @@
-package trevo.agro.api.product;
+package trevo.agro.api.dto;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import trevo.agro.api.area.Area;
-import trevo.agro.api.category.Category;
-import trevo.agro.api.culture.Culture;
+import trevo.agro.api.models.Area;
+import trevo.agro.api.models.Category;
+import trevo.agro.api.models.Culture;
+import trevo.agro.api.models.Product;
 
 import java.time.LocalDate;
 import java.util.List;

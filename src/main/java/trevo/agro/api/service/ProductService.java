@@ -1,4 +1,4 @@
-package trevo.agro.api.product;
+package trevo.agro.api.service;
 
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,13 +7,16 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
-import trevo.agro.api.area.Area;
-import trevo.agro.api.budget.Budget;
-import trevo.agro.api.category.Category;
-import trevo.agro.api.culture.Culture;
+import trevo.agro.api.dto.ProductImgDTO;
+import trevo.agro.api.dto.ProductSaveDTO;
+import trevo.agro.api.models.Area;
+import trevo.agro.api.models.Budget;
+import trevo.agro.api.models.Category;
+import trevo.agro.api.models.Culture;
 import trevo.agro.api.exceptions.models.BadRequestException;
 import trevo.agro.api.exceptions.models.NotFoundException;
-import trevo.agro.api.image.Image;
+import trevo.agro.api.models.Image;
+import trevo.agro.api.models.Product;
 import trevo.agro.api.repository.*;
 import trevo.agro.api.utils.ResponseModel;
 import trevo.agro.api.utils.ResponseModelEspec;
@@ -24,17 +27,17 @@ import java.util.List;
 @Service
 public class ProductService {
     @Autowired
-    private BudgetRepository budgetRepository;
+    BudgetRepository budgetRepository;
     @Autowired
-    private ProductRepository productRepository;
+    ProductRepository productRepository;
     @Autowired
-    private CategoryRepository categoryRepository;
+    CategoryRepository categoryRepository;
     @Autowired
-    private CultureRepository cultureRepository;
+    CultureRepository cultureRepository;
     @Autowired
-    private ImageRepository imageRepository;
+    ImageRepository imageRepository;
     @Autowired
-    private AreaRepository areaRepository;
+    AreaRepository areaRepository;
 
     public ResponseEntity<ResponseModel> register(@RequestBody @Valid ProductSaveDTO dto) {
         List<Category> categories = categoryRepository.findByIdIn(dto.categoryIds());
@@ -108,10 +111,6 @@ public class ProductService {
     }
 
     public ResponseEntity<?> update(@RequestBody @Valid ProductSaveDTO dto, @PathVariable Long id) {
-        List<Culture> cultures = cultureRepository.findByIdIn(dto.cultureIds());
-        List<Category> categories = categoryRepository.findByIdIn(dto.categoryIds());
-        List<Image> images = imageRepository.findByIdIn(dto.imageIds());
-        List<Area> areas = areaRepository.findByIdIn(dto.areasIds());
         Product productExists = productRepository.findById(id).orElse(null);
         if (productRepository.findById(id).isEmpty() || productExists == null) {
             return new ResponseEntity<>(new ResponseModelEspecNoObject("Produto com id "+ id +" não encontrado"),HttpStatus.BAD_REQUEST);
@@ -119,7 +118,7 @@ public class ProductService {
         if (productRepository.existsByName(dto.name())) {
             return new ResponseEntity<>(new ResponseModelEspecNoObject("Produto com nome "  + dto.name() + " ja existe"),HttpStatus.BAD_REQUEST);
         }
-        productExists.update(dto, categories, cultures, images, areas);
+        productExists.update(dto);
         productRepository.save(productExists);
         return new ResponseEntity<>(new ResponseModelEspec("Produto foi atualizado!",productExists), HttpStatus.OK);
     }

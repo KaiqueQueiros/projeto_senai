@@ -85,9 +85,9 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;import org.springframework.web.bind.annotation.RequestBody;
 &nbsp;import trevo.agro.api.exceptions.models.BadRequestException;
 &nbsp;import trevo.agro.api.exceptions.models.NotFoundException;
-&nbsp;import trevo.agro.api.image.Image;
-&nbsp;import trevo.agro.api.product.Product;
-&nbsp;import trevo.agro.api.product.ProductImgDTO;
+&nbsp;import trevo.agro.api.models.Image;
+&nbsp;import trevo.agro.api.models.Product;
+&nbsp;import trevo.agro.api.dto.ProductImgDTO;
 &nbsp;import trevo.agro.api.repository.BudgetRepository;
 &nbsp;import trevo.agro.api.repository.ProductRepository;
 &nbsp;import trevo.agro.api.utils.ResponseModel;
@@ -110,49 +110,49 @@ Current scope:     <a href="../../index.html">all classes</a>
 <b class="nc">&nbsp;            List&lt;Product&gt; products = productRepository.findByIdIn(dto.productIds());</b>
 <b class="nc">&nbsp;            Budget budget = new Budget(dto, products);</b>
 <b class="nc">&nbsp;            budgetRepository.save(budget);</b>
-<b class="nc">&nbsp;            return new ResponseEntity&lt;&gt;(new ResponseModelEspecNoObject(dto.name() + &quot; Obrigado por solicitar um orçamento em nosso site!&quot; +</b>
-&nbsp;                    &quot; Ficamos felizes em poder ajudá-lo e agradecemos pela confiança em nossos serviços.&quot; +
-&nbsp;                    &quot; Para fornecer um orçamento preciso, precisamos avaliar suas necessidades com mais detalhes.&quot; +
-&nbsp;                    &quot; Entraremos em contato em breve para obter mais informações e esclarecer quaisquer dúvidas.&quot; +
-&nbsp;                    &quot; Nossa equipe está sempre disponível para ajudá-lo no que for preciso.&quot; +
-&nbsp;                    &quot; Agradecemos novamente pela sua preferência e aguardamos ansiosamente seu retorno para seguir com a solicitação do orçamento. Atenciosamente, Trevo SA&quot;), HttpStatus.OK);
+<b class="nc">&nbsp;            return new ResponseEntity&lt;&gt;(new ResponseModelEspecNoObject(dto.name() + &quot; Obrigado por solicitar um orï¿½amento em nosso site!&quot; +</b>
+&nbsp;                    &quot; Ficamos felizes em poder ajudï¿½-lo e agradecemos pela confianï¿½a em nossos serviï¿½os.&quot; +
+&nbsp;                    &quot; Para fornecer um orï¿½amento preciso, precisamos avaliar suas necessidades com mais detalhes.&quot; +
+&nbsp;                    &quot; Entraremos em contato em breve para obter mais informaï¿½ï¿½es e esclarecer quaisquer dï¿½vidas.&quot; +
+&nbsp;                    &quot; Nossa equipe estï¿½ sempre disponï¿½vel para ajudï¿½-lo no que for preciso.&quot; +
+&nbsp;                    &quot; Agradecemos novamente pela sua preferï¿½ncia e aguardamos ansiosamente seu retorno para seguir com a solicitaï¿½ï¿½o do orï¿½amento. Atenciosamente, Trevo SA&quot;), HttpStatus.OK);
 &nbsp;    }
 &nbsp;
 &nbsp;    public ResponseEntity&lt;?&gt; list() {
 <b class="nc">&nbsp;        List&lt;Budget&gt; budgetList = budgetRepository.findAll();</b>
 <b class="nc">&nbsp;        if (budgetList.isEmpty()) {</b>
-<b class="nc">&nbsp;            throw new NotFoundException(&quot;Não existem orçamentos cadastrados&quot;);</b>
+<b class="nc">&nbsp;            throw new NotFoundException(&quot;Nï¿½o existem orï¿½amentos cadastrados&quot;);</b>
 &nbsp;        }
-<b class="nc">&nbsp;        return ResponseEntity.ok(new ResponseModelEspec(&quot;Detalhes de todos os orçamentos&quot;, budgetList));</b>
+<b class="nc">&nbsp;        return ResponseEntity.ok(new ResponseModelEspec(&quot;Detalhes de todos os orï¿½amentos&quot;, budgetList));</b>
 &nbsp;    }
 &nbsp;
 &nbsp;    public ResponseEntity&lt;?&gt; details(@PathVariable Long id) {
 <b class="nc">&nbsp;            Budget budget = budgetRepository.findById(id).orElse(null);</b>
 <b class="nc">&nbsp;            if (budget == null) {</b>
-<b class="nc">&nbsp;                throw new NotFoundException(&quot;Nenhum orçamento com id &quot; + id +&quot;encontrado&quot;);</b>
+<b class="nc">&nbsp;                throw new NotFoundException(&quot;Nenhum orï¿½amento com id &quot; + id +&quot;encontrado&quot;);</b>
 &nbsp;            }
-<b class="nc">&nbsp;            return new ResponseEntity&lt;&gt;(new ResponseModelEspec(&quot;Detalhes do orçamento!&quot;, budget), HttpStatus.OK);</b>
+<b class="nc">&nbsp;            return new ResponseEntity&lt;&gt;(new ResponseModelEspec(&quot;Detalhes do orï¿½amento!&quot;, budget), HttpStatus.OK);</b>
 &nbsp;    }
 &nbsp;
 &nbsp;    public ResponseEntity&lt;?&gt; delete(@PathVariable Long id) {
 <b class="nc">&nbsp;        Budget budget = budgetRepository.findById(id).orElse(null);</b>
 <b class="nc">&nbsp;        if (budget == null) {</b>
-<b class="nc">&nbsp;            throw new NotFoundException(&quot;Orçamento com id &quot; + id +&quot; encontrado&quot;);</b>
+<b class="nc">&nbsp;            throw new NotFoundException(&quot;Orï¿½amento com id &quot; + id +&quot; encontrado&quot;);</b>
 &nbsp;        }
 <b class="nc">&nbsp;        budgetRepository.deleteById(id);</b>
-<b class="nc">&nbsp;        return new ResponseEntity&lt;&gt;(new ResponseModelEspecNoObject(&quot;Orçamento excluido!&quot;), HttpStatus.OK);</b>
+<b class="nc">&nbsp;        return new ResponseEntity&lt;&gt;(new ResponseModelEspecNoObject(&quot;Orï¿½amento excluido!&quot;), HttpStatus.OK);</b>
 &nbsp;    }
 &nbsp;
 &nbsp;    public ResponseEntity&lt;ResponseModel&gt; update(@Valid @RequestBody BudgetDTO dto, @PathVariable Long id) {
 <b class="nc">&nbsp;            List&lt;Product&gt; products = productRepository.findByIdIn(dto.productIds());</b>
 <b class="nc">&nbsp;            Budget budget = budgetRepository.findById(id).orElse(null);</b>
 <b class="nc">&nbsp;            if (!budgetRepository.existsById(id)) {</b>
-<b class="nc">&nbsp;               throw new BadRequestException(&quot;Orçamento com id &quot;+ id +&quot; não encontrado!&quot;);</b>
+<b class="nc">&nbsp;               throw new BadRequestException(&quot;Orï¿½amento com id &quot;+ id +&quot; nï¿½o encontrado!&quot;);</b>
 &nbsp;            }
 <b class="nc">&nbsp;            assert budget != null;</b>
 <b class="nc">&nbsp;            budget.update(dto, products);</b>
 <b class="nc">&nbsp;            budgetRepository.save(budget);</b>
-<b class="nc">&nbsp;            return new ResponseEntity&lt;&gt;(new ResponseModelEspecNoObject(&quot;Orçamento foi atualizado!&quot;), HttpStatus.OK);</b>
+<b class="nc">&nbsp;            return new ResponseEntity&lt;&gt;(new ResponseModelEspecNoObject(&quot;Orï¿½amento foi atualizado!&quot;), HttpStatus.OK);</b>
 &nbsp;
 &nbsp;    }
 &nbsp;}

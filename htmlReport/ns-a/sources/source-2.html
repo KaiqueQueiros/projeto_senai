@@ -85,7 +85,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;import org.springframework.web.multipart.MultipartFile;
 &nbsp;import trevo.agro.api.exceptions.models.BadRequestException;
 &nbsp;import trevo.agro.api.exceptions.models.NotFoundException;
-&nbsp;import trevo.agro.api.product.Product;
+&nbsp;import trevo.agro.api.models.Product;
 &nbsp;import trevo.agro.api.repository.ImageRepository;
 &nbsp;import trevo.agro.api.repository.ProductRepository;
 &nbsp;import trevo.agro.api.utils.ImageUtils;
@@ -104,7 +104,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;
 &nbsp;    public ResponseEntity&lt;?&gt; uploadImage(@RequestParam MultipartFile photo) throws IOException {
 <b class="nc">&nbsp;        if (imageRepository.existsByName(photo.getOriginalFilename())) {</b>
-<b class="nc">&nbsp;            throw new NotFoundException(&quot;Imagem &quot; + photo.getOriginalFilename() + &quot; já existe&quot;);</b>
+<b class="nc">&nbsp;            throw new NotFoundException(&quot;Imagem &quot; + photo.getOriginalFilename() + &quot; jï¿½ existe&quot;);</b>
 &nbsp;        }
 <b class="nc">&nbsp;        Image image = imageRepository.save(Image.builder()</b>
 <b class="nc">&nbsp;                .name(photo.getOriginalFilename())</b>
@@ -121,7 +121,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;    public byte[] downloadImage(@PathVariable Long id) {
 <b class="nc">&nbsp;        Image dbImageData = imageRepository.findById(id).orElse(null);</b>
 <b class="nc">&nbsp;        if (dbImageData == null) {</b>
-<b class="nc">&nbsp;            throw new NotFoundException(&quot;Imagem não existe&quot;);</b>
+<b class="nc">&nbsp;            throw new NotFoundException(&quot;Imagem nï¿½o existe&quot;);</b>
 &nbsp;        }
 <b class="nc">&nbsp;        return ImageUtils.decompressImage(dbImageData.getImageData());</b>
 &nbsp;    }
@@ -129,13 +129,13 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;    public ResponseEntity&lt;?&gt; delete(@PathVariable Long id) {
 <b class="nc">&nbsp;        Image image = imageRepository.findById(id).orElse(null);</b>
 <b class="nc">&nbsp;        if (!imageRepository.existsById(id)) {</b>
-<b class="nc">&nbsp;            throw new BadRequestException(&quot;Imagem com id &quot; + id + &quot;não encontrada&quot;);</b>
+<b class="nc">&nbsp;            throw new BadRequestException(&quot;Imagem com id &quot; + id + &quot;nï¿½o encontrada&quot;);</b>
 &nbsp;        }
 <b class="nc">&nbsp;        List&lt;Product&gt; productList = productRepository.findByImages(image);</b>
 <b class="nc">&nbsp;        if (productList.isEmpty()) {</b>
 <b class="nc">&nbsp;            imageRepository.deleteById(id);</b>
 &nbsp;        }
-<b class="nc">&nbsp;        throw new BadRequestException(&quot;Imagem não pode ser excluida pois esta relacionada com produto&quot;);</b>
+<b class="nc">&nbsp;        throw new BadRequestException(&quot;Imagem nï¿½o pode ser excluida pois esta relacionada com produto&quot;);</b>
 &nbsp;    }
 &nbsp;}
 </code>

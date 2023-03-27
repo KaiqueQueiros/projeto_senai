@@ -1,23 +1,24 @@
- create table tb_area (
+create database data_trevo_agro;
+create table tb_area (
       id bigserial not null,
         size varchar(255),
         primary key (id)
     );
-    create table tb_budget (
-           id bigserial not null,
-            company varchar(30) not null,
-            country varchar(20) not null,
-            date date,
-            email varchar(35) not null,
-            name varchar(25) not null,
-            phone varchar(15) not null,
-            primary key (id)
+create table tb_budget (
+          id bigserial not null,
+          company varchar(30) not null,
+          country varchar(20) not null,
+          date date,
+          email varchar(35) not null,
+          name varchar(25) not null,
+          phone varchar(15) not null,
+          primary key (id)
         );
- create table tb_budget_product (
+create table tb_budget_product (
         budget_id bigint not null,
         product_id bigint not null
         );
- create table tb_category (
+create table tb_category (
         id bigserial not null,
         name varchar(30) not null,
         primary key (id)
@@ -27,7 +28,7 @@ create table tb_culture (
         name varchar(20),
         primary key (id)
         );
- create table tb_image (
+create table tb_image (
        id bigserial not null,
         imagedata oid,
         name varchar(30),

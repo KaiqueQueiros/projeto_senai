@@ -85,7 +85,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;import org.springframework.web.bind.annotation.RequestBody;
 &nbsp;import trevo.agro.api.exceptions.models.BadRequestException;
 &nbsp;import trevo.agro.api.exceptions.models.NotFoundException;
-&nbsp;import trevo.agro.api.product.Product;
+&nbsp;import trevo.agro.api.models.Product;
 &nbsp;import trevo.agro.api.repository.CategoryRepository;
 &nbsp;import trevo.agro.api.repository.ProductRepository;
 &nbsp;import trevo.agro.api.utils.ResponseModel;
@@ -113,7 +113,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;    public ResponseEntity&lt;?&gt; list() {
 <b class="nc">&nbsp;        List&lt;Category&gt; categories = categoryRepository.findAll();</b>
 <b class="nc">&nbsp;        if (categories.isEmpty()) {</b>
-<b class="nc">&nbsp;            throw new NotFoundException(&quot;Não existem categorias cadastradas&quot;);</b>
+<b class="nc">&nbsp;            throw new NotFoundException(&quot;Nï¿½o existem categorias cadastradas&quot;);</b>
 &nbsp;        }
 <b class="nc">&nbsp;        return new ResponseEntity&lt;&gt;(new ResponseModelEspec(&quot;Lista de categorias&quot;, categories), HttpStatus.OK);</b>
 &nbsp;    }
@@ -122,13 +122,13 @@ Current scope:     <a href="../../index.html">all classes</a>
 <b class="nc">&nbsp;            Category category = categoryRepository.findById(id).orElse(null);</b>
 <b class="nc">&nbsp;            List&lt;Product&gt; productList = productRepository.findByCategories(category);</b>
 <b class="nc">&nbsp;            if (!categoryRepository.existsById(id)) {</b>
-<b class="nc">&nbsp;                throw new NotFoundException(&quot;Categoria com id &quot; + id + &quot; não foi encontrada&quot;);</b>
+<b class="nc">&nbsp;                throw new NotFoundException(&quot;Categoria com id &quot; + id + &quot; nï¿½o foi encontrada&quot;);</b>
 &nbsp;            }
 <b class="nc">&nbsp;            if (productList.isEmpty()){</b>
 <b class="nc">&nbsp;                categoryRepository.deleteById(id);</b>
 <b class="nc">&nbsp;                return new ResponseEntity&lt;&gt;(new ResponseModelEspecNoObject(&quot;Categoria excluida&quot;),HttpStatus.OK);</b>
 &nbsp;            }
-<b class="nc">&nbsp;            throw new BadRequestException(&quot;Categoria não pode ser excluida pois possui relacionamento com produto&quot;);</b>
+<b class="nc">&nbsp;            throw new BadRequestException(&quot;Categoria nï¿½o pode ser excluida pois possui relacionamento com produto&quot;);</b>
 &nbsp;    }
 &nbsp;
 &nbsp;    public ResponseEntity&lt;?&gt; update(@Valid CategoryDTO dto, @PathVariable Long id) {
@@ -137,7 +137,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 <b class="nc">&nbsp;                throw new NotFoundException(&quot;Categoria inexistente&quot;);</b>
 &nbsp;            }
 <b class="nc">&nbsp;            if (categoryRepository.existsByName(dto.name())) {</b>
-<b class="nc">&nbsp;                throw new BadRequestException(&quot;Nome &quot; + dto.name() + &quot; já existe&quot;);</b>
+<b class="nc">&nbsp;                throw new BadRequestException(&quot;Nome &quot; + dto.name() + &quot; jï¿½ existe&quot;);</b>
 &nbsp;            }
 <b class="nc">&nbsp;            category.update(dto);</b>
 <b class="nc">&nbsp;            categoryRepository.save(category);</b>

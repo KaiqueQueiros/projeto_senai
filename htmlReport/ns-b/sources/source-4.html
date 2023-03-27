@@ -83,13 +83,13 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;import org.springframework.stereotype.Service;
 &nbsp;import org.springframework.web.bind.annotation.PathVariable;
 &nbsp;import org.springframework.web.bind.annotation.RequestBody;
-&nbsp;import trevo.agro.api.area.Area;
-&nbsp;import trevo.agro.api.budget.Budget;
-&nbsp;import trevo.agro.api.category.Category;
-&nbsp;import trevo.agro.api.culture.Culture;
+&nbsp;import trevo.agro.api.models.Area;
+&nbsp;import trevo.agro.api.models.Budget;
+&nbsp;import trevo.agro.api.models.Category;
+&nbsp;import trevo.agro.api.models.Culture;
 &nbsp;import trevo.agro.api.exceptions.models.BadRequestException;
 &nbsp;import trevo.agro.api.exceptions.models.NotFoundException;
-&nbsp;import trevo.agro.api.image.Image;
+&nbsp;import trevo.agro.api.models.Image;
 &nbsp;import trevo.agro.api.repository.*;
 &nbsp;import trevo.agro.api.utils.ResponseModel;
 &nbsp;import trevo.agro.api.utils.ResponseModelEspec;
@@ -128,7 +128,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;    public ResponseEntity&lt;?&gt; list() {
 <b class="nc">&nbsp;        List&lt;Product&gt; productList = productRepository.findAll();</b>
 <b class="nc">&nbsp;        if (productList.isEmpty()){</b>
-<b class="nc">&nbsp;            throw new NotFoundException(&quot;Não existem produtos cadastrados&quot;);</b>
+<b class="nc">&nbsp;            throw new NotFoundException(&quot;Nï¿½o existem produtos cadastrados&quot;);</b>
 &nbsp;        }
 <b class="nc">&nbsp;        List&lt;ProductImgDTO&gt; productImgDTOList = new ArrayList&lt;&gt;();</b>
 <b class="nc">&nbsp;        for (Product product : productList) {</b>
@@ -145,7 +145,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;    public ResponseEntity&lt;?&gt; details(@PathVariable Long id) {
 <b class="nc">&nbsp;        Product product = productRepository.findById(id).orElse(null);</b>
 <b class="nc">&nbsp;        if (product == null) {</b>
-<b class="nc">&nbsp;            return new ResponseEntity&lt;&gt;(new ResponseModelEspecNoObject(&quot;Produto de id &quot; + id + &quot; não existe&quot;),HttpStatus.BAD_REQUEST);</b>
+<b class="nc">&nbsp;            return new ResponseEntity&lt;&gt;(new ResponseModelEspecNoObject(&quot;Produto de id &quot; + id + &quot; nï¿½o existe&quot;),HttpStatus.BAD_REQUEST);</b>
 &nbsp;        }
 <b class="nc">&nbsp;        List&lt;String&gt; list = new ArrayList&lt;&gt;();</b>
 <b class="nc">&nbsp;        for (Image image : product.getImages()) {</b>
@@ -159,19 +159,19 @@ Current scope:     <a href="../../index.html">all classes</a>
 <b class="nc">&nbsp;        Product product = productRepository.findById(id).orElse(null);</b>
 <b class="nc">&nbsp;        List&lt;Budget&gt; budgetList = budgetRepository.findByProducts(product);</b>
 <b class="nc">&nbsp;        if (!productRepository.existsById(id)) {</b>
-<b class="nc">&nbsp;            throw new BadRequestException(&quot;Produto com id &quot;+ id + &quot; não encontrado&quot;);</b>
+<b class="nc">&nbsp;            throw new BadRequestException(&quot;Produto com id &quot;+ id + &quot; nï¿½o encontrado&quot;);</b>
 &nbsp;        }
 <b class="nc">&nbsp;        if (budgetList.isEmpty()){</b>
 <b class="nc">&nbsp;            productRepository.deleteById(id);</b>
 <b class="nc">&nbsp;            return new ResponseEntity&lt;&gt;(new ResponseModelEspecNoObject(&quot;Produto excluido&quot;),HttpStatus.OK);</b>
 &nbsp;        }
-<b class="nc">&nbsp;        throw new BadRequestException(&quot;Não foi possivel excluir esse produto pois o mesmo possui relacionamento com pedidos&quot;);</b>
+<b class="nc">&nbsp;        throw new BadRequestException(&quot;Nï¿½o foi possivel excluir esse produto pois o mesmo possui relacionamento com pedidos&quot;);</b>
 &nbsp;    }
 &nbsp;
 &nbsp;    public ResponseEntity&lt;?&gt; alternarStatus(@PathVariable Long id) {
 <b class="nc">&nbsp;        Product byId = productRepository.findById(id).orElse(null);</b>
 <b class="nc">&nbsp;        if (byId == null) {</b>
-<b class="nc">&nbsp;            throw  new NotFoundException (&quot;Produto não encontrado&quot;);</b>
+<b class="nc">&nbsp;            throw  new NotFoundException (&quot;Produto nï¿½o encontrado&quot;);</b>
 &nbsp;        }
 <b class="nc">&nbsp;        Boolean status = byId.getActive();</b>
 <b class="nc">&nbsp;        if (status) {</b>
@@ -180,7 +180,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 <b class="nc">&nbsp;            byId.setActive(Boolean.TRUE);</b>
 &nbsp;        }
 <b class="nc">&nbsp;        productRepository.save(byId);</b>
-<b class="nc">&nbsp;        return new ResponseEntity&lt;&gt;(new ResponseModelEspecNoObject(&quot;Status atual do produto é &quot; + status), HttpStatus.OK);</b>
+<b class="nc">&nbsp;        return new ResponseEntity&lt;&gt;(new ResponseModelEspecNoObject(&quot;Status atual do produto ï¿½ &quot; + status), HttpStatus.OK);</b>
 &nbsp;    }
 &nbsp;
 &nbsp;    public ResponseEntity&lt;?&gt; update(@RequestBody @Valid ProductSaveDTO dto, @PathVariable Long id) {
@@ -190,7 +190,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 <b class="nc">&nbsp;        List&lt;Area&gt; areas = areaRepository.findByIdIn(dto.areasIds());</b>
 <b class="nc">&nbsp;        Product productExists = productRepository.findById(id).orElse(null);</b>
 <b class="nc">&nbsp;        if (productRepository.findById(id).isEmpty()) {</b>
-<b class="nc">&nbsp;            return new ResponseEntity&lt;&gt;(new ResponseModelEspecNoObject(&quot;Produto com id &quot;+ id +&quot; não encontrado&quot;),HttpStatus.BAD_REQUEST);</b>
+<b class="nc">&nbsp;            return new ResponseEntity&lt;&gt;(new ResponseModelEspecNoObject(&quot;Produto com id &quot;+ id +&quot; nï¿½o encontrado&quot;),HttpStatus.BAD_REQUEST);</b>
 &nbsp;        }
 <b class="nc">&nbsp;        if (productRepository.existsByName(dto.name())) {</b>
 <b class="nc">&nbsp;            return new ResponseEntity&lt;&gt;(new ResponseModelEspecNoObject(&quot;Produto com nome &quot;  + dto.name() + &quot; ja existe&quot;),HttpStatus.BAD_REQUEST);</b>

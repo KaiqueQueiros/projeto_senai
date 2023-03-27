@@ -1,4 +1,4 @@
-package trevo.agro.api.image;
+package trevo.agro.api.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -9,7 +9,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import trevo.agro.api.exceptions.models.BadRequestException;
 import trevo.agro.api.exceptions.models.NotFoundException;
-import trevo.agro.api.product.Product;
+import trevo.agro.api.models.Image;
+import trevo.agro.api.models.Product;
 import trevo.agro.api.repository.ImageRepository;
 import trevo.agro.api.repository.ProductRepository;
 import trevo.agro.api.utils.ImageUtils;

@@ -1,4 +1,4 @@
-package trevo.agro.api.image;
+package trevo.agro.api.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
