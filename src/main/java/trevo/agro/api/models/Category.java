@@ -6,10 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
-<<<<<<< HEAD:src/main/java/trevo/agro/api/models/Category.java
 import trevo.agro.api.dto.CategoryDTO;
-=======
->>>>>>> master:src/main/java/trevo/agro/api/category/Category.java
 import trevo.agro.api.exceptions.models.NotFoundException;
 
 @Getter
