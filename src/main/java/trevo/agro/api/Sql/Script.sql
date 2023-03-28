@@ -1,9 +1,10 @@
 create database data_trevo_agro;
 create table tb_area (
       id bigserial not null,
-        size varchar(255),
+        size varchar(20),
         primary key (id)
     );
+<<<<<<< HEAD
 create table tb_budget (
           id bigserial not null,
           company varchar(30) not null,
@@ -13,6 +14,17 @@ create table tb_budget (
           name varchar(25) not null,
           phone varchar(15) not null,
           primary key (id)
+=======
+    create table tb_budget (
+           id bigserial not null,//uuid
+            company varchar(50) not null,
+            country varchar(20) not null,
+            date date,
+            email varchar(50) not null,
+            name varchar(50) not null,
+            phone varchar(50) not null,
+            primary key (id)
+>>>>>>> master
         );
 create table tb_budget_product (
         budget_id bigint not null,

@@ -6,7 +6,10 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
+<<<<<<< HEAD:src/main/java/trevo/agro/api/models/Category.java
 import trevo.agro.api.dto.CategoryDTO;
+=======
+>>>>>>> master:src/main/java/trevo/agro/api/category/Category.java
 import trevo.agro.api.exceptions.models.NotFoundException;
 
 @Getter
@@ -20,7 +23,7 @@ public class Category {
     @Column(name = "id")
     private Long id;
     @NotEmpty(message = "O campo nome da categoria é obrigatorio")
-    @Column(name = "name",unique = true,nullable = false)
+    @Column(name = "name", unique = true, nullable = false)
     @Length(max = 30)
     private String name;
 

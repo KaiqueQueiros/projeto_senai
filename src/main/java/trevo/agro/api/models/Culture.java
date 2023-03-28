@@ -22,7 +22,11 @@ public class Culture {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
+<<<<<<< HEAD:src/main/java/trevo/agro/api/models/Culture.java
     @Column(name = "name",unique = true,nullable = false)
+=======
+    @Column(name = "name", unique = true)
+>>>>>>> master:src/main/java/trevo/agro/api/culture/Culture.java
     @Length(max = 20)
     @NotEmpty(message = "O campo nome da cultura é obrigatorio")
     private String name;
@@ -33,7 +37,7 @@ public class Culture {
 
     public void update(CultureDTO dto) {
         if (dto.name() != null) {
-            this.name = dto.name().trim();
+            this.name = dto.name();
         }
         if (dto.name() == null) {
             throw new NotFoundException("Informe o nome que deseja atualizar");

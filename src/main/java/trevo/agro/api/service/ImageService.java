@@ -40,10 +40,17 @@ public class ImageService {
 
     public ResponseEntity<?> listImages() {
         List<Image> images = imageRepository.findAll();
+<<<<<<< HEAD:src/main/java/trevo/agro/api/service/ImageService.java
         if(images.isEmpty()){
             throw new NotFoundException("Não existem imagens cadastradas");
         }
         return new ResponseEntity<>(new ResponseModelEspec("Lista de imagens", images), HttpStatus.OK);
+=======
+        if (images.isEmpty()){
+            throw new BadRequestException("Lista de imagens vazia");
+        }
+        return new ResponseEntity<>(new ResponseModelEspec("Imagens ", images), HttpStatus.OK);
+>>>>>>> master:src/main/java/trevo/agro/api/image/ImageService.java
     }
 
     public byte[] downloadImage(@PathVariable Long id) {

@@ -16,5 +16,4 @@ public class ResponseModelEspec extends ResponseModel {
         this.objectResponse = objectResponse;
         this.setDate(new SimpleDateFormat("dd/MM/yyyy HH:mm:ss:SSS").format(new Date()));
     }
-
 }

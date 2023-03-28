@@ -8,7 +8,11 @@ import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
 import trevo.agro.api.dto.BudgetDTO;
 import trevo.agro.api.exceptions.models.BadRequestException;
+<<<<<<< HEAD:src/main/java/trevo/agro/api/models/Budget.java
 
+=======
+import trevo.agro.api.product.Product;
+>>>>>>> master:src/main/java/trevo/agro/api/budget/Budget.java
 import java.time.LocalDate;
 import java.util.List;
 

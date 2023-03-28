@@ -95,19 +95,26 @@ public class ProductService {
         throw new BadRequestException("Não foi possivel excluir esse produto pois o mesmo possui relacionamento com pedidos");
     }
 
+<<<<<<< HEAD:src/main/java/trevo/agro/api/service/ProductService.java
     public ResponseEntity<?> alternarStatus(@PathVariable Long id) {
         Product byId = productRepository.findById(id).orElse(null);
         if (byId == null) {
             throw new NotFoundException ("Produto não encontrado");
+=======
+    public ResponseEntity<?> alternateStatus(@PathVariable Long id) {
+        Product product = productRepository.findById(id).orElse(null);
+        if (product == null) {
+            throw  new NotFoundException ("Produto com "+ id + " não encontrado");
+>>>>>>> master:src/main/java/trevo/agro/api/product/ProductService.java
         }
-        Boolean status = byId.getActive();
+        Boolean status = product.getActive();
         if (status) {
-            byId.setActive(Boolean.FALSE);
+            product.setActive(Boolean.FALSE);
         } else {
-            byId.setActive(Boolean.TRUE);
+            product.setActive(Boolean.TRUE);
         }
-        productRepository.save(byId);
-        return new ResponseEntity<>(new ResponseModelEspecNoObject("Status atual do produto é " + status), HttpStatus.OK);
+        productRepository.save(product);
+        return new ResponseEntity<>(new ResponseModelEspecNoObject("Status atual do produto é " + product.getActive()), HttpStatus.OK);
     }
 
     public ResponseEntity<?> update(@RequestBody @Valid ProductSaveDTO dto, @PathVariable Long id) {

@@ -36,7 +36,7 @@ public class ProductController {
 
     @PutMapping(value = "/status/{id}")
     ResponseEntity<?> statusProduct(@PathVariable Long id) {
-        return service.alternarStatus(id);
+        return service.alternateStatus(id);
     }
 
     @PutMapping(value = "/update/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)

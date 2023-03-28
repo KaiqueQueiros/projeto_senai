@@ -20,7 +20,7 @@ public class Area {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(name = "size",unique = true,nullable = false)
-    @Length(max = 10)
+    @Length(max = 20)
     @NotEmpty(message = "Tamanho de area obrigatoria")
     private String size;
 
