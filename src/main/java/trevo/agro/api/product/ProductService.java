@@ -52,7 +52,7 @@ public class ProductService {
     public ResponseEntity<?> list() {
         List<Product> productList = productRepository.findAll();
         if (productList.isEmpty()){
-            throw new NotFoundException("Não existem produtos cadastrados");
+            throw new BadRequestException("Não existem produtos cadastrados");
         }
         List<ProductImgDTO> productImgDTOList = new ArrayList<>();
         for (Product product : productList) {

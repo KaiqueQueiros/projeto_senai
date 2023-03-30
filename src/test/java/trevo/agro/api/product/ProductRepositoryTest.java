@@ -18,8 +18,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class ProductRepositoryTest {
     @Autowired
     ProductRepository productRepository;
-    @Autowired
-    CategoryRepository categoryRepository;
+
 
     @Test
     public void whenCreate_thenPersistenseData() {
@@ -37,7 +36,7 @@ public class ProductRepositoryTest {
                 new ArrayList<>(), new ArrayList<>(), new ArrayList<>()));
         this.productRepository.save(product);
         productRepository.delete(product);
-        assertThat(categoryRepository.findById(product.getId())).isEmpty();
+        assertThat(productRepository.findById(product.getId())).isEmpty();
     }
 
     @Test

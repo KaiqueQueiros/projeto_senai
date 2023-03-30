@@ -1,7 +1,7 @@
 package trevo.agro.api.product;
 
 import
-        com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import jakarta.validation.Valid;
 import lombok.Getter;
